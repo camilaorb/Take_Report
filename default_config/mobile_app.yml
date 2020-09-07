@@ -1,0 +1,26 @@
+&defaults_mobile_app
+
+source: browserstack # browserstack, local_device
+app_path: /path/to/app
+default_timeout: 20
+
+browserstack:
+  local_testing: false
+  download_video_upon_failure: false
+  browserstack_debug: true
+  test_name: Regression Tests
+
+  mobile:
+    device: Test Device
+    platform: android
+
+local_device:
+  command_timeout: 60
+
+  mobile:
+    device_name: Samsung Galaxy Tab A
+    platform_name: Android
+    platform_version: 5.0.2
+    udid: 1a4f2d81
+
+<%= IO.read(filename) if File.exists?(filename) %>  

@@ -1,0 +1,11 @@
+<<: *defaults_config
+
+global:
+    environment: qa1
+
+    test_types: [browser]
+
+    request_logging: false
+    try_with_logging: true
+    logging_severity: info
+    

@@ -1,0 +1,26 @@
+&defaults_accounts
+
+applitools:
+  api_key: api_key
+
+browserstack:
+  username: Your Username
+  access_key: Your Access Key
+
+perfecto:
+
+  username:  Your Username
+  password:  Your Password
+  cloud_url: Your Cloud URL
+  
+sauce_labs:
+
+  domain: Your Domain
+  username: Your Username
+  access_key: Your Access Key
+
+kobiton:
+  username: Your Username
+  api_key: api_key
+  
+<%= IO.read(filename) if File.exists?(filename) %>  

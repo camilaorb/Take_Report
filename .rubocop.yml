@@ -1,0 +1,31 @@
+Metrics/AbcSize:
+  Max: 32
+
+Metrics/LineLength:
+  Max: 131
+
+Metrics/MethodLength:
+  Max: 14
+
+Layout/CaseIndentation:
+  Exclude:
+    - 'features/support/helpers/helpers.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalVars:
+  Exclude:
+    - 'features/support/env.rb'
+    - 'features/support/helpers/**/*'
+    - 'features/support/pages/**/*'
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'features/support/pages/**/*'
+
+Style/StringLiterals:
+  Exclude:
+    - 'features/support/pages/**/*'

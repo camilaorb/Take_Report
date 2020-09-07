@@ -1,0 +1,145 @@
+&defaults_browser
+
+source: local # local, browserstack, perfecto, sauce_labs, kobiton, local_device
+
+default_timeout: 10
+implicit_wait: 0
+page_load_timeout: 10
+
+same_browser: true
+close_browser: true
+clear_cookies: true
+
+local:
+  platform: desktop # desktop, mobile, tablet
+
+  desktop:
+    browser: chrome # chrome, firefox, ie, safari, edge
+    maximise: true # true, false
+    resize: false # true, false
+    breakpoint:
+      width: 800
+      height: 600
+
+  mobile:
+    browser: chrome # chrome, firefox, safari
+    device: iphone # iphone, ipad, android_phone, android_tablet
+
+browserstack:
+  platform: desktop # desktop, mobile
+
+  local_testing: false
+  download_video_upon_failure: false
+  browserstack_debug: true
+  test_name: Regression Tests
+
+  desktop:
+    browser: Chrome
+    browser_version: 45
+    platform: Windows
+    platform_version: 7
+    resolution: 1024x768
+
+    maximise: true # true, false
+    resize: false # true, false
+    breakpoint:
+      width: 800
+      height: 600
+
+  mobile:
+    browser_name: Safari
+    platform: MAC
+    device: iPhone 6S
+    os_version: 10.3
+
+perfecto:
+  platform: desktop # desktop, mobile
+
+  connection_timeout: 60
+
+  desktop:
+    platform: Windows
+    version: 7
+    browser: Internet Explorer
+    browser_version: 10
+    resolution: 1366x768
+    location: US East
+
+    maximise: true # true, false
+    resize: false # true, false
+    breakpoint:
+      width: 800
+      height: 600
+
+  mobile:
+    device_id: 123456789
+
+sauce_labs:
+  platform: desktop # desktop, mobile
+
+  test_name: Regression Tests
+
+  desktop:
+    platform: Windows 7
+    browser: Chrome
+    browser_version: 45
+    resolution: 1024x768
+
+    maximise: true # true, false
+    resize: false # true, false
+    breakpoint:
+      width: 800
+      height: 600
+
+  mobile:
+    appium: 1.6.0
+    device: iPhone 7
+    orientation: portrait
+    platform_version: 10.0
+    platform_name: iOS
+    browser: Safari
+
+kobiton:
+  session_name: Regression Tests
+  session_description: Regression Test description
+  capture_screenshots: false
+
+  mobile:
+    device: iPhone 6S
+    orientation: portrait
+    browser: safari
+    platform_name: iOS
+    platform_version: 10.2.1
+    
+local_device:
+  command_timeout: 60
+
+  mobile:
+    device_name: Samsung Galaxy Tab A
+    browser_name: Chrome
+    platform_name: Android
+    platform_version: 5.0.2
+    udid: 1a4f2d81
+
+chrome:
+
+  jmeter: false
+  owasp_zap: false
+  allow_plugins: false
+  disable_info_bars: true
+  password_manager: false
+  custom_options: []
+  accept_insecure_certs: true
+  chromedriver_version: default
+  download_location: default
+
+firefox:
+
+  accept_insecure_certs: true
+  geckodriver_version: default
+
+internet_explorer:
+
+  iedriver_version: default
+  
+<%= IO.read(filename) if File.exists?(filename) %>

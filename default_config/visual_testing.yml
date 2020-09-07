@@ -1,0 +1,33 @@
+&defaults_visual_testing
+
+enabled: false
+source: local
+
+local:
+  
+  baseline_directory: visual_testing/baseline
+  fail_fast: false
+  wait_before_screenshots: 0
+
+applitools:
+  
+  match_level: Layout2           # None, Layout, Layout2, Content, Strict, Exact
+
+  fullpage_screenshot: true
+
+  save_new_tests: false
+  save_failed_tests: false
+  hide_scrollbars: true
+
+  scale_ratio:                  # can be left blank - must be a float
+  match_timeout:                # defaults to 2 can be blank - must be an integer
+
+  wait_before_screenshots:      # can be blank
+
+  app_name: Your Application or website
+
+  viewport_size:
+    width: 800
+    height: 600
+
+<%= IO.read(filename) if File.exists?(filename) %>  

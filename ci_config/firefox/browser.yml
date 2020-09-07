@@ -1,0 +1,18 @@
+<<: *defaults_browser
+
+source: local
+
+local:
+  platform: desktop
+
+  desktop:
+    browser: firefox
+    maximise: true
+    resize: false
+    breakpoint:
+      width: 800
+      height: 600
+
+  mobile:
+    browser: chrome
+    device: iphone
