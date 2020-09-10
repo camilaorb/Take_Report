@@ -1,0 +1,9 @@
+<<: *defaults_reporting
+
+dashboard:
+  enabled: true
+  dashboard_url: https://olr.testevolve.io
+  label: mr_price_critical_tests
+  auth_token: 609955781-olr-1:fded06b76e97fcadce76a33b95efaf0ab1d8c612128492ec531e81a316e73c67
+  scheduled_updates: false
+  scheduled_interval: 10
