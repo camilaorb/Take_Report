@@ -5,7 +5,7 @@ require 'json'
 
 def wait_for_db_activity
   TryWith.time(timeout: 300) do
-    raise 'DB activity did not complete within allowed time limit' unless $browser.span(:id, 'pt1:statusIndComp').img.alt == 'Idle'
+    raise 'DB activity did not complete within allowed time limit' unless TE.browser.span(:id, 'pt1:statusIndComp').img.alt == 'Idle'
   end
 end
 
@@ -21,12 +21,12 @@ def write_response(name, format, response)
   case format
   when 'json'
     json = parse_json(response)
-    File.open("#{TestRunInfo.directory}/#{name}", 'a+') do |file|
+    File.open("#{TE.test_run.directory}/#{name}", 'a+') do |file|
       file.write('Example json response' + "\n#{JSON.pretty_generate(json)}\n\n")
     end
   when 'xml'
     xml = parse_xml(response)
-    File.open("#{TestRunInfo.directory}/#{name}", 'a+') do |file|
+    File.open("#{TE.test_run.directory}/#{name}", 'a+') do |file|
       file.write('Example XML response' + "\n#{xml.to_xml}\n\n")
     end
   else
@@ -35,16 +35,16 @@ def write_response(name, format, response)
 end
 
 def visit(url)
-  $browser.goto(url)
+  TE.browser.goto(url)
 end
 
 def verify_url(url, expected_url)
-  Watir::Wait.until { $browser.url != url }
-  raise "The expected URL is this #{expected_url} but we got #{$browser.url}" unless $browser.url == expected_url
+  Watir::Wait.until { TE.browser.url != url }
+  raise "The expected URL is this #{expected_url} but we got #{TE.browser.url}" unless TE.browser.url == expected_url
 end
 
 def delete_browser_cookies
-  $browser.cookies.clear
+  TE.browser.cookies.clear
 end
 
 def scroll_to(object)
@@ -53,7 +53,7 @@ def scroll_to(object)
 end
 
 def upload_file(tag, element, path)
-  $browser.file_field(:"#{tag}" => element).set(path)
+  TE.browser.file_field(:"#{tag}" => element).set(path)
 end
 
 def wait_until_enabled(element)
@@ -72,11 +72,11 @@ def wait_until_disabled(element)
 end
 
 def refresh
-  $browser.refresh
+  TE.browser.refresh
 end
 
 def example_goto
-  $browser.goto(EnvConfig['example_site'])
+  TE.browser.goto(TE.environment['example_site'])
 end
 
 class HelperError < RuntimeError

@@ -1,7 +1,7 @@
 &defaults_config
 
 global:
-  environment: local
+  environment: RMS_sandbox
 
   test_types: [browser] # api, browser, mobile_app
 

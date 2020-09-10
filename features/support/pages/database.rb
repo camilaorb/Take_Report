@@ -12,7 +12,7 @@ module Pages
   ############################ Methods ###########################
 
   def connect_to_db(db_hostname, db_port, db_servicename, db_username, db_password)
-    @connection = DBI.connect(('DBI:OCI8:' + EnvConfig[db_hostname] + ':' + EnvConfig[db_port].to_s + '/' + EnvConfig[db_servicename]), EnvConfig[db_username], EnvConfig[db_password])
+    @connection = DBI.connect(('DBI:OCI8:' + TE.environment[db_hostname] + ':' + TE.environment[db_port].to_s + '/' + TE.environment[db_servicename]), TE.environment[db_username], TE.environment[db_password])
   end
 
   def verify_connection(connection: @connection)

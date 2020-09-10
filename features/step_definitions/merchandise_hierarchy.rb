@@ -1,8 +1,8 @@
 
 
 Given(/^a user is in Merchandise Hierarchy screen$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   merchandise_hierarchy.open_merchandise_hierarchy
 end
 
@@ -466,8 +466,8 @@ end
 ############### VAT ######################
 
 Given(/^a user access a Sub-Department$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   merchandise_hierarchy.open_merchandise_hierarchy
   merchandise_hierarchy.access_subdpt
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -569,8 +569,8 @@ end
 ############### Merch Hier Defaults ######################
 
 Given(/^a user access a existent Sub-Department$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   @new_dpt = super_merch_hier.new_subdept
   @new_category = super_merch_hier.new_category
   @new_subcategory = super_merch_hier.new_subcategory
@@ -652,5 +652,5 @@ end
 ##################################################################3
 
 Given (/^the purge batch process is complete "([^"]*)"$/) do |batch_name|
-  run_batch(EnvConfig['db_server'], EnvConfig['unix_username'], EnvConfig['unix_pwd'], batch_name, EnvConfig['db_username'], EnvConfig['db_password'])
+  run_batch(TE.environment['db_server'], TE.environment['unix_username'], TE.environment['unix_pwd'], batch_name, TE.environment['db_username'], TE.environment['db_password'])
 end

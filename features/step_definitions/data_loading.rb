@@ -2,8 +2,8 @@
 ############### Diff Groups ######################
 
 Given(/^a user is in Download screen$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_download
 end
@@ -16,8 +16,8 @@ Then(/^a excel file is downloaded containing multiple tabs, namely, Diff Types a
 end
 
 Given(/^a user is in Upload screen$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
 end
@@ -46,8 +46,8 @@ When(/^the source ([^"]*) is successfully uploaded$/) do |file|
 end
 
 Given(/^a user creates a UDA based on List of Values LOV$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -65,8 +65,8 @@ Then(/^the UDA will appear as an LOV display type in RMS and RMS DB$/) do
 end
 
 Given(/^a user assigns a new value for an existing UDA$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -85,8 +85,8 @@ Then(/^the UDA Values in RMS and RMS DB$/) do
 end
 
 Given(/^a user creates a UDA based on Free-Format FF$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -101,8 +101,8 @@ Then(/^the UDA will appear as 'FF' display type in RMS and RMS DB$/) do
 end
 
 Given(/^a user amends UDA VALUE for a specified UDA ID in the UDA_VALUES tab contained in the spreadsheet$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -119,8 +119,8 @@ end
 
 
 Given(/^a user deletes UDA VALUE for a specified UDA LOV in the UDA_VALUES tab contained in the spreadsheet$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -134,8 +134,8 @@ Then(/^the UDA VALUE will be deleted in RMS and RMS DB$/) do
 end
 
 Given(/^a user amends UDA FF for a specified UDA ID tab contained in the spreadsheet$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -150,8 +150,8 @@ Then(/^the UDA FF will will be updated in RMS and RMS DB$/) do
 end
 
 Given(/^a user deletes UDA LOV from the UDA tab contained in the UDA Source file template spreadsheet$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
@@ -166,8 +166,8 @@ Then(/^the UDA LOV will be deleted in RMS and RMS DB$/) do
 end
 
 Given(/^a user deletes UDA FF for a specified UDA ID tab contained in the spreadsheet$/) do
-  visit(EnvConfig['url'])
-  login_page.login_to_rms(EnvConfig['user'], EnvConfig['pw'])
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   data_loading.open_data_loading
   data_loading.open_data_loading_upload
   data_loading.upload_options_screen('Items', 'User Defined Attributes')
