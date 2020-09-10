@@ -4,3 +4,18 @@ local:
 qa1:
   example_site: www.testevolve.co.uk
   wikipedia_site: https://en.wikipedia.org/wiki/Main_Page
+
+RMS_sandbox:
+  url: http://opomomapp01:11002/Rms/faces/RmsLogin
+  user: RMS_ADMIN
+  pw: Welcome123
+  db_hostname: 192.168.112.71
+  db_port: 1521
+  db_servicename: pdbmom
+  db_username: rms
+  db_password: Welcome123
+  env_timeout: 30
+  test_data_file: data.yml
+  db_server: opopritstdb
+  unix_username: root
+  unix_pwd: GYW3m6!mcH60
