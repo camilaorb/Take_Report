@@ -69,8 +69,41 @@ information2: 'DIFF' #Diffs
 information3: 'DIMO' #Case Dimensions
 information4: 'HTS' #HTS
 
+########################### Differentiators Diff  ############################################
 
-##### VAT #####
+
+### Type Diff Group ###
+
+type_1: 'SIZE'
+
+### Diff Group Detail ###
+
+dgd_detail_1: 'S'
+dgd_detail_2: 'M'
+dgd_detail_3: 'L'
+
+
+### Diff Range ###
+
+range_type1: 'Ratio'
+range_type2: 'Percentage'
+
+type_2: 'COLOUR'
+
+dr_group_1: '656' #size- 100% Cotton Fitted
+dr_group_2: '635' #colour - Colour
+
+colour_1: 'BLACK'
+colour_2: 'WHITE'
+colour_3: 'AMBER'
+
+size_1: 'KNG'
+size_2: 'QN'
+size_3: 'SGL'
+
+
+
+########################### VAT  ############################################
 
 ## Type ##
 
@@ -81,8 +114,6 @@ R: 'Retail R'
 DB_B: 'B'
 DB_C: 'C'
 DB_R: 'R'
-
-
 
 
 ## Region ##
@@ -177,56 +208,7 @@ v_code_68: "ZMK01"	#VAT @ STD RATE-ALL PURCHASES
 v_code_69: "ZMK0X"	#ZAMBIA NOT CLAIMABLE VAT
 
 
-########################### Differentiators Diff  ############################################
 
-
-### Type Diff Group ###
-
-colour: '10000'
-compatibility: '40000'
-flavour: '30000'
-hard_goods_size: '60000'
-no_diff: '50000'
-soft_goods_size: '20000'
-
-### Division ###
-
-CRC: '2'
-Wiggle:	'1'
-
-
-Test_Group_colour: '60051'
-Test_Group_Compatibility: '60052'
-Test_Diff_Group_Flavour: '60053'
-Test_Diff_Range_Head: '4'
-
-### Colour ###
-
-colour_1: '2125' #Blue/Yellow
-colour_2: '1012' #Black 2
-colour_3: '1013' #Blue
-colour_4: '1021' #Black 5
-
-
-### Compatibility ###
-
-compatibility_1: '40701'  #Option 1
-compatibility_2: '40702'  #Option 2
-compatibility_3: '40703'  #Option 3
-compatibility_4: '40704'  #Option 4
-
-### Flavour ###
-
-flavour_1: '30701'  #Almond
-flavour_2: '30702'  #Hazelnut
-flavour_3: '30703'  #Cashew
-flavour_4: '30704'  #Peanut
-
-
-### Diff Range ###
-
-range_type1: 'Ratio'
-range_type2: 'Percentage'
 
 
 

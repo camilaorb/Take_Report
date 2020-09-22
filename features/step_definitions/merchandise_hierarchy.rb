@@ -584,7 +584,7 @@ end
 
 
 Then(/^the default information for the Sub-Department is created in RMS only for the Categoryes and Subcategoryes within that Sub-Department$/) do
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(@new_dpt)
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information2'], '1')
@@ -651,6 +651,6 @@ end
 
 ##################################################################3
 
-Given (/^the purge batch process is complete "([^"]*)"$/) do |batch_name|
-  run_batch(TE.environment['db_server'], TE.environment['unix_username'], TE.environment['unix_pwd'], batch_name, TE.environment['db_username'], TE.environment['db_password'])
+  Given (/^the purge batch process is complete "([^"]*)"$/) do |batch_name|
+    run_rms_batch(TE.environment['db_server'], TE.environment['unix_username'], TE.environment['unix_pwd'], batch_name, TE.environment['db_username'], TE.environment['db_password'])
 end

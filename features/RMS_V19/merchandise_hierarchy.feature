@@ -143,6 +143,6 @@ Feature: Merchandise Hierarchy
     When a user deletes a Merch Hier Default
     Then record is deleted successfully
 
-
-  #Scenario: running dlyprg nightly job
-    #Given the purge batch process is complete "dlyprg"
+  @DLYPRG
+  Scenario: running dlyprg nightly job
+    Given the purge batch process is complete "dlyprg"

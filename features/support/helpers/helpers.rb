@@ -82,7 +82,8 @@ end
 class HelperError < RuntimeError
 end
 
-def run_batch(server, username, pwd, batch_name, db_user, db_pwd)
+
+def run_rms_batch(server, username, pwd, batch_name, db_user, db_pwd)
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
 
   batch_status = database.verify_batch_status(batch_name)
@@ -96,7 +97,7 @@ def run_batch(server, username, pwd, batch_name, db_user, db_pwd)
   end
 
   TryWith.attempts(attempts: 3, sleep: 2) do
-    execute_batch(["-h#{server}", "-u#{username}", "-p#{pwd}", "-csource ~/.bash_profile>/dev/null; $MMHOME/oracle/proc/bin/#{batch_name} #{db_user}/#{db_pwd}"])
+    execute_batch(["-h#{server}", "-u#{username}", "-p#{pwd}", "-c. /app/oretail/rms/batch_home/batch.profile; /app/oretail/rms/batch_home/oracle/proc/src/#{batch_name} $UP"])
     batch_status = database.verify_batch_status(batch_name)
     raise "After 3 attempts - we have been unable to execute the batch successfully - status not equal to: 'completed'" unless batch_status == 'completed'
   end
@@ -108,9 +109,7 @@ def run_batch(server, username, pwd, batch_name, db_user, db_pwd)
       raise "After 3 attempts - we have been unable to reset the batch status to: 'ready for start'" unless batch_status == 'ready for start'
     end
   end
-
   database.disconnect_db
-
 end
 
 

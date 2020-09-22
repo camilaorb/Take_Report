@@ -34,6 +34,7 @@ module Pages
     element(:done_button) { a(:text, 'Done') }
     element(:add_details_button) { a(:text, 'Add Details') }
     element(:search_button) { a(:text, 'Search') }
+    element(:loading_list) { div(:class, 'AFAutoSuggestBusyStyle') }
 
     #Diff Group
     element(:add_diff_group_button) { div(:id, /mr:pc1:_ATp:create/) }
@@ -45,6 +46,7 @@ module Pages
     element(:type_field) { text_field(:id, /_ATp:diffTypeId::content/) }
     element(:chain_field) { text_field(:id, /_ATp:filterOrgIdId::content/) }
     element(:division_field) { text_field(:id, /_ATp:filterMerchIdId::content/) }
+    element(:diff_group_list) { div(:id, /mr:pc1:_ATp:t1::db/) }
 
     #Diff Group Detail
     element(:add_diff_group_detail_button) { div(:id, /mr:at2:_ATp:create/) }
@@ -54,6 +56,7 @@ module Pages
     element(:diff_group_detail_list) { div(:id, /mr:at2:_ATp:t2::db/) }
     element(:sequence_id_field) { text_field(:id, /mr:at2:_ATp:it3::content/) }
     element(:type_diff_group_detail_field) { text_field(:id, /_ATp:diffIdId::content/) }
+    element(:sequence_query_button) { div(:id, /at2:_ATp:_qbeTbr/) }
 
     #Create Diff Range
     element(:range_id_field) { text_field(:id, /ap1:it5::content/) }
@@ -153,28 +156,32 @@ module Pages
     end
 
     def select_diff_group(new_id)
+      query_button.wait_until_present
       query_button.click unless diff_group_id_filter.present?
       wait_for_db_activity
       diff_group_id_filter.set new_id
+      diff_group_id_filter.click
       send_keys :enter
       wait_for_db_activity
     end
 
-    def create_diff_group(new_id, diff_group_description, type, chain, division)
+    def create_diff_group(new_id, diff_group_description, type, division, department)
       add_diff_group_button.wait_until_present.click
       wait_for_db_activity
       diff_group_id_field.set new_id
       diff_group_description_field.set diff_group_description
       type_field.set type
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
-      chain_field.set chain
+      chain_field.set division
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
-      #sleep 5
       wait_for_db_activity
-      division_field.set division
+      division_field.set department
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
@@ -183,16 +190,18 @@ module Pages
 
     end
 
-    def edit_diff_group(diff_group_description, chain, division)
+    def edit_diff_group(diff_group_description, division, department)
       edit_diff_group_button.wait_until_present.click
       wait_for_db_activity
       diff_group_description_field.set diff_group_description
       wait_for_db_activity
-      chain_field.set chain
+      chain_field.set division
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
-      division_field.set division
+      division_field.set department
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
@@ -211,23 +220,35 @@ module Pages
       wait_for_db_activity
     end
 
+    def verify_diff_group(expected_values:)
+      if no_results.present?
+      else
+        @actual_values = []
+        @actual_values = diff_group_list.text
+        raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
+      end
+    end
+
     ###################### Group Detail #######################
 
     def select_diff_group_detail(sequence)
-      query_button.click unless sequence_filter.present?
+      sequence_query_button.click unless sequence_filter.present?
       wait_for_db_activity
       sequence_filter.set sequence
+      sequence_filter.click
       send_keys :enter
       wait_for_db_activity
     end
 
-    def create_diff_group_detail(sequence, colour)
+    def create_diff_group_detail(sequence, size)
       add_diff_group_detail_button.wait_until_present.click
       wait_for_db_activity
       sequence_id_field.set sequence
       send_keys :enter
       wait_for_db_activity
-      type_diff_group_detail_field.set colour
+      type_diff_group_detail_field.set size
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       ok_button.click
@@ -295,7 +316,7 @@ module Pages
       wait_for_db_activity
     end
 
-    def create_diff_range(new_id, range_description, type1, diff_group1, type2, diff_group2, type3, diff_group3)
+    def create_diff_range(new_id, range_description, type1, diff_group1, type2, diff_group2)
       wait_for_db_activity
       range_id_field.set new_id
       wait_for_db_activity
@@ -305,30 +326,25 @@ module Pages
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
-      range_type_dropdown.click
-      range_type_dropdown_chose('Ratio').select
+      select_list(range_type_dropdown_chose('Ratio'), range_type_dropdown, 'Ratio')
       wait_for_db_activity
       type1_field.set type1
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       diff_group1_field.set diff_group1
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       type2_field.set type2
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       diff_group2_field.set diff_group2
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
-      type3_field.set type3
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
-      diff_group3_field.set diff_group3
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
@@ -336,16 +352,15 @@ module Pages
       wait_for_db_activity
     end
 
-    def create_diff_range_detail(colour,compatibility, flavour, ratio)
+    def create_diff_range_detail(colour,size, ratio)
       add_button.wait_until_present.click
       wait_for_db_activity
       colour_field.set colour
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
-      compatibility_field.set compatibility
-      send_keys :enter
-      wait_for_db_activity
-      flavour_field.set flavour
+      compatibility_field.set size
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       ratio_field.set ratio

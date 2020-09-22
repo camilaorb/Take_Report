@@ -21,6 +21,8 @@ module Pages
     element(:user_menu) { |text| div(:title, text) }
     element(:error_message_popup) { div(:id, 'd1_msgDlg::_ccntr') }
     element(:sign_in) { span(:text, 'Login') }
+    element(:close_popup) { a(:id, /d1::close/) }
+    element(:close_popup_2) { a(:id, /d3::close/) }
 
     ############################# Methods ####################
 
@@ -32,7 +34,11 @@ module Pages
       TryWith.attempts(attempts: 3, sleep: 2) do
         login_button.click
       end
-      raise 'login failed' unless user_menu(usr).present?
+      wait_for_db_activity
+      TryWith.attempts(attempts: 3, sleep: 5) do
+        raise 'login failed' unless user_menu(usr).present?
+        wait_for_db_activity
+      end
     end
 
     def logout_to_rms

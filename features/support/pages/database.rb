@@ -102,7 +102,7 @@ module Pages
   ##### Diffs #####
 
   def diff_group_id
-    last_id  = @connection.select_one("Select * from (select DIFF_GROUP_ID from DIFF_GROUP_HEAD order by DIFF_GROUP_ID DESC) WHERE ROWNUM = 1")
+    last_id = @connection.select_one("Select * from (select DIFF_GROUP_ID from DIFF_GROUP_HEAD order by DIFF_GROUP_ID DESC) WHERE ROWNUM = 1")
     if last_id.nil?
       @new_id = 1
     else
@@ -225,37 +225,37 @@ module Pages
 
   #### Diffs ###
 
-  def verify_diff_department_table(new_diff_department_id, department_name, type )
-    new_diff_department = @connection.select_one("Select  DIFF_TYPE , DIFF_DEPT_DESC from DIFF_DEPT_HEAD WHERE DIFF_DEPT_ID = #{new_diff_department_id}")
-    raise "New Diff Department no '#{new_diff_department_id}' was not created" if new_diff_department.nil?
-    raise "Department Description is wrong. Expected:'#{department_name}' Actual:'#{new_diff_department[1]}'" unless new_diff_department[1] == department_name
-    raise "Type is wrong. Expected:'#{type}' Actual:'#{new_diff_department[0]}'" unless new_diff_department[0] == type
+  def verify_diff_group_table(new_diff_group_id, group_name, type )
+    new_diff_group = @connection.select_one("Select  DIFF_TYPE , DIFF_GROUP_DESC from DIFF_GROUP_HEAD WHERE DIFF_GROUP_ID = #{new_diff_group_id}")
+    raise "Diff Group no '#{new_diff_group_id}' was not created" if new_diff_group.nil?
+    raise "Group Description is wrong. Expected:'#{group_name}' Actual:'#{new_diff_group[1]}'" unless new_diff_group[1] == group_name
+    raise "Type is wrong. Expected:'#{type}' Actual:'#{new_diff_group[0]}'" unless new_diff_group[0] == type
   end
 
-  def verify_delete_diff_department_table(diff_department_id)
-    diff_department = @connection.select_one("Select * from DIFF_DEPT_HEAD WHERE DIFF_DEPT_ID = #{diff_department_id}")
-    raise "The Diff Department no '#{diff_department_id}' was not deleted" unless diff_department.nil?
+  def verify_delete_diff_group_table(diff_group_id)
+    diff_group = @connection.select_one("Select * from DIFF_GROUP_HEAD WHERE DIFF_GROUP_ID = #{diff_group_id}")
+    raise "The Diff Group no '#{diff_group_id}' was not deleted" unless diff_group.nil?
   end
 
-  def verify_diff_department_detail_table(diff_department_detail_id, diff, sequence )
-    diff_department_detail = @connection.select_one("Select DIFF_DEPT_ID, DIFF_ID, DISPLAY_SEQ from DIFF_DEPT_DETAIL WHERE DIFF_DEPT_ID = #{diff_department_detail_id}")
-    raise "New Diff Department Detail no '#{diff_department_detail_id}' was not created" if diff_department_detail.nil?
-    raise "Sequence is wrong. Expected:'#{diff}' Actual:'#{diff_department_detail[2]}'" unless diff_department_detail[1] == diff
-    raise "Sequence is wrong. Expected:'#{sequence}' Actual:'#{diff_department_detail[4]}'" unless diff_department_detail[2] == sequence.to_i
+  def verify_diff_group_detail_table(diff_group_detail_id, diff, sequence )
+    diff_group_detail = @connection.select_one("Select DIFF_GROUP_ID, DIFF_ID, DISPLAY_SEQ from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id}")
+    raise "New Diff Group Detail no '#{diff_group_detail_id}' was not created" if diff_group_detail.nil?
+    raise "Sequence is wrong. Expected:'#{diff}' Actual:'#{diff_group_detail[2]}'" unless diff_group_detail[1] == diff
+    raise "Sequence is wrong. Expected:'#{sequence}' Actual:'#{diff_group_detail[4]}'" unless diff_group_detail[2] == sequence.to_i
   end
 
-  def verify_delete_diff_department_detail_table(diff_department_detail_id, sequence)
-    diff_department_detail = @connection.select_one("Select * from DIFF_DEPT_DETAIL WHERE DIFF_DEPT_ID = #{diff_department_detail_id} AND DISPLAY_SEQ = #{sequence}")
-    raise "New Diff Department Detail no '#{diff_department_detail_id}' was not deleted" unless diff_department_detail.nil?
+  def verify_delete_diff_group_detail_table(diff_group_detail_id, sequence)
+    diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id} AND DISPLAY_SEQ = #{sequence}")
+    raise "New Diff Group Detail no '#{diff_group_detail_id}' was not deleted" unless diff_group_detail.nil?
   end
 
-  def verify_diff_range_header_table(diff_range_id, diff_range_desc, diff_department_1, diff_department_2, diff_department_3, diff_range_type)
+  def verify_diff_range_header_table(diff_range_id, diff_range_desc, diff_group_1, diff_group_2, diff_group_3, diff_range_type)
     diff_range_head = @connection.select_one("Select * from DIFF_RANGE_HEAD where DIFF_RANGE = #{diff_range_id}")
     raise "New Diff Range no '#{diff_range_id}' was not created" if diff_range_head.nil?
     raise "Diff Range Description is wrong. Expected:'#{diff_range_desc}' Actual:'#{diff_range_head[1]}'" unless diff_range_head[1] == diff_range_desc
-    raise "Diff Department 1 is wrong. Expected:'#{diff_department_1}' Actual:'#{diff_range_head[2]}'" unless diff_range_head[2] == diff_department_1
-    raise "Diff Department 2 is wrong. Expected:'#{diff_department_2}' Actual:'#{diff_range_head[3]}'" unless diff_range_head[3] == diff_department_2
-    raise "Diff Department 3 is wrong. Expected:'#{diff_department_3}' Actual:'#{diff_range_head[4]}'" unless diff_range_head[4] == diff_department_3
+    raise "Diff Group 1 is wrong. Expected:'#{diff_group_1}' Actual:'#{diff_range_head[2]}'" unless diff_range_head[2] == diff_group_1
+    raise "Diff Group 2 is wrong. Expected:'#{diff_group_2}' Actual:'#{diff_range_head[3]}'" unless diff_range_head[3] == diff_group_2
+    raise "Diff Group 3 is wrong. Expected:'#{diff_group_3}' Actual:'#{diff_range_head[4]}'" unless diff_range_head[4] == diff_group_3
     raise "Diff Range Type is wrong. Expected:'#{diff_range_type}' Actual:'#{diff_range_head[5]}'" unless diff_range_head[5] == diff_range_type
   end
 
@@ -268,27 +268,27 @@ module Pages
     raise "Ratio is wrong. Expected:'#{ratio}' Actual:'#{diff_range_head[5]}'" unless diff_range_head[5] == ratio.to_i
   end
 
-  def verify_delete_diff_range_detail_table(diff_department_detail_id)
-    diff_department_detail = @connection.select_one("Select * from DIFF_DEPT_DETAIL WHERE DIFF_DEPT_ID = #{diff_department_detail_id}")
-    raise "New Diff Department Detail no '#{diff_department_detail_id}' was not deleted" unless diff_department_detail.nil?
+  def verify_delete_diff_range_detail_table(diff_group_detail_id)
+    diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id}")
+    raise "New Diff Group Detail no '#{diff_group_detail_id}' was not deleted" unless diff_group_detail.nil?
   end
 
-  def verify_diff_ratio_table(diff_ratio_id, description, subdept, ratio_category, subcategory, ratio_department1, ratio_department2, ratio_department3, review)
+  def verify_diff_ratio_table(diff_ratio_id, description, dept, ratio_class, subclass, ratio_group1, ratio_group2, ratio_group3, review)
     diff_ratio_head = @connection.select_one("Select * from DIFF_RATIO_HEAD where DIFF_RATIO_ID = #{diff_ratio_id}")
-    raise "New Diff Department was not created" if diff_ratio_head.nil?
+    raise "New Diff Group was not created" if diff_ratio_head.nil?
     raise "Description is wrong. Expected:'#{description}' Actual:'#{diff_ratio_head[1]}'" unless diff_ratio_head[1] == description
-    raise "Department is wrong. Expected:'#{subdept}' Actual:'#{diff_ratio_head[2]}'" unless diff_ratio_head[2] == subdept.to_i
-    raise "Category is wrong. Expected:'#{ratio_category}' Actual:'#{diff_ratio_head[3]}'" unless diff_ratio_head[3] == ratio_category.to_i
-    raise "Subcategory is wrong. Expected:'#{subcategory}' Actual:'#{diff_ratio_head[4]}'" unless diff_ratio_head[4] == subcategory.to_i
-    raise "Department 1 is wrong. Expected:'#{ratio_department1}' Actual:'#{diff_ratio_head[5]}'" unless diff_ratio_head[5] == ratio_department1
-    raise "Department 2 is wrong. Expected:'#{ratio_department2}' Actual:'#{diff_ratio_head[6]}'" unless diff_ratio_head[6] == ratio_department2
-    raise "Department 3 is wrong. Expected:'#{ratio_department3}' Actual:'#{diff_ratio_head[7]}'" unless diff_ratio_head[7] == ratio_department3
+    raise "Department is wrong. Expected:'#{dept}' Actual:'#{diff_ratio_head[2]}'" unless diff_ratio_head[2] == dept.to_i
+    raise "Class is wrong. Expected:'#{ratio_class}' Actual:'#{diff_ratio_head[3]}'" unless diff_ratio_head[3] == ratio_class.to_i
+    raise "Subclass is wrong. Expected:'#{subclass}' Actual:'#{diff_ratio_head[4]}'" unless diff_ratio_head[4] == subclass.to_i
+    raise "Group 1 is wrong. Expected:'#{ratio_group1}' Actual:'#{diff_ratio_head[5]}'" unless diff_ratio_head[5] == ratio_group1
+    raise "Group 2 is wrong. Expected:'#{ratio_group2}' Actual:'#{diff_ratio_head[6]}'" unless diff_ratio_head[6] == ratio_group2
+    raise "Group 3 is wrong. Expected:'#{ratio_group3}' Actual:'#{diff_ratio_head[7]}'" unless diff_ratio_head[7] == ratio_group3
     raise "Review weeks is wrong. Expected:'#{review}' Actual:'#{diff_ratio_head[17]}'" unless diff_ratio_head[17] == review.to_i
   end
 
   def verify_delete_diff_ratio_table(diff_ratio_id)
-    diff_department_detail = @connection.select_one("Select * from DIFF_DEPT_DETAIL WHERE DIFF_DEPT_ID = #{diff_ratio_id}")
-    raise "New Diff Ratio no '#{diff_ratio_id}' Detail was not deleted" unless diff_department_detail.nil?
+    diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_ratio_id}")
+    raise "New Diff Ratio no '#{diff_ratio_id}' Detail was not deleted" unless diff_group_detail.nil?
   end
 
 
@@ -342,10 +342,11 @@ module Pages
   end
 
   def verify_uda_value_delete(last_uda_value_id)
-    uda_value_id = (last_uda_value_id[0].to_i + 1).to_s
+    @uda_value_id = (last_uda_value_id[0].to_i + 1).to_s
     new_uda_value = @connection.select_one("Select * from UDA_VALUES where UDA_ID = (#{uda_value_id})")
     raise "The UDA was not deleted" unless new_uda_value.nil?
   end
+
 
 
 

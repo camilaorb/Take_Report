@@ -40,4 +40,5 @@ namespace :ci do
   rescue StandardError => e
     puts "At least one test failed, please check your reports. #{e}"
   end
+
 end

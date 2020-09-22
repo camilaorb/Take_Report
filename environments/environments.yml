@@ -16,6 +16,6 @@ RMS_sandbox:
   db_password: Welcome123
   env_timeout: 30
   test_data_file: data.yml
-  db_server: opopritstdb
+  db_server: OPOMOMDB01
   unix_username: root
   unix_pwd: GYW3m6!mcH60
