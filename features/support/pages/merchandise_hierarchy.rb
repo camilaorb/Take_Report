@@ -708,13 +708,14 @@ module Pages
     end
 
     def create_vat(region, code, type)
-      TryWith.attempts(attempts: 5, sleep: 5) do
-        add_vat_button.wait_until_present.click
+      TryWith.attempts(attempts: 10, sleep: 1) do
+        add_vat_button.click
         wait_for_db_activity
-        vat_region_field.wait_until_present
       end
 
-      vat_region_field.set region
+      TryWith.attempts(attempts: 10, sleep: 1) do
+        vat_region_field.set region
+      end
       wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
@@ -722,11 +723,15 @@ module Pages
       raise 'Vat Region is blank' if vat_region_field.blank?
 
       vat_type_field.wait_until_present
-      select_list(vat_type_list(type), vat_type_field, type)
+      TryWith.attempts(attempts: 10, sleep: 1) do
+        select_list(vat_type_list(type), vat_type_field, type)
+      end
       raise 'Vat type was not selected' if vat_code_field.blank?
 
       vat_code_field.wait_until_present
-      vat_code_field.set code
+      TryWith.attempts(attempts: 10, sleep: 1) do
+        vat_code_field.set code
+      end
       wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
@@ -736,10 +741,11 @@ module Pages
 
       sleep 3
       wait_for_db_activity
-      ok_vat_button.click
+      TryWith.attempts(attempts: 10, sleep: 1) do
+        ok_vat_button.click
+      end
       wait_for_db_activity
       sleep 5
-
     end
 
     def edit_vat(code)
