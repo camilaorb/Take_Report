@@ -4,14 +4,16 @@ enabled: false
 source: local
 
 local:
-  
+
   baseline_directory: visual_testing/baseline
   fail_fast: false
   wait_before_screenshots: 0
 
 applitools:
-  
+
   match_level: Layout2           # None, Layout, Layout2, Content, Strict, Exact
+
+  stitch_mode: css
 
   fullpage_screenshot: true
 
@@ -30,4 +32,4 @@ applitools:
     width: 800
     height: 600
 
-<%= IO.read(filename) if File.exists?(filename) %>  
+  <%= IO.read(filename) if File.exists?(filename) %>
