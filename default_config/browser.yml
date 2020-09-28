@@ -2,9 +2,9 @@
 
 source: local # local, browserstack, perfecto, sauce_labs, kobiton, local_device
 
-default_timeout: 10
+default_timeout: 30
 implicit_wait: 0
-page_load_timeout: 10
+page_load_timeout: 20
 
 same_browser: true
 close_browser: true

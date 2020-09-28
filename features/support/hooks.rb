@@ -5,10 +5,11 @@ Before do
 end
 
 After do
-  if merchandise_hierarchy.cancel_button.present?
-    merchandise_hierarchy.cancel_button.click
+  if differentiators_diff.cancel_button.present?
+    differentiators_diff.cancel_button.click
     wait_for_db_activity
   end
+  merchandise_hierarchy.cancel_button.present?
   merchandise_hierarchy.cancel_button.click
   wait_for_db_activity
   login_page.logout_to_rms

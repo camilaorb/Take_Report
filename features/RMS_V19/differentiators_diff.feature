@@ -1,12 +1,12 @@
 Feature: Differentiators
 
   @DIFF-01
-  Scenario: Add Diff Group
+  Scenario: Create New Diff Group
     Given a user is in Differentiator Groups screen
     When they create a Diff Group where Group, Group Description, Type are mandatory
     Then the new Diff Group is add on the top of Diff Group table and created RMS DB
 
-  @DIFF-02
+  @DIFF-02 @critical
   Scenario: Edit Diff Group
     Given a user is in Differentiator Groups screen
     When the user is able to update Group Description, Division, Department in RMS
@@ -24,7 +24,7 @@ Feature: Differentiators
     When a user enter Size in the Group Detail window
     Then a record is created to the Group Detail window and RMS DB
 
-  @DIFF-05
+  @DIFF-05 @critical
   Scenario: Edit Diff Group Detail
     Given a user is in Differentiator Groups screen
     When a user update the Sequence in the Group Detail table
@@ -43,7 +43,7 @@ Feature: Differentiators
     Then the Diff Range Header record is created in RMS and RMS DB
 
   @DIFF-08
-  Scenario: Create Diff Range Detail for New Header
+  Scenario: Create Diff Range Detail record
     Given user has created the Diff Range Header
     When user enters the Diff Range information
     Then the Diff Range Detail record is created in RMS and RMS DB

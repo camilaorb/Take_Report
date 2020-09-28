@@ -35,6 +35,7 @@ module Pages
     element(:add_details_button) { a(:text, 'Add Details') }
     element(:search_button) { a(:text, 'Search') }
     element(:loading_list) { div(:class, 'AFAutoSuggestBusyStyle') }
+    element(:cancel_button) { a(:text, 'Cancel') }
 
     #Diff Group
     element(:add_diff_group_button) { div(:id, /mr:pc1:_ATp:create/) }
@@ -71,9 +72,9 @@ module Pages
     element(:diff_group3_field) { text_field(:id, /:ap1:diffGroup3Id::content/) }
 
     #Diff Range Details
-    element(:colour_field) { text_field(:id, /ap1:at1:_ATp:iclv4::content/) }
-    element(:compatibility_field) { text_field(:id, /ap1:at1:_ATp:inputComboboxListOfValues5::content/) }
-    element(:flavour_field) { text_field(:id, /ap1:at1:_ATp:inputComboboxListOfValues6::content/) }
+    element(:detail_field_1) { text_field(:id, /ap1:at1:_ATp:iclv4::content/) }
+    element(:detail_field_2) { text_field(:id, /at1:_ATp:inputComboboxListOfValues5::content/) }
+    element(:detail_field_3) { text_field(:id, /ap1:at1:_ATp:inputComboboxListOfValues6::content/) }
     element(:ratio_field) { text_field(:id, /ap1:at1:_ATp:it2::content/) }
     element(:delete_range_details_button) { div(:id, /ap1:at1:_ATp:delete/) }
 
@@ -82,11 +83,11 @@ module Pages
     element(:range_detail_list) { div(:id, /ap1:at1:_ATp:t1::db/) }
 
     #Edit Diff Range Details
-    element(:edit_colour_field) { text_field(:id, /_ATp:inputComboboxListOfValues1::content/) }
-    element(:edit_compatibility_field) { text_field(:id, /_ATp:inputComboboxListOfValues2::content/) }
-    element(:edit_flavour_field) { text_field(:id, /_ATp:inputComboboxListOfValues3::content/) }
+    element(:edit_detail_field_1) { text_field(:id, /_ATp:inputComboboxListOfValues1::content/) }
+    element(:edit_detail_field_2) { text_field(:id, /_ATp:inputComboboxListOfValues2::content/) }
+    element(:edit_detail_field_3) { text_field(:id, /_ATp:inputComboboxListOfValues3::content/) }
     element(:edit_ratio_field) { text_field(:id, /at1:_ATp:it12/) }
-    element(:ratio_filter) { text_field(:id, /ap1:at1:_ATp:t1:itvs::content/) }
+    element(:size_filter) { text_field(:id, /_ATp:t1:_afrFltrMdlc5::content/) }
 
     #Diff Ratio
     element(:ratio_id) { text_field(:id, /mr1:diffRatioIdId::content/) }
@@ -308,10 +309,11 @@ module Pages
       wait_for_db_activity
     end
 
-    def select_diff_range_detail(ratio)
-      query_button.click unless ratio_filter.present?
+    def select_diff_range_detail(size)
+      query_button.click unless size_filter.present?
       wait_for_db_activity
-      ratio_filter.set ratio
+      size_filter.set size
+      size_filter.click
       send_keys :enter
       wait_for_db_activity
     end
@@ -355,15 +357,34 @@ module Pages
     def create_diff_range_detail(colour,size, ratio)
       add_button.wait_until_present.click
       wait_for_db_activity
-      colour_field.set colour
+      detail_field_1.set size
       wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
-      compatibility_field.set size
+      sleep 2
+      detail_field_2.set colour
       wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
+      sleep 2
       ratio_field.set ratio
+      wait_for_db_activity
+      ok_button.click
+      wait_for_db_activity
+    end
+
+    def edit_diff_range_detail(size, colour, ratio)
+      edit_button.wait_until_present.click
+      wait_for_db_activity
+      edit_detail_field_2.set size
+      wait_until_enabled(loading_list)
+      send_keys :enter
+      wait_for_db_activity
+      edit_detail_field_1.set colour
+      wait_until_enabled(loading_list)
+      send_keys :enter
+      wait_for_db_activity
+      edit_ratio_field.set ratio
       wait_for_db_activity
       ok_button.click
       wait_for_db_activity
@@ -371,26 +392,11 @@ module Pages
       wait_for_db_activity
     end
 
-    def edit_diff_range_detail(colour, compatibility, flavour, ratio)
-      edit_button.wait_until_present.click
+    def delete_diff_range
+      delete_button.wait_until_present.click
       wait_for_db_activity
-      edit_colour_field.set colour
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
-      edit_compatibility_field.set compatibility
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
-      edit_flavour_field.set flavour
-      sleep 10
-      send_keys :enter
-      wait_for_db_activity
-      edit_ratio_field.set ratio
-      wait_for_db_activity
-      ok_button.click
-      wait_for_db_activity
-      save_and_close_button.click
+      delete_popup.wait_until_present
+      yes_button.click
       wait_for_db_activity
     end
 

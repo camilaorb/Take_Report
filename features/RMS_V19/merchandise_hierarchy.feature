@@ -1,6 +1,6 @@
 Feature: Merchandise Hierarchy
 
-  @MERCH-01 @critical
+  @MERCH-01
   Scenario: Add one Division
     Given a user is in Merchandise Hierarchy screen
     When they create a new Division where Division ID, Name, Total Market Amounts, Buyer Name and Merchandiser name are mandatory
@@ -14,7 +14,7 @@ Feature: Merchandise Hierarchy
     Then the changes is visible on the Division table
     And the division record will be updated in RMS DB
 
-  @MERCH-03 @critical
+  @MERCH-03 
   Scenario: Delete Division
     Given a user is in Merchandise Hierarchy screen
     When they delete a Division
@@ -28,7 +28,7 @@ Feature: Merchandise Hierarchy
     Then the new Department is add on the Department table
     And The Department will be created RMS DB
 
-  @MERCH-05
+  @MERCH-05 @critical
   Scenario: Edit Department
     Given a user is in Merchandise Hierarchy screen
     When the user edits the fields Name, Division, Buyer Name and Merchandiser Name on a Department where Name is mandatory
@@ -49,7 +49,7 @@ Feature: Merchandise Hierarchy
     Then the new Category is add on the Category table
     And The Category will be created RMS DB
 
-  @MERCH-17
+  @MERCH-17 @critical
   Scenario: Edit Category
     Given a user is in Merchandise Hierarchy screen
     When the user edits the mandatory fields on a Category
@@ -70,7 +70,7 @@ Feature: Merchandise Hierarchy
     Then the new Sub Category is add on the Sub Category table
     And The Sub Category will be created RMS DB
 
-  @MERCH-20
+  @MERCH-20 @critical
   Scenario: Edit Sub Category
     Given a user is in Merchandise Hierarchy screen
     When the user edits the mandatory fields on a Sub Category
@@ -91,7 +91,7 @@ Feature: Merchandise Hierarchy
     Then the new Sub-Department is add on the Sub-Department table
     And The Sub-Department will be created RMS DB
 
-  @MERCH-08
+  @MERCH-08 @critical
   Scenario: Edit Sub-Department
     Given a user is in Merchandise Hierarchy screen
     When the user edits the mandatory fields on a Sub-Department
@@ -111,7 +111,7 @@ Feature: Merchandise Hierarchy
     When user adds VAT region
     Then VAT regions and VAT codes that are entered at the Sub-Department level become default for items within the Sub-Department
 
-  @MERCH-11
+  @MERCH-11 @critical
   Scenario: Edit VAT Details
     Given a user access a Sub-Department
     When user updates VAT region
@@ -130,7 +130,7 @@ Feature: Merchandise Hierarchy
     Then the default information for the Sub-Department is created in RMS only for the Categoryes and Subcategoryes within that Sub-Department
     #And default information is created in RMS database
 
-  @MERCH-14
+  @MERCH-14 @critical
   Scenario: Edit Merch Hier Defaults
     Given a user access a existent Sub-Department
     When a user update the 'Required' checkbox by setting it to 'Y' by the Merch Hier Default windown

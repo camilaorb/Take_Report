@@ -249,28 +249,26 @@ module Pages
     raise "New Diff Group Detail no '#{diff_group_detail_id}' was not deleted" unless diff_group_detail.nil?
   end
 
-  def verify_diff_range_header_table(diff_range_id, diff_range_desc, diff_group_1, diff_group_2, diff_group_3, diff_range_type)
+  def verify_diff_range_header_table(diff_range_id, diff_range_desc, diff_group_1, diff_group_2, diff_range_type)
     diff_range_head = @connection.select_one("Select * from DIFF_RANGE_HEAD where DIFF_RANGE = #{diff_range_id}")
     raise "New Diff Range no '#{diff_range_id}' was not created" if diff_range_head.nil?
     raise "Diff Range Description is wrong. Expected:'#{diff_range_desc}' Actual:'#{diff_range_head[1]}'" unless diff_range_head[1] == diff_range_desc
     raise "Diff Group 1 is wrong. Expected:'#{diff_group_1}' Actual:'#{diff_range_head[2]}'" unless diff_range_head[2] == diff_group_1
     raise "Diff Group 2 is wrong. Expected:'#{diff_group_2}' Actual:'#{diff_range_head[3]}'" unless diff_range_head[3] == diff_group_2
-    raise "Diff Group 3 is wrong. Expected:'#{diff_group_3}' Actual:'#{diff_range_head[4]}'" unless diff_range_head[4] == diff_group_3
-    raise "Diff Range Type is wrong. Expected:'#{diff_range_type}' Actual:'#{diff_range_head[5]}'" unless diff_range_head[5] == diff_range_type
+       raise "Diff Range Type is wrong. Expected:'#{diff_range_type}' Actual:'#{diff_range_head[5]}'" unless diff_range_head[5] == diff_range_type
   end
 
-  def verify_diff_range_detail_table(diff_range_id, colour,compatibility, flavour, ratio, sequence )
-    diff_range_head = @connection.select_one("Select * from  DIFF_RANGE_DETAIL where DIFF_RANGE = #{diff_range_id} and seq_no =#{sequence}")
+  def verify_diff_range_detail_table(diff_range_id, detail_1,detail_2, ratio )
+    diff_range_head = @connection.select_one("Select DIFF_1, DIFF_2, QTY from DIFF_RANGE_DETAIL where DIFF_RANGE = #{diff_range_id} and DIFF_1 = '#{detail_1}'")
     raise "New Diff Range Detail no '#{diff_range_id}' was not created" if diff_range_head.nil?
-    raise "Colour is wrong. Expected:'#{colour}' Actual:'#{diff_range_head[2]}'" unless diff_range_head[2] == colour
-    raise "Compatibility is wrong. Expected:'#{compatibility}' Actual:'#{diff_range_head[3]}'" unless diff_range_head[3] == compatibility
-    raise "Flavour is wrong. Expected:'#{flavour}' Actual:'#{diff_range_head[4]}'" unless diff_range_head[4] == flavour
-    raise "Ratio is wrong. Expected:'#{ratio}' Actual:'#{diff_range_head[5]}'" unless diff_range_head[5] == ratio.to_i
+    raise "Detail 1 is wrong. Expected:'#{detail_1}' Actual:'#{diff_range_head[0]}'" unless diff_range_head[0] == detail_1
+    raise "Detail 2 is wrong. Expected:'#{detail_2}' Actual:'#{diff_range_head[1]}'" unless diff_range_head[1] == detail_2
+    raise "Ratio is wrong. Expected:'#{ratio}' Actual:'#{diff_range_head[2]}'" unless diff_range_head[2] == ratio.to_i
   end
 
-  def verify_delete_diff_range_detail_table(diff_group_detail_id)
-    diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id}")
-    raise "New Diff Group Detail no '#{diff_group_detail_id}' was not deleted" unless diff_group_detail.nil?
+  def verify_delete_diff_range_detail_table(diff_range_id, detail_1)
+    diff_range_detail = @connection.select_one("Select * from  DIFF_RANGE_DETAIL where DIFF_RANGE = #{diff_range_id} and DIFF_1 = '#{detail_1}'")
+    raise "Diff Range Detail no '#{diff_range_id}' was not deleted" unless diff_range_detail.nil?
   end
 
   def verify_diff_ratio_table(diff_ratio_id, description, dept, ratio_class, subclass, ratio_group1, ratio_group2, ratio_group3, review)

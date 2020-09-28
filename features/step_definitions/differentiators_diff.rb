@@ -99,6 +99,7 @@ Then(/^a record is created to the Group Detail window and RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_diff_group_detail_table(@new_id, YML_DATA['dgd_detail_2'], '1')
   database.disconnect_db
+  differentiators_diff.delete_diff_group
   login_page.logout_to_rms
 end
 
@@ -126,6 +127,7 @@ Then(/^the record is update to the Group Detail window and RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_diff_group_detail_table(@new_id, YML_DATA['dgd_detail_2'], '2')
   database.disconnect_db
+  differentiators_diff.delete_diff_group
   login_page.logout_to_rms
 end
 
@@ -172,6 +174,7 @@ When(/^user enters the Range, Range Type and selects a Diff Type and Group for D
   differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['type_1'], YML_DATA['dr_group_1'],
                                          YML_DATA['type_2'], YML_DATA['dr_group_2'])
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'], '100')
+  differentiators_diff.save_and_close
 end
 
 Then(/^the Diff Range Header record is created in RMS and RMS DB$/) do
@@ -180,6 +183,7 @@ Then(/^the Diff Range Header record is created in RMS and RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_diff_range_header_table(@new_id, 'New Range', YML_DATA['dr_group_1'], YML_DATA['dr_group_2'], 'R' )
   database.disconnect_db
+  differentiators_diff.delete_diff_range
   login_page.logout_to_rms
 end
 
@@ -197,15 +201,17 @@ end
 
 When(/^user enters the Diff Range information$/) do
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'], '100')
+  differentiators_diff.save_and_close
 end
 
 Then(/^the Diff Range Detail record is created in RMS and RMS DB$/) do
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
-  differentiators_diff.verify_diff_range(expected_values:'1012 Black 2 40701 Option 1 30701 Almond 123')
+  differentiators_diff.verify_diff_range(expected_values:'KNG King BLACK Black 100')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_diff_range_detail_table(@new_id, YML_DATA['colour_2'], YML_DATA['compatibility_1'], YML_DATA['flavour_1'],'123.0', '1')
+  database.verify_diff_range_detail_table(@new_id, YML_DATA['size_1'], YML_DATA['colour_1'], '100.0', '1')
   database.disconnect_db
+  differentiators_diff.delete_diff_range
   login_page.logout_to_rms
 end
 
@@ -217,25 +223,28 @@ Given(/^a user is in Manage Diff Range screen$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_range_id
   database.disconnect_db
-  differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['colour'], YML_DATA['Test_Group_colour'],
-                                         YML_DATA['compatibility'], YML_DATA['Test_Group_Compatibility'], YML_DATA['flavour'],
-                                         YML_DATA['Test_Diff_Group_Flavour'])
-  differentiators_diff.create_diff_range_detail(YML_DATA['colour_2'], YML_DATA['compatibility_1'], YML_DATA['flavour_1'],'123')
+  differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['type_1'], YML_DATA['dr_group_1'],
+                                         YML_DATA['type_2'], YML_DATA['dr_group_2'])
+  differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'],'100')
+  differentiators_diff.create_diff_range_detail(YML_DATA['colour_2'], YML_DATA['size_2'],'100')
+  differentiators_diff.save_and_close
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
 end
 
 When(/^user enters the Diff Range details to a existent Range Header$/) do
-  differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['compatibility_2'], YML_DATA['flavour_2'],'2')
+  differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['size_3'],'100')
+  differentiators_diff.save_and_close
 end
 
 Then(/^the Diff Range details is created in RMS and RMS DB$/) do
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
-  differentiators_diff.verify_diff_range(expected_values:'1012 Black 2 40701 Option 1 30701 Almond 123')
+  differentiators_diff.verify_diff_range(expected_values:'KNG King BLACK Black 100')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_diff_range_detail_table(@new_id, YML_DATA['colour_3'], YML_DATA['compatibility_2'], YML_DATA['flavour_2'],'2.0', '2')
+  database.verify_diff_range_detail_table(@new_id, YML_DATA['size_1'], YML_DATA['colour_1'], '100.0')
   database.disconnect_db
+  differentiators_diff.delete_diff_range
   login_page.logout_to_rms
 end
 
@@ -247,35 +256,36 @@ Given(/^a user retrieves the Range Header and Range Details$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_range_id
   database.disconnect_db
-  differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['colour'], YML_DATA['Test_Group_colour'],
-                                         YML_DATA['compatibility'], YML_DATA['Test_Group_Compatibility'], YML_DATA['flavour'],
-                                         YML_DATA['Test_Diff_Group_Flavour'])
-  differentiators_diff.create_diff_range_detail(YML_DATA['colour_2'], YML_DATA['compatibility_1'], YML_DATA['flavour_1'],'123')
+  differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['type_1'], YML_DATA['dr_group_1'],
+                                         YML_DATA['type_2'], YML_DATA['dr_group_2'])
+  differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'],'100')
+  differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['size_3'],'100')
+  differentiators_diff.save_and_close
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
 
 end
 
 When(/^user updates the Diff Range Detail$/) do
-  differentiators_diff.edit_diff_range_detail(YML_DATA['colour_3'], YML_DATA['compatibility_2'], YML_DATA['flavour_2'],'321')
+  differentiators_diff.select_diff_range_detail(YML_DATA['size_3'])
+  differentiators_diff.edit_diff_range_detail(YML_DATA['colour_2'], YML_DATA['size_2'],'100')
 
 end
 
 Then(/^the Diff Range Detail is updated in RMS and RMS DB$/) do
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
-  differentiators_diff.verify_diff_range(expected_values:'1013 Black 3 40702 Option 2 30702 Hazelnut 321')
+  differentiators_diff.select_diff_range_detail(YML_DATA['size_2'])
+  differentiators_diff.verify_diff_range(expected_values:'QN Queen WHITE White 100')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_diff_range_detail_table(@new_id, YML_DATA['colour_3'], YML_DATA['compatibility_2'], YML_DATA['flavour_2'],'321.0', '1')
+  database.verify_diff_range_detail_table(@new_id, YML_DATA['size_2'], YML_DATA['colour_2'], '100.0')
   database.disconnect_db
+  differentiators_diff.delete_diff_range
   login_page.logout_to_rms
 end
 
 When(/^user deletes the Range Details$/) do
-  differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['compatibility_2'], YML_DATA['flavour_2'],'321')
-  differentiators_diff.open_manage_diff_range
-  differentiators_diff.select_diff_range(@new_id)
-  differentiators_diff.select_diff_range_detail('123')
+  differentiators_diff.select_diff_range_detail(YML_DATA['size_3'])
   differentiators_diff.delete_diff_range_detail
   differentiators_diff.select_diff_range_detail('')
   differentiators_diff.save_and_close
@@ -284,13 +294,14 @@ end
 Then(/^the Range Details is removed in RMS and RMS DB$/) do
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
-  differentiators_diff.select_diff_range_detail('123')
+  differentiators_diff.select_diff_range_detail(YML_DATA['size_3'])
   differentiators_diff.verify_diff_range(expected_values:'No data to display.')
-  differentiators_diff.select_diff_range_detail('')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_delete_diff_range_detail_table(@new_id)
+  database.verify_delete_diff_range_detail_table(@new_id, YML_DATA['size_3'])
   database.disconnect_db
+  differentiators_diff.delete_diff_range
   login_page.logout_to_rms
+
 end
 
 ############### Diff Ratio ######################
@@ -304,7 +315,7 @@ end
 
 When(/^user enters the relevant Merchandise details, Sub-Department, Category, Sub-Category$/) do
   @new_id = differentiators_diff.diff_ratio_id
-  differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass'], YML_DATA['Test_Group_colour'],
+  differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['subdpt'], YML_DATA['category'], YML_DATA['subcategory'], YML_DATA['Test_Group_colour'],
                                           YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
   differentiators_diff.save_and_close
 end
