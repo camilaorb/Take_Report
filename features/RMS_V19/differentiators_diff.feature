@@ -66,51 +66,51 @@ Feature: Differentiators
     When user deletes the Range Details
     Then the Range Details is removed in RMS and RMS DB
 
-  @DIFF-12
+  @DIFF-12 @canceled
   Scenario: Create Diff Ratio
     Given a user is in Create Diff Ratio screen
     When user enters the relevant Merchandise details, Sub-Department, Category, Sub-Category
     Then the Diff Ratio is created in RMS and RMS DB
 
-  @DIFF-13 @wip
+  @DIFF-13 @canceled
   Scenario: Search Diff Ratio
     Given a user is in Manage Diff Ratio screen
     When user enters Ratio the search criteria
     Then the results for the search criteria is displayed in the Results table
 
-  @DIFF-14
+  @DIFF-14 @canceled
   Scenario: Maintain Diff Ratio - Create
     Given a user is in Manage Diff Ratio screen
     When Search for a diff ratio by using basic or advanced search criteria
     Then user can create a new Ratio by entering Ratio Description and Merchandise Hierarchy details
     Then the Diff Ratio is created in RMS and RMS DB
 
-  @DIFF-15
+  @DIFF-15 @canceled
   Scenario: Maintain Diff Ratio - Edit
     Given a user is in Differentiator Ratio Search screen
     When Search for a diff ratio by using basic or advanced search criteria
     Then user amend the Ratio Description and Merchandise Hierarchy details
     And the Diff Ratio will be updated in RMS DB
 
-  @DIFF-16 @wip
+  @DIFF-16
   Scenario: Download Diff Template File
     Given a user is in Download screen
     When user selects Template Type, Template and opts for Download
     Then a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs
 
-  @DIFF-17 @wip
+  @DIFF-17
   Scenario: Upload Diff Template File
     Given a user is in Upload screen
     When user selects the Template Type and Template which auto populates the Process Description with timestamp
     Then user upload the source file with changes on Diff Type tab for Action, Diff Type and Description
 
-  @DIFF-18 @wip
+  @DIFF-18
   Scenario: Diff Types - Create
     Given a user is in Download screen
     When user selects Template Type, Template and opts for Download
     Then a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs
 
-  @DIFF-19 @wip
+  @DIFF-19
   Scenario: Diff Types - Edit
     Given a user is in Upload screen
     When user selects the Template Type and Template which auto populates the Process Description with timestamp

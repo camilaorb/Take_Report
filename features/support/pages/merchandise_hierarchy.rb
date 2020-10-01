@@ -681,31 +681,6 @@ module Pages
       wait_for_db_activity
     end
 
-    def create_multiple_vat
-      create_vat(YML_DATA['SA'], YML_DATA['v_code_1'], YML_DATA['R'])
-
-      country_list = %w['NAM' 'SWA' 'BOT' 'LSL' 'AUD' 'GHA' 'KEN' 'MZM' 'NIG' 'PLN' 'TZN' 'UGA' 'ZMK' 'DRC' 'OC']
-      number = country_list.size
-      count = 0
-      number.times do
-        create_vat(YML_DATA[country_list[count]], YML_DATA['v_code_1'], YML_DATA['B'])
-        count += 1
-      end
-      # create_vat(YML_DATA['SWA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['BOT'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['LSL'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['AUD'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['GHA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['KEN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['MZM'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['NIG'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['PLN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['TZN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['UGA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['ZMK'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['DRC'], YML_DATA['v_code_1'], YML_DATA['B'])
-      # create_vat(YML_DATA['OC'], YML_DATA['v_code_1'], YML_DATA['B'])
-    end
 
     def create_vat(region, code, type)
       TryWith.attempts(attempts: 10, sleep: 1) do

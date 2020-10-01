@@ -398,3 +398,44 @@ Then(/^the Diff Ratio will be updated in RMS DB$/) do
   differentiators_diff.delete_diff_ratio
   login_page.logout_to_rms
 end
+
+############### Diffs Data ######################
+
+Given(/^a user is in Download screen$/) do
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  foundation_data_loading.open_data_loading
+  foundation_data_loading.open_data_loading_download
+end
+
+When(/^user selects Template Type, Template and opts for Download$/) do
+  foundation_data_loading.download_file('Items', 'Differentiators')
+end
+Then(/^a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs$/) do
+  login_page.logout_to_rms
+end
+
+Given(/^a user is in Upload screen$/) do
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  foundation_data_loading.open_data_loading
+  foundation_data_loading.open_data_loading_upload
+end
+
+When(/^user selects the Template Type and Template which auto populates the Process Description with timestamp$/) do
+  foundation_data_loading.upload_options_screen('Items', 'Differentiators')
+  @process_description = foundation_data_loading.process_description
+end
+
+Then(/^user upload the source file with changes on Diff Type tab for Action, Diff Type and Description$/) do
+  foundation_data_loading.upload_a_file('Differentiators - diff_types.ods')
+  foundation_data_loading.verify_upload(@process_description)
+  login_page.logout_to_rms
+end
+
+Then(/^upload the source file with changes on Diff IDs tab for Action, Diff ID, Description and Diff Type$/) do
+  differentiators_diff.upload_a_file('Differentiators - diff_ids.ods')
+  differentiators_diff.verify_upload(@process_description)
+  login_page.logout_to_rms
+end
+

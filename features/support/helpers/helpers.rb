@@ -113,12 +113,13 @@ def run_rms_batch(server, username, pwd, batch_name, db_user, db_pwd)
 end
 
 
-def select_list(element_list, elemente_field, purchase)
-  if elemente_field.text == (purchase)
+def select_list(element_list, elemente_dropdown, option)
+  if elemente_dropdown.text == (option)
   else
-    elemente_field.click
+    elemente_dropdown.click
     element_list.select
-    elemente_field.click
+    elemente_dropdown.click
     wait_for_db_activity
   end
 end
+

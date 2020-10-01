@@ -1,42 +1,4 @@
 
-############### Diff Groups ######################
-
-Given(/^a user is in Download screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
-  data_loading.open_data_loading
-  data_loading.open_data_loading_download
-end
-
-When(/^user selects Template Type, Template and opts for Download$/) do
-  data_loading.download_file('Items', 'Differentiators')
-end
-Then(/^a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs$/) do
-  login_page.logout_to_rms
-end
-
-Given(/^a user is in Upload screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
-  data_loading.open_data_loading
-  data_loading.open_data_loading_upload
-end
-
-When(/^user selects the Template Type and Template which auto populates the Process Description with timestamp$/) do
-  data_loading.upload_options_screen('Items', 'Differentiators')
-end
-
-Then(/^user upload the source file with changes on Diff Type tab for Action, Diff Type and Description$/) do
-  data_loading.upload_a_file('Differentiators - diff_types.ods')
-  data_loading.verify_upload
-  login_page.logout_to_rms
-end
-
-Then(/^upload the source file with changes on Diff IDs tab for Action, Diff ID, Description and Diff Type$/) do
-  data_loading.upload_a_file('Differentiators - diff_ids.ods')
-  data_loading.verify_upload
-  login_page.logout_to_rms
-end
 
 ### UDAs ###
 

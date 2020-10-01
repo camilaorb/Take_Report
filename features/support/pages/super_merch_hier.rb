@@ -19,22 +19,7 @@ module Pages
       merchandise_hierarchy.create_new_subdpt(@new_dpt,'New Sub-Department', YML_DATA['dept'], YML_DATA['buyer'], YML_DATA['merchandiser'],
                                               '10', '10', '1', '1', YML_DATA['profit_calc_type'], YML_DATA['otb_calc_type'], YML_DATA['purchase_type'], '10000' )
       merchandise_hierarchy.access_new_vat
-      merchandise_hierarchy.create_vat(YML_DATA['SA'], YML_DATA['v_code_1'], YML_DATA['R'])
-      merchandise_hierarchy.create_vat(YML_DATA['NAM'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['SWA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['BOT'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['LSL'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['AUD'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['GHA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['KEN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['MZM'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['NIG'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['PLN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['TZN'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['UGA'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['ZMK'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['DRC'], YML_DATA['v_code_1'], YML_DATA['B'])
-      merchandise_hierarchy.create_vat(YML_DATA['OC'], YML_DATA['v_code_1'], YML_DATA['B'])
+      merchandise_hierarchy.create_multiple_vat
       merchandise_hierarchy.save_and_close_subdpt_actions
       merchandise_hierarchy.close_merchandise_hierarchy
       end
@@ -74,6 +59,15 @@ module Pages
       merchandise_hierarchy.access_merch_hier_defaults
     end
 
+    def create_multiple_vat
+      country_list = %w['SA' 'NAM' 'SWA' 'BOT' 'LSL' 'AUD' 'GHA' 'KEN' 'MZM' 'NIG' 'PLN' 'TZN' 'UGA' 'ZMK' 'DRC' 'OC']
+      number = country_list.size
+      count = 0
+      number.times do
+        merchandise_hierarchy.create_vat(YML_DATA[country_list[count]], YML_DATA['v_code_1'], YML_DATA['B'])
+        count += 1
+      end
+    end
 
 
 

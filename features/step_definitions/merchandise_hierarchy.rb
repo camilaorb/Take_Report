@@ -339,22 +339,7 @@ When(/^Create a new Sub-Department by enter the mandatory fields$/) do
   merchandise_hierarchy.create_new_subdpt(@new_id,'New Sub-Department', YML_DATA['dept'], YML_DATA['buyer'], YML_DATA['merchandiser'],
                                           '10', '10', '1', '1', YML_DATA['profit_calc_type'], YML_DATA['otb_calc_type'], YML_DATA['purchase_type'], '10000' )
   merchandise_hierarchy.access_new_vat
-  merchandise_hierarchy.create_vat(YML_DATA['SA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NAM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['SWA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['BOT'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['LSL'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['AUD'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['GHA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['KEN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['MZM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NIG'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['PLN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['TZN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['UGA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['ZMK'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['DRC'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['OC'], YML_DATA['v_code_1'], YML_DATA['B'])
+  super_merch_hier.create_multiple_vat
   merchandise_hierarchy.save_and_close_subdpt_actions
 
 end
@@ -383,22 +368,7 @@ When(/^the user edits the mandatory fields on a Sub-Department$/) do
   merchandise_hierarchy.create_new_subdpt(@new_id,'New Sub-Department', YML_DATA['dept'], YML_DATA['buyer'], YML_DATA['merchandiser'],
                                           '10', '10', '1', '1', YML_DATA['profit_calc_type'], YML_DATA['otb_calc_type'], YML_DATA['purchase_type'], '10000' )
   merchandise_hierarchy.access_new_vat
-  merchandise_hierarchy.create_vat(YML_DATA['SA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NAM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['SWA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['BOT'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['LSL'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['AUD'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['GHA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['KEN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['MZM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NIG'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['PLN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['TZN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['UGA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['ZMK'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['DRC'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['OC'], YML_DATA['v_code_1'], YML_DATA['B'])
+  super_merch_hier.create_multiple_vat
   merchandise_hierarchy.save_and_close_subdpt_actions
   merchandise_hierarchy.select_subdpt(@new_id)
   merchandise_hierarchy.edit_subdpt('Change Sub-Department', YML_DATA['dept'], YML_DATA['buyer_2'], YML_DATA['merchandiser_2'],
@@ -427,22 +397,7 @@ When(/^they delete a Sub-Department$/) do
   merchandise_hierarchy.create_new_subdpt(@new_id,'New Sub-Department', YML_DATA['dept'], YML_DATA['buyer'], YML_DATA['merchandiser'],
                                           '10', '10', '1', '1', YML_DATA['profit_calc_type'], YML_DATA['otb_calc_type'], YML_DATA['purchase_type'], '10000' )
   merchandise_hierarchy.access_new_vat
-  merchandise_hierarchy.create_vat(YML_DATA['SA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NAM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['SWA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['BOT'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['LSL'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['AUD'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['GHA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['KEN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['MZM'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['NIG'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['PLN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['TZN'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['UGA'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['ZMK'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['DRC'], YML_DATA['v_code_1'], YML_DATA['B'])
-  merchandise_hierarchy.create_vat(YML_DATA['OC'], YML_DATA['v_code_1'], YML_DATA['B'])
+  super_merch_hier.create_multiple_vat
   merchandise_hierarchy.save_and_close_subdpt_actions
   merchandise_hierarchy.select_subdpt(@new_id)
   merchandise_hierarchy.access_select_subdpt
@@ -476,7 +431,7 @@ Given(/^a user access a Sub-Department$/) do
   merchandise_hierarchy.create_new_subdpt(@new_dpt,'New Sub-Department', YML_DATA['dept'], YML_DATA['buyer'], YML_DATA['merchandiser'],
                                           '10', '10', '1', '1', YML_DATA['profit_calc_type'], YML_DATA['otb_calc_type'], YML_DATA['purchase_type'], '10000' )
   merchandise_hierarchy.access_new_vat
-  merchandise_hierarchy.create_multiple_vat
+  super_merch_hier.create_multiple_vat
 end
 
 When(/^user adds VAT region$/) do
