@@ -36,6 +36,12 @@ Feature: Differentiators
     When a user delete a Group Details
     Then the record is delete on the Diff Group table and RMS DB
 
+  @DIFF-27
+  Scenario: Delete Diff Group Detail with Items
+    Given a user attempts to delete a Diff Group
+    When there are Items that use the Diff Group
+    Then the user will not be able to remove the Diff Group
+
   @DIFF-07
   Scenario: Create Diff Range
     Given a user is in Create Diff Range Range screen
@@ -50,9 +56,9 @@ Feature: Differentiators
 
   @DIFF-09 @canceled
   Scenario: Create Diff Range Detail
-    Given a user is in Manage Diff Range screen
-    When user enters the Diff Range details to a existent Range Header
-    Then the Diff Range details is created in RMS and RMS DB
+    # Given a user is in Manage Diff Range screen
+    # When user enters the Diff Range details to a existent Range Header
+    # Then the Diff Range details is created in RMS and RMS DB
 
   @DIFF-10
   Scenario: Edit Diff Range Detail
@@ -68,9 +74,9 @@ Feature: Differentiators
 
   @DIFF-12 @canceled
   Scenario: Create Diff Ratio
-    Given a user is in Create Diff Ratio screen
-    When user enters the relevant Merchandise details, Sub-Department, Category, Sub-Category
-    Then the Diff Ratio is created in RMS and RMS DB
+    # Given a user is in Create Diff Ratio screen
+    # When user enters the relevant Merchandise details, Sub-Department, Category, Sub-Category
+    # Then the Diff Ratio is created in RMS and RMS DB
 
   @DIFF-13 @canceled
   Scenario: Search Diff Ratio
@@ -80,45 +86,124 @@ Feature: Differentiators
 
   @DIFF-14 @canceled
   Scenario: Maintain Diff Ratio - Create
-    Given a user is in Manage Diff Ratio screen
-    When Search for a diff ratio by using basic or advanced search criteria
-    Then user can create a new Ratio by entering Ratio Description and Merchandise Hierarchy details
-    Then the Diff Ratio is created in RMS and RMS DB
+    # Given a user is in Manage Diff Ratio screen
+    # When Search for a diff ratio by using basic or advanced search criteria
+    # Then user can create a new Ratio by entering Ratio Description and Merchandise Hierarchy details
+    # And the Diff Ratio is created in RMS and RMS DB
 
   @DIFF-15 @canceled
   Scenario: Maintain Diff Ratio - Edit
-    Given a user is in Differentiator Ratio Search screen
-    When Search for a diff ratio by using basic or advanced search criteria
-    Then user amend the Ratio Description and Merchandise Hierarchy details
-    And the Diff Ratio will be updated in RMS DB
+    # Given a user is in Differentiator Ratio Search screen
+    # When Search for a diff ratio by using basic or advanced search criteria
+    # Then user amend the Ratio Description and Merchandise Hierarchy details
+    # And the Diff Ratio will be updated in RMS DB
 
   @DIFF-16
   Scenario: Download Diff Template File
-    Given a user is in Download screen
-    When user selects Template Type, Template and opts for Download
-    Then a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs
+    Given a buyer is in Foundation Download screen
+    When buyer selects Template Type, Template and opts for Download
+      | template_type | template |
+      | Items | Differentiators |
+    Then the buyer is able to view the excel template file from the local directory
+
 
   @DIFF-17
-  Scenario: Upload Diff Template File
-    Given a user is in Upload screen
-    When user selects the Template Type and Template which auto populates the Process Description with timestamp
-    Then user upload the source file with changes on Diff Type tab for Action, Diff Type and Description
+  Scenario Outline: Upload Diff Template File
+    Given a user is in Foundation Upload screen
+    When buyer selects the Template Type and Template which auto populates the Process Description with timestamp
+      | template_type | template |
+      | Items | Differentiators |
+    Then user upload the source <file>
+    Examples:
+      | file |
+      | DIFF-17 Upload Diff Template File.ods |
 
   @DIFF-18
   Scenario: Diff Types - Create
-    Given a user is in Download screen
-    When user selects Template Type, Template and opts for Download
-    Then a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs
+    Given a buyer opts to create a new "Differentiator Type"
+    When a buyer upload the "Diff Template" source file with the information
+      | template_type | template | file |
+      | Item | Differentiators | DIFF-18 Diff Types - Create.ods |
+    Then the "Diff Type" is created in RMS and RMS DB upon successful upload of the file
+
 
   @DIFF-19
   Scenario: Diff Types - Edit
-    Given a user is in Upload screen
-    When user selects the Template Type and Template which auto populates the Process Description with timestamp
-    Then user upload the source file with changes on Diff Type tab for Action, Diff Type and Description
-
+    Given a buyer opts to edit "Differentiator Type"
+    When a buyer upload the "Diff Template" source file with the information
+      | template_type | template | file |
+      | Item | Differentiators | DIFF-19 Diff Types - Edit.ods |
+    Then the "Diff Type" is updated in RMS and RMS DB upon successful upload of the file
 
   @Diff-20
-  Scenario: Upload Diff IDs Source File
-    Given a user is in Upload screen
-    When user selects the Template Type and Template which auto populates the Process Description with timestamp
-    Then upload the source file with changes on Diff IDs tab for Action, Diff ID, Description and Diff Type
+  Scenario Outline: Diff Types - Delete
+    Given a buyer opts to remove one or more "Differentiator Types"
+    When a buyer upload the "Diff Template" source file with the information
+    Then the "Diff Type" is deleted in RMS and RMS DB upon successful upload of the file
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators | DIFF-20 Diff Types - Delete.ods |
+
+  @DIFF-21
+  Scenario Outline: Diff IDs - Create
+    Given a buyer opts to create a new "Differentiator ID"
+    When a buyer upload the "Diff Template" source file with the information
+    Then the "Diff ID" is created in RMS and RMS DB upon successful upload of the file
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators |  |
+
+  @DIFF-22
+  Scenario Outline: Diff IDs - Edit
+    Given a buyer opts to edit "Differentiator ID"
+    When a buyer upload the "Diff Template" source file with the information
+    Then the "Diff ID" is updated in RMS and RMS DB upon successful upload of the file
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators |  |
+
+  @Diff-23
+  Scenario Outline: Diff IDs - Delete
+    Given a buyer opts to remove one or more "Differentiator IDs"
+    When a buyer upload the "Diff Template" source file with the information
+    Then the "Diff ID" is deleted in RMS and RMS DB upon successful upload of the file
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators |  |
+
+  @DIFF-24
+  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Success
+  Given a buyer has uploaded "Diff Template" file successfully
+  When the Buyer accesses Review Status
+  Then the Buyer is able to determine the success of the upload by checking the status of the process
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators |  |
+
+  @DIFF-25
+  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Failure
+    Given a buyer has failed to upload a "Diff Template" file
+    When the Buyer accesses Review Status
+    Then the buyer is able to view the reason for error
+
+    Examples:
+      | template_type | template | file |
+      | Item | Differentiators |  |
+
+  @DIFF-26
+  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Failure
+    Given a buyer has a "Diff Template" file that has failed to upload
+    When the buyer downloads the file and makes the necessary correction
+    Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
+
+    Examples:
+      | template_type | template | file1 | file1 |
+      | Item | Differentiators |  |  |
+
+
+

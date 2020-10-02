@@ -2,22 +2,24 @@ Feature: UDA
 
   @UDA-01
   Scenario: UDA_VALUES - UDA_DEFAULTS - Download
-    Given a user is in Download screen
-    When user selects Template Type, Template and opts for Download
-    Then a excel file is downloaded containing multiple tabs, namely, Diff Types and Diff IDs
+    Given a buyer is in Foundation Download screen
+    When buyer selects Template Type, Template and opts for Download
+      | template_type | template |
+      | Items | User Defined Attributes |
+    Then the buyer is able to view the excel template file from the local directory
 
-  @DIFF-16
-  Scenario: Upload Diff Types Source File
-    Given a user is in Upload screen
-    When user selects the Template Type and Template which auto populates the Process Description with timestamp
-    Then user upload the source file with changes on Diff Type tab for Action, Diff Type and Description
+  @UDA-02
+  Scenario Outline: UDA_VALUES - UDA_DEFAULTS - Upload
+    Given a user is in Foundation Upload screen
+    When buyer selects the Template Type and Template which auto populates the Process Description with timestamp
+      | template_type | template |
+      | Items | User Defined Attributes |
+    Then user upload the source <file>
+    Examples:
+      | file |
+      | DIFF-17 Upload Diff Template File.ods |
 
 
-  @Diff-17
-  Scenario: Upload Diff IDs Source File
-    Given a user is in Upload screen
-    When user selects the Template Type and Template which auto populates the Process Description with timestamp
-    Then upload the source file with changes on Diff IDs tab for Action, Diff ID, Description and Diff Type
 
   @Diff-18
   Scenario Outline: Create New UDA - LOV

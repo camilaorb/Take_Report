@@ -289,6 +289,16 @@ module Pages
     raise "New Diff Ratio no '#{diff_ratio_id}' Detail was not deleted" unless diff_group_detail.nil?
   end
 
+  #### DIFF Data ###
+
+  def verify_diff_type_table
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    diff_type = xls.sheet(0).cell(2, 2)
+    description = xls.sheet(0).cell(3, 3)
+    diff_type_table = @connection.select_one("select DIFF_TYPE, diff_type_desc from DIFF_TYPE where diff_type = '#{diff_type}'")
+    raise "New Diff Type '#{diff_type}' - '#{description}' was not created" if diff_type_table.nil?
+    raise "Descrition is not like Expected:'#{description}' Actual:'#{diff_type_table[1]}'" unless description[1] == diff_type_table
+  end
 
   #### UDAs ###
 
