@@ -511,26 +511,27 @@ end
 Given(/^a user access a existent Sub-Department$/) do
   visit(TE.environment['url'])
   login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
-  @new_dpt = super_merch_hier.new_subdept
-  @new_category = super_merch_hier.new_category
-  @new_subcategory = super_merch_hier.new_subcategory
+  merchandise_hierarchy.open_merchandise_hierarchy
+  merchandise_hierarchy.access_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
+  merchandise_hierarchy.access_select_subdpt
 end
 
 When(/^a user adds Default with Information, Category and Sub Category by the Merchandise Hierarchy Default window$/) do
-  super_merch_hier.access_merch_hier_defaults
+  merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.create_merch_hier_defaults(YML_DATA['information2'], '1', '1')
   merchandise_hierarchy.save_and_close_subdpt_actions
 end
 
 
-Then(/^the default information for the Sub-Department is created in RMS only for the Categoryes and Subcategoryes within that Sub-Department$/) do
-  merchandise_hierarchy.select_subdpt(@new_dpt)
+Then(/^the default information for the Sub-Department is created in RMS RMS database only for the Categoryes and Subcategoryes within that Sub-Department$/) do
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
-  merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information2'], '1')
+  merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information2'])
   merchandise_hierarchy.verify_merch_hier_defaults(expected_values:'DIFF Diffs')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_merch_hier_table(@new_dpt, YML_DATA['information2'], '1', '1', 'N')
+  database.verify_merch_hier_table(YML_DATA['subdpt'], YML_DATA['information2'], '1', '1', 'N')
   database.disconnect_db
   merchandise_hierarchy.close_vat
   merchandise_hierarchy.delete_subdpt
@@ -541,7 +542,7 @@ When(/^a user update the 'Required' checkbox by setting it to 'Y' by the Merch H
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.create_merch_hier_defaults(YML_DATA['information3'], '1', '1')
   merchandise_hierarchy.save_and_close_subdpt_actions
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information3'], '1')
@@ -551,13 +552,13 @@ end
 
 
 Then(/^All Items that are set up with the Sub-Department that has the 'Required' set to 'Y' for an Item Information$/) do
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information3'], '1')
   merchandise_hierarchy.verify_merch_hier_defaults(expected_values:'DIMO Case Dimensions')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_merch_hier_table(@new_dpt, YML_DATA['information2'], '1', '1', 'Y')
+  database.verify_merch_hier_table(YML_DATA['subdpt'], YML_DATA['information2'], '1', '1', 'Y')
   database.disconnect_db
   merchandise_hierarchy.close_vat
   merchandise_hierarchy.delete_subdpt
@@ -566,12 +567,12 @@ end
 
 
 When(/^a user deletes a Merch Hier Default$/) do
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.create_merch_hier_defaults(YML_DATA['information2'], '1', '1')
   merchandise_hierarchy.save_and_close_subdpt_actions
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information'], '1')
@@ -581,7 +582,7 @@ end
 
 
 Then(/^record is deleted successfully$/) do
-  merchandise_hierarchy.select_subdpt
+  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
   merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.select_merch_hier_defaults(YML_DATA['information'], '1')

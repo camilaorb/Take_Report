@@ -121,89 +121,76 @@ Feature: Differentiators
   @DIFF-18
   Scenario: Diff Types - Create
     Given a buyer opts to create a new "Differentiator Type"
-    When a buyer upload the "Diff Template" source file with the information
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators | DIFF-18 Diff Types - Create.ods |
-    Then the "Diff Type" is created in RMS and RMS DB upon successful upload of the file
+      | Items | Differentiators | DIFF-18 Diff Types - Create.ods |
+    Then the Diff Type is created in RMS and RMS DB upon successful upload of the file
 
 
   @DIFF-19
   Scenario: Diff Types - Edit
     Given a buyer opts to edit "Differentiator Type"
-    When a buyer upload the "Diff Template" source file with the information
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators | DIFF-19 Diff Types - Edit.ods |
-    Then the "Diff Type" is updated in RMS and RMS DB upon successful upload of the file
+      | Items | Differentiators | DIFF-19 Diff Types - Edit.ods |
+    Then the Diff Type is updated in RMS and RMS DB upon successful upload of the file
 
   @Diff-20
-  Scenario Outline: Diff Types - Delete
+  Scenario: Diff Types - Delete
     Given a buyer opts to remove one or more "Differentiator Types"
-    When a buyer upload the "Diff Template" source file with the information
-    Then the "Diff Type" is deleted in RMS and RMS DB upon successful upload of the file
-
-    Examples:
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators | DIFF-20 Diff Types - Delete.ods |
+      | Items | Differentiators | DIFF-20 Diff Types - Delete.ods |
+    Then the Diff Type is deleted in RMS and RMS DB upon successful upload of the file
 
   @DIFF-21
-  Scenario Outline: Diff IDs - Create
+  Scenario: Diff IDs - Create
     Given a buyer opts to create a new "Differentiator ID"
-    When a buyer upload the "Diff Template" source file with the information
-    Then the "Diff ID" is created in RMS and RMS DB upon successful upload of the file
-
-    Examples:
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators |  |
+      | Items | Differentiators | DIFF-21 Diff IDs - Create .ods |
+    Then the Diff ID is created in RMS and RMS DB upon successful upload of the file
 
   @DIFF-22
-  Scenario Outline: Diff IDs - Edit
+  Scenario: Diff IDs - Edit
     Given a buyer opts to edit "Differentiator ID"
-    When a buyer upload the "Diff Template" source file with the information
-    Then the "Diff ID" is updated in RMS and RMS DB upon successful upload of the file
-
-    Examples:
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators |  |
+      | Items | Differentiators | DIFF-22 Diff IDs - Edit.ods |
+    Then the Diff ID is updated in RMS and RMS DB upon successful upload of the file
 
   @Diff-23
-  Scenario Outline: Diff IDs - Delete
+  Scenario: Diff IDs - Delete
     Given a buyer opts to remove one or more "Differentiator IDs"
-    When a buyer upload the "Diff Template" source file with the information
-    Then the "Diff ID" is deleted in RMS and RMS DB upon successful upload of the file
-
-    Examples:
+    When a buyer upload the source file with the information
       | template_type | template | file |
-      | Item | Differentiators |  |
+      | Items | Differentiators | DIFF-23 Diff IDs - Delete.ods |
+    Then the Diff ID is deleted in RMS and RMS DB upon successful upload of the file
 
   @DIFF-24
-  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Success
+  Scenario: DIFF_VALUES - DIFF_IDS - Upload Success
   Given a buyer has uploaded "Diff Template" file successfully
+    | template_type | template | file |
+    | Items | Differentiators | DIFF-24 DIFF_VALUES - DIFF_IDS - Upload Success .ods |
   When the Buyer accesses Review Status
   Then the Buyer is able to determine the success of the upload by checking the status of the process
 
-    Examples:
-      | template_type | template | file |
-      | Item | Differentiators |  |
-
   @DIFF-25
-  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Failure
+  Scenario: DIFF_VALUES - DIFF_IDS - Upload Failure
     Given a buyer has failed to upload a "Diff Template" file
+      | template_type | template | file |
+      | Items | Differentiators | DIFF-25 DIFF_VALUES - DIFF_IDS - Failure.ods |
     When the Buyer accesses Review Status
     Then the buyer is able to view the reason for error
 
-    Examples:
-      | template_type | template | file |
-      | Item | Differentiators |  |
-
   @DIFF-26
-  Scenario Outline: DIFF_VALUES - DIFF_IDS - Upload Failure
+  Scenario: DIFF_VALUES - DIFF_IDS - Upload Failure
     Given a buyer has a "Diff Template" file that has failed to upload
+      | template_type | template | file1 | file2 |
+      | Items | Differentiators | DIFF-24 DIFF_VALUES - DIFF_IDS - Upload Success .ods | |
     When the buyer downloads the file and makes the necessary correction
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
 
-    Examples:
-      | template_type | template | file1 | file1 |
-      | Item | Differentiators |  |  |
 
 
 

@@ -164,6 +164,8 @@ module Pages
       diff_group_id_filter.click
       send_keys :enter
       wait_for_db_activity
+      list = diff_group_list.text
+      raise "Diff Group id #{new_id} not found" unless list.include? new_id.to_s
     end
 
     def create_diff_group(new_id, diff_group_description, type, division, department)
@@ -543,6 +545,8 @@ module Pages
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end
     end
+
+
 
 
   end

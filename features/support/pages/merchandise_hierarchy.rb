@@ -38,7 +38,7 @@ module Pages
     element(:yes_button2) { div(:id, /_ATp:d4_yes/) }
     element(:no_button) { a(:text, 'No') }
     element(:no_results) { div(:text, 'No data to display.') }
-    element(:list) { table(:class, 'x14q x15f').tbody.table }
+    element(:item_table) { table(:class, 'x14q x15f').tbody.table }
     element(:done_button) { a(:text, 'Done') }
     element(:cancel_button) { a(:text, 'Cancel') }
 
@@ -116,7 +116,7 @@ module Pages
     element(:add_vat_button) { div(:id, /app1:pc1:_ATp:create/) }
     element(:edit_vat_button) { div(:id, /app1:pc1:_ATp:edit/) }
     element(:ok_vat_button) { table(:id, /app1:pgl9/).a(:text, 'OK') }
-    element(:vat_list) { div(:id, /app1:pc1:_ATp:t1::db/) }
+    element(:vat_table) { div(:id, /app1:pc1:_ATp:t1::db/) }
     element(:cancel_vat) { div(:id, /:app1:APc/) }
 
 
@@ -128,7 +128,7 @@ module Pages
     element(:merch_hier_category_field) { text_field(:id, /_ATp:class1Id::content/) }
     element(:merch_hier_subcategory_field) { text_field(:id, /_ATp:subclass1Id::content/) }
     element(:checkbox_required) { checkbox(:id, /ap1:pc1:_ATp:sbc2::content/) }
-    element(:merch_hier_defaults_list) { div(:id, /ap1:pc1:_ATp:tbb::db/) }
+    element(:merch_hier_defaults_table) { div(:id, /ap1:pc1:_ATp:tbb::db/) }
     element(:edit_merch_hier_button) { div(:id, /pc1:_ATp:edit/) }
 
 
@@ -171,7 +171,7 @@ module Pages
       if no_results.present?
       else
         @actual_values = []
-        @actual_values = list.text
+        @actual_values = item_table.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include? expected_values
       end
     end
@@ -217,10 +217,14 @@ module Pages
       wait_for_db_activity
       division_id_filter.click
       wait_for_db_activity
-      division_id_filter.set new_id
-      division_id_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        division_id_filter.set new_id
+        division_id_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = item_table.text
+        raise "Division id #{new_id} not found" unless list.include? new_id.to_s
+      end
     end
 
     def create_new_division(new_id, name_division, buyer, merchandiser, total_market_amount)
@@ -301,10 +305,14 @@ module Pages
       wait_for_db_activity
       query_button.click unless dept_id_filter.present?
       wait_for_db_activity
-      dept_id_filter.set new_id
-      dept_id_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        dept_id_filter.set new_id
+        dept_id_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = item_table.text
+        raise "Department id #{new_id} not found" unless list.include? new_id.to_s
+      end
     end
 
     def create_new_dept(new_id, name, buyer, merchandiser, division)
@@ -389,10 +397,14 @@ module Pages
       ok_button.click if delete_popup.present?
       query_button.click unless category_id_filter.present?
       wait_for_db_activity
-      category_id_filter.set new_id
-      category_id_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        category_id_filter.set new_id
+        category_id_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = item_table.text
+        raise "Category id #{new_id} not found" unless list.include? new_id.to_s
+      end
     end
 
     def create_new_category(new_id, name)
@@ -471,10 +483,14 @@ module Pages
       ok_button.click if delete_popup.present?
       query_button.click unless subcategory_id_filter.present?
       wait_for_db_activity
-      subcategory_id_filter.set new_id
-      subcategory_id_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        subcategory_id_filter.set new_id
+        subcategory_id_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = item_table.text
+        raise "Sub Category id #{new_id} not found" unless list.include? new_id.to_s
+      end
     end
 
     def create_new_subcategory(new_id, name)
@@ -532,10 +548,14 @@ module Pages
     def select_subdpt(new_id)
       query_button.click unless department_id_filter.present?
       wait_for_db_activity
-      department_id_filter.set new_id
-      department_id_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        department_id_filter.set new_id
+        department_id_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = item_table.text
+        raise "Sub Department id #{new_id} not found" unless list.include? new_id.to_s
+      end
     end
 
     def access_select_subdpt
@@ -667,18 +687,26 @@ module Pages
     def select_vat(vat_region, vat_code, vat_type)
       query_button.click unless vat_region_filter.present?
       wait_for_db_activity
-      vat_region_filter.set vat_region
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        vat_region_filter.set vat_region
       vat_region_filter.click
       send_keys :enter
+      end
       wait_for_db_activity
-      vat_code_filter.set vat_code
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        vat_code_filter.set vat_code
       vat_code_filter.click
       send_keys :enter
+      end
       wait_for_db_activity
-      vat_type_filter.set vat_type
-      vat_type_filter.click
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        vat_type_filter.set vat_type
+        vat_type_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = vat_table.text
+        raise "Vat '#{vat_region} #{vat_code} #{vat_type}' not found" unless list.include? vat_region, vat_code, vat_type
+      end
     end
 
 
@@ -690,29 +718,32 @@ module Pages
 
       TryWith.attempts(attempts: 10, sleep: 1) do
         vat_region_field.set region
+        wait_until_enabled(loading_list)
+        wait_for_db_activity
+        send_keys :enter
+        sleep 3
+        raise 'Vat Region is blank' if vat_region_field.blank?
       end
-      wait_until_enabled(loading_list)
-      wait_for_db_activity
-      send_keys :enter
-      sleep 3
-      raise 'Vat Region is blank' if vat_region_field.blank?
+
 
       vat_type_field.wait_until_present
       TryWith.attempts(attempts: 10, sleep: 1) do
         select_list(vat_type_list(type), vat_type_field, type)
+        raise 'Vat type was not selected' if vat_code_field.blank?
       end
-      raise 'Vat type was not selected' if vat_code_field.blank?
+
 
       vat_code_field.wait_until_present
       TryWith.attempts(attempts: 10, sleep: 1) do
         vat_code_field.set code
+        wait_until_enabled(loading_list)
+        wait_for_db_activity
+        send_keys :enter
+        wait_for_db_activity
+        sleep 3
+        raise 'Vat Code is blank' if vat_code_field.blank?
       end
-      wait_until_enabled(loading_list)
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
-      sleep 3
-      raise 'Vat Code is blank' if vat_code_field.blank?
+
 
       sleep 3
       wait_for_db_activity
@@ -750,7 +781,7 @@ module Pages
     def verify_vat(expected_values:)
       if no_results.present?
       else
-        @actual_values = vat_list.text
+        @actual_values = vat_table.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include? expected_values
       end
     end
@@ -783,43 +814,57 @@ module Pages
       end
     end
 
-    def select_merch_hier_defaults(information, subcategory)
+    def select_merch_hier_defaults(information)
       query_button.click unless information_filter.present?
       wait_for_db_activity
-      information_filter.set information
-      information_filter.click
-      #merch_hier_subcategory_filter.set subcategory
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        information_filter.set information
+        information_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        list = merch_hier_defaults_table.text
+        raise "Merchandise Hierarchy Default id #{information} not found" unless list.include? information.to_s
+      end
     end
 
     def create_merch_hier_defaults(information, merch_hier_category, subcategory)
       TryWith.attempts(attempts: 10, sleep: 0.5) do
         add_button.wait_until_present.click
         wait_for_db_activity
-        information_field.wait_until_present
+      end
+      information_field.wait_until_present
+
+      TryWith.attempts(attempts: 5, sleep: 1) do
         information_field.set information
-        wait_until_enabled(loading_list)
-        wait_for_db_activity
-        send_keys :enter
-        wait_for_db_activity
-        merch_hier_category_field.click
-        wait_for_db_activity
+      end
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      raise 'Information is blank' if information_field.blank?
+
+      TryWith.attempts(attempts: 5, sleep: 1) do
         merch_hier_category_field.set merch_hier_category
-        wait_until_enabled(loading_list)
-        wait_for_db_activity
-        send_keys :enter
-        wait_for_db_activity
-        merch_hier_subcategory_field.click
-        wait_for_db_activity
+      end
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      raise 'Category is blank' if merch_hier_category_field.blank?
+
+      TryWith.attempts(attempts: 5, sleep: 1) do
         merch_hier_subcategory_field.set subcategory
-        wait_until_enabled(loading_list)
-        wait_for_db_activity
-        send_keys :enter
-        wait_for_db_activity
+      end
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      raise ' Sub Category is blank' if merch_hier_subcategory_field.blank?
+
         ok_button.click
         wait_for_db_activity
-      end
     end
 
     def edit_merch_hier_defaults
@@ -836,7 +881,7 @@ module Pages
       if no_results.present?
       else
         @actual_values = []
-        @actual_values = merch_hier_defaults_list.text
+        @actual_values = merch_hier_defaults_table.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include? expected_values
       end
     end

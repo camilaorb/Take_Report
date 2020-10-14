@@ -127,8 +127,7 @@ Feature: Merchandise Hierarchy
   Scenario: Add Merch Hier Defaults
     Given a user access a existent Sub-Department
     When a user adds Default with Information, Category and Sub Category by the Merchandise Hierarchy Default window
-    Then the default information for the Sub-Department is created in RMS only for the Categoryes and Subcategoryes within that Sub-Department
-    #And default information is created in RMS database
+    Then the default information for the Sub-Department is created in RMS RMS database only for the Categoryes and Subcategoryes within that Sub-Department
 
   @MERCH-14 @critical
   Scenario: Edit Merch Hier Defaults

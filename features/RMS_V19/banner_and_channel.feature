@@ -2,7 +2,7 @@ Feature: Banner and Channel
 
   @BC-01
   Scenario Outline: Add Banner to RMS
-    Given a user is in Foundation Upload screen
+    Given a buyer is in Foundation Upload screen
     When buyer selects the Template Type and Template which auto populates the Process Description with timestamp
       | template_type | template |
       | Foundation | Banners and Channels |

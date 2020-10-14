@@ -17,5 +17,5 @@ RMS_sandbox:
   env_timeout: 30
   test_data_file: data.yml
   db_server: OPOMOMDB01
-  unix_username: root
-  unix_pwd: GYW3m6!mcH60
+  unix_username: oretail
+  unix_pwd: welcome

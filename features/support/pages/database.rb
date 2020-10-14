@@ -1,6 +1,8 @@
 require 'test-evolve/core/page_object'
 require 'open-uri'
 require 'dbi'
+require 'roo'
+
 
 module Pages
   def database
@@ -215,12 +217,12 @@ module Pages
   end
 
   def verify_merch_hier_table(subdept_id, info, category, subcategory, required)
-    new_merch_hier = @connection.select_one("Select * from MERCH_HIER_DEFAULT where DEPT = (#{subdept_id})")
+    new_merch_hier = @connection.select_one("Select DEPT, INFO, CLASS, SUBCLASS, REQUIRED_IND from MERCH_HIER_DEFAULT where DEPT = (#{subdept_id})")
     raise "Merchandise Hierarchy Default info '#{info}' related to sub-department no '#{subdept_id}' was not created" if new_merch_hier.nil?
-    raise "Info is wrong. Expected:'#{info}' Actual:'#{new_merch_hier[3]}'" unless new_merch_hier[3] == info
-    raise "Category is wrong. Expected:'#{category}' Actual:'#{new_merch_hier[5]}'" unless new_merch_hier[5] == category
-    raise "Subcategory is wrong. Expected:'#{subcategory}' Actual:'#{new_merch_hier[6]}'" unless new_merch_hier[6] == subcategory
-    raise "Require is wrong. Expected:'#{required}' Actual:'#{new_merch_hier[8]}'" unless new_merch_hier[8] == required
+    raise "Info is wrong. Expected:'#{info}' Actual:'#{new_merch_hier[1]}'" unless new_merch_hier[1] == info
+    raise "Category is wrong. Expected:'#{category}' Actual:'#{new_merch_hier[2]}'" unless new_merch_hier[2] == category.to_i
+    raise "Subcategory is wrong. Expected:'#{subcategory}' Actual:'#{new_merch_hier[3]}'" unless new_merch_hier[3] == subcategory.to_i
+    raise "Require is wrong. Expected:'#{required}' Actual:'#{new_merch_hier[4]}'" unless new_merch_hier[4] == required
   end
 
   #### Diffs ###
@@ -291,13 +293,42 @@ module Pages
 
   #### DIFF Data ###
 
-  def verify_diff_type_table
+  def verify_diff_type_table(file)
     xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
     diff_type = xls.sheet(0).cell(2, 2)
-    description = xls.sheet(0).cell(3, 3)
+    description = xls.sheet(0).cell(2, 3)
     diff_type_table = @connection.select_one("select DIFF_TYPE, diff_type_desc from DIFF_TYPE where diff_type = '#{diff_type}'")
     raise "New Diff Type '#{diff_type}' - '#{description}' was not created" if diff_type_table.nil?
-    raise "Descrition is not like Expected:'#{description}' Actual:'#{diff_type_table[1]}'" unless description[1] == diff_type_table
+    raise "Description is not like Expected:'#{description}' Actual:'#{diff_type_table[1]}'" unless description == diff_type_table[1]
+  end
+
+  def verify_delete_diff_type_table(file)
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    diff_type = xls.sheet(0).cell(2, 2)
+    diff_type_table = @connection.select_one("select DIFF_TYPE, diff_type_desc from DIFF_TYPE where diff_type = '#{diff_type}'")
+    raise "New Diff Type '#{diff_type}' Detail was not deleted" unless diff_type_table.nil?
+  end
+
+  def verify_diff_id_table(file)
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    diff_id = xls.sheet(2).cell(2, 2)
+    description = xls.sheet(2).cell(2, 3)
+    diff_type = xls.sheet(2).cell(2, 4)
+    #ind_code = xls.sheet(2).cell(2, 2)
+    #ind_subgroup = xls.sheet(2).cell(2, 2)
+    diff_id_table = @connection.select_one("select DIFF_ID, DIFF_TYPE, DIFF_DESC, INDUSTRY_CODE, INDUSTRY_SUBGROUP from DIFF_IDS where DIFF_ID = '#{diff_id}'")
+    raise "New Diff ID '#{diff_id}' - '#{description}' was not created" if diff_id_table.nil?
+    raise "Diff Type is not like Expected:'#{diff_type}' Actual:'#{diff_id_table[1]}'" unless diff_type == diff_id_table[1]
+    raise "Description is not like Expected:'#{description}' Actual:'#{diff_id_table[2]}'" unless description == diff_id_table[2]
+    #raise "Industry Code Type is not like Expected:'#{ind_code}' Actual:'#{diff_id_table[3]}'" unless ind_code == diff_id_table[3]
+    #raise "Industry Subgroup Type is not like Expected:'#{ind_subgroup}' Actual:'#{diff_id_table[4]}'" unless ind_subgroup == diff_id_table[4]
+  end
+
+  def verify_delete_id_type_table(file)
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    diff_id = xls.sheet(2).cell(2, 2)
+    diff_id_table = @connection.select_one("select * from DIFF_IDS where diff_type = '#{diff_id}'")
+    raise "New Diff Type '#{diff_id}' Detail was not deleted" unless diff_id_table.nil?
   end
 
   #### UDAs ###

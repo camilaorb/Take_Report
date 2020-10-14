@@ -22,6 +22,8 @@ module Pages
     element(:process_description_filter) { text_field(:id, /_ATp:t1:_afrFltrMdlc2::content/) }
     element(:process_status_filter) { text_field(:id, /_ATp:t1:_afrFltrMdlc8::content/) }
     element(:data_loading_list) { div(:id, /ap1:at1:_ATp:t1::db/) }
+    element(:view_issues_button) { div(:id, /ap1:at1:_ATp:b1/) }
+    element(:view_issues_list) { div(:id, /at1:_ATp:t1::db/) }
 
 
     #Download Data
@@ -115,11 +117,13 @@ module Pages
       wait_for_db_activity
     end
 
-
-    def verify_upload(file)
+    def access_review_status
       tasks_button.click unless dl_review_status_link.present?
       dl_review_status_link.click
       wait_for_db_activity
+      end
+
+    def verify_upload(file)
       query_button.wait_until_present
       query_button.click unless process_description_filter.present?
       wait_for_db_activity
@@ -140,7 +144,36 @@ module Pages
       raise "Upload #{file} with errors " unless @upload_process.include? 'Processed Successfully'
     end
 
-    def diss_type_file(file)
+    def verify_failure_upload(file)
+      query_button.wait_until_present
+      query_button.click unless process_description_filter.present?
+      wait_for_db_activity
+      sleep 3
+
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        process_description_filter.set file
+        process_description_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        raise "Update not found. Time out." unless data_loading_list.text.include? file
+      end
+
+      sleep 3
+      scroll_to process_status_filter
+      @upload_process = []
+      @upload_process = data_loading_list.text
+      raise "Upload #{file} with errors." unless @upload_process.include? 'Processed with errors'
+
+      view_issues_button.click
+      wait_for_db_activity
+      view_issues_list.present?
+      raise "#{view_issues_list.text}"
+
+
+
+    end
+
+    def diff_type_file(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
       @diff_type = xls.sheet(0).cell(2, 2)
       @diff_description = xls.sheet(0).cell(3, 3)

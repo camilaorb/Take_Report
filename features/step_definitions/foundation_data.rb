@@ -39,6 +39,7 @@ end
 
 Then(/^user upload the source ([^"]*)$/) do|file|
   foundation_data_loading.upload_a_file file
+  foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
   login_page.logout_to_rms
 end
@@ -53,19 +54,30 @@ Given(/^a buyer opts to create a new "([^"]*)"$/) do |_arg|
   foundation_data_loading.open_data_loading_upload
 end
 
-When(/^a buyer upload the "([^"]*)" source file with the information$/) do |_arg, table|
+When(/^a buyer upload the source file with the information$/) do |table|
   table.hashes.each do |value|
+    @file = value[:file]
   foundation_data_loading.upload_options_screen(value[:template_type], value[:template])
   @process_description = foundation_data_loading.process_description
-  foundation_data_loading.upload_a_file value[:file]
+  foundation_data_loading.upload_a_file @file
   end
 end
 
-Then(/^the "([^"]*)" is created in RMS and RMS DB upon successful upload of the file$/) do |_arg|
+Then(/^the Diff Type is created in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
-  #database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  #database.verify_diff_type_table
-  #database.disconnect_db
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_diff_type_table @file
+  database.disconnect_db
+  login_page.logout_to_rms
+end
+
+Then(/^the Diff ID is created in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
+  foundation_data_loading.verify_upload(@process_description)
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_diff_id_table @file
+  database.disconnect_db
   login_page.logout_to_rms
 end
 
@@ -78,11 +90,21 @@ Given(/^a buyer opts to edit "([^"]*)"$/) do |_arg|
 end
 
 
-Then(/^the "([^"]*)" is updated in RMS and RMS DB upon successful upload of the file$/) do |_arg|
+Then(/^the Diff Type is updated in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
-  #database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  #database.verify_diff_type_table
-  #database.disconnect_db
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_diff_type_table @file
+  database.disconnect_db
+  login_page.logout_to_rms
+end
+
+Then(/^the Diff ID is updated in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
+  foundation_data_loading.verify_upload(@process_description)
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_diff_id_table @file
+  database.disconnect_db
   login_page.logout_to_rms
 end
 
@@ -95,11 +117,21 @@ Given(/^a buyer opts to remove one or more "([^"]*)"$/) do |_arg|
 end
 
 
-Then(/^the "([^"]*)" is deleted in RMS and RMS DB upon successful upload of the file$/) do |_arg|
+Then(/^the Diff Type is deleted in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
-  #database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  #database.verify_diff_type_table
-  #database.disconnect_db
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_delete_diff_type_table @file
+  database.disconnect_db
+  login_page.logout_to_rms
+end
+
+Then(/^the Diff ID is deleted in RMS and RMS DB upon successful upload of the file$/) do
+  foundation_data_loading.access_review_status
+  foundation_data_loading.verify_upload(@process_description)
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_delete_id_type_table @file
+  database.disconnect_db
   login_page.logout_to_rms
 end
 
@@ -119,11 +151,12 @@ end
 
 
 When(/^the Buyer accesses Review Status$/) do
-  foundation_data_loading.verify_upload(@process_description)
+  foundation_data_loading.access_review_status
 end
 
 
 Then(/^the Buyer is able to determine the success of the upload by checking the status of the process$/) do
+  foundation_data_loading.verify_upload(@process_description)
   login_page.logout_to_rms
 end
 
@@ -143,7 +176,7 @@ end
 
 
 Then(/^the buyer is able to view the reason for error$/) do
-  foundation_data_loading.verify_upload(@process_description)
+  foundation_data_loading.verify_failure_upload(@process_description)
   login_page.logout_to_rms
 end
 
@@ -157,12 +190,14 @@ Given(/^a buyer has a "([^"]*)" file that has failed to upload$/) do |_arg, tabl
     foundation_data_loading.upload_options_screen(value[:template_type], value[:template])
     @process_description = foundation_data_loading.process_description
     foundation_data_loading.upload_a_file value[:file]
-  foundation_data_loading.verify_upload(@process_description)
   end
+  foundation_data_loading.access_review_status
+  foundation_data_loading.verify_upload(@process_description)
 end
 
 
 When(/^the buyer downloads the file and makes the necessary correction$/) do
+  foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
 end
 
@@ -174,8 +209,10 @@ Then(/^the buyer is able to re-upload the template file and re-assess the latest
     foundation_data_loading.upload_options_screen(value[:template_type], value[:template])
     @process_description = foundation_data_loading.process_description
     foundation_data_loading.upload_a_file value[:file]
-  foundation_data_loading.verify_upload(@process_description)
   end
+  foundation_data_loading.access_review_status
+  foundation_data_loading.verify_upload(@process_description)
+
   login_page.logout_to_rms
 end
 
@@ -185,6 +222,7 @@ end
 
 When(/^the source ([^"]*) is successfully uploaded$/) do |file|
   data_loading.upload_a_file file
+  foundation_data_loading.access_review_status
   data_loading.verify_upload
 end
 
