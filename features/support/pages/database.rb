@@ -297,7 +297,7 @@ module Pages
     xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
     diff_type = xls.sheet(0).cell(2, 2)
     description = xls.sheet(0).cell(2, 3)
-    diff_type_table = @connection.select_one("select DIFF_TYPE, diff_type_desc from DIFF_TYPE where diff_type = '#{diff_type}'")
+    diff_type_table = @connection.select_one("select DIFF_TYPE, diff_type_desc from DIFF_TYPE where diff_type = '#{diff_type}';")
     raise "New Diff Type '#{diff_type}' - '#{description}' was not created" if diff_type_table.nil?
     raise "Description is not like Expected:'#{description}' Actual:'#{diff_type_table[1]}'" unless description == diff_type_table[1]
   end
@@ -386,6 +386,23 @@ module Pages
     raise "The UDA was not deleted" unless new_uda_value.nil?
   end
 
+  #### Banners and Channels Data ###
+
+  def verify_banner_table(file)
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    banner_id = xls.sheet(0).cell(2, 2)
+    description = xls.sheet(0).cell(2, 3)
+    banner_table = @connection.select_one("SELECT * FROM BANNER where BANNER_ID = '#{banner_id}'")
+    raise "New Banner '#{banner_id}' - '#{description}' was not created" if banner_table.nil?
+    raise "Description is not like Expected:'#{description}' Actual:'#{banner_table[1]}'" unless description == banner_table[1]
+  end
+
+  def verify_delete_banner_table(file)
+    xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
+    diff_type = xls.sheet(0).cell(2, 2)
+    diff_type_table = @connection.select_one("SELECT * FROM BANNER where BANNER_ID = '#{banner_id}'")
+    raise "New Diff Type '#{diff_type}' Detail was not deleted" unless diff_type_table.nil?
+  end
 
 
 

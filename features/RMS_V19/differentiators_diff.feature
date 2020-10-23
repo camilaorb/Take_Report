@@ -109,7 +109,7 @@ Feature: Differentiators
 
   @DIFF-17
   Scenario Outline: Upload Diff Template File
-    Given a user is in Foundation Upload screen
+    Given a buyer is in Foundation Upload screen
     When buyer selects the Template Type and Template which auto populates the Process Description with timestamp
       | template_type | template |
       | Items | Differentiators |
@@ -129,7 +129,7 @@ Feature: Differentiators
 
   @DIFF-19
   Scenario: Diff Types - Edit
-    Given a buyer opts to edit "Differentiator Type"
+    Given a buyer opts to edit a existing "Differentiator Type"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | DIFF-19 Diff Types - Edit.ods |
@@ -137,7 +137,7 @@ Feature: Differentiators
 
   @Diff-20
   Scenario: Diff Types - Delete
-    Given a buyer opts to remove one or more "Differentiator Types"
+    Given a buyer opts to remove a "Differentiator Types"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | DIFF-20 Diff Types - Delete.ods |
@@ -148,12 +148,12 @@ Feature: Differentiators
     Given a buyer opts to create a new "Differentiator ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
-      | Items | Differentiators | DIFF-21 Diff IDs - Create .ods |
+      | Items | Differentiators | DIFF-21 Diff IDs - Create.ods |
     Then the Diff ID is created in RMS and RMS DB upon successful upload of the file
 
   @DIFF-22
   Scenario: Diff IDs - Edit
-    Given a buyer opts to edit "Differentiator ID"
+    Given a buyer opts to edit a existing "Differentiator ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | DIFF-22 Diff IDs - Edit.ods |
@@ -161,7 +161,7 @@ Feature: Differentiators
 
   @Diff-23
   Scenario: Diff IDs - Delete
-    Given a buyer opts to remove one or more "Differentiator IDs"
+    Given a buyer opts to remove a "Differentiator IDs"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | DIFF-23 Diff IDs - Delete.ods |
@@ -171,7 +171,7 @@ Feature: Differentiators
   Scenario: DIFF_VALUES - DIFF_IDS - Upload Success
   Given a buyer has uploaded "Diff Template" file successfully
     | template_type | template | file |
-    | Items | Differentiators | DIFF-24 DIFF_VALUES - DIFF_IDS - Upload Success .ods |
+    | Items | Differentiators | DIFF-24 DIFF_VALUES - DIFF_IDS - Upload Success.ods |
   When the Buyer accesses Review Status
   Then the Buyer is able to determine the success of the upload by checking the status of the process
 
@@ -184,12 +184,14 @@ Feature: Differentiators
     Then the buyer is able to view the reason for error
 
   @DIFF-26
-  Scenario: DIFF_VALUES - DIFF_IDS - Upload Failure
+  Scenario: DIFFS -  DIFF_VALUES - DIFF_IDS -  Re-Upload
     Given a buyer has a "Diff Template" file that has failed to upload
       | template_type | template | file1 | file2 |
-      | Items | Differentiators | DIFF-24 DIFF_VALUES - DIFF_IDS - Upload Success .ods | |
-    When the buyer downloads the file and makes the necessary correction
+      | Items | Differentiators | DIFF-26 DIFF_VALUES - DIFF_IDS - Upload.ods | DIFF-26 DIFF_VALUES - DIFF_IDS - Re-Upload.ods |
+    When the buyer is able to view the reason for error
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
+
+
 
 
 

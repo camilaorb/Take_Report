@@ -120,6 +120,8 @@ def select_list(element_list, element_dropdown, option)
     element_list.select
     element_dropdown.click
     wait_for_db_activity
+    #raise "Element not found" unless element_dropdown.present?
+    #raise "Element not found, verify if the '#{option}' is right" unless element_list.present?
   end
 end
 

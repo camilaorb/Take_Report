@@ -23,10 +23,11 @@ module Pages
     element(:process_status_filter) { text_field(:id, /_ATp:t1:_afrFltrMdlc8::content/) }
     element(:data_loading_list) { div(:id, /ap1:at1:_ATp:t1::db/) }
     element(:view_issues_button) { div(:id, /ap1:at1:_ATp:b1/) }
-    element(:view_issues_list) { div(:id, /at1:_ATp:t1::db/) }
+    element(:view_issues_list) { div(:id, /ap1:at1:_ATp:t1::db/) }
+    element(:save_and_close_button) { a(:text, 'Save and Close') }
+    element(:cancel_button) { a(:text, 'Cancel') }
 
-
-    #Download Data
+    #Download and Upload Data
     element(:template_type_dropdown) { select(:id, /templateTypeDescId::content/) }
     element(:template_type_list) { |text| select(:id, /templateTypeDescId::content/).option(:title, text) }
     element(:template_dropdown) { select(:id, /templateDescId::content/) }
@@ -52,11 +53,12 @@ module Pages
     ### Download ###
 
     def open_data_loading_download
-      TryWith.attempts(attempts: 3, sleep: 2) do
-        tasks_button.click unless dl_download_link.present?
-        dl_download_link.click
-        wait_for_db_activity
-      end
+       TryWith.attempts(attempts: 3, sleep: 2) do
+       tasks_button.click unless dl_download_link.present?
+       end
+       #scroll_to dl_download_link
+       dl_download_link.click
+       wait_for_db_activity
     end
 
 
@@ -79,9 +81,10 @@ module Pages
 
     def open_data_loading_upload
       TryWith.attempts(attempts: 3, sleep: 2) do
-        tasks_button.click unless dl_upload_link.present?
-        dl_upload_link.click
-        wait_for_db_activity
+      tasks_button.click unless dl_upload_link.present?
+      #scroll_to dl_upload_link
+      dl_upload_link.click
+      wait_for_db_activity
       end
     end
 
@@ -109,7 +112,7 @@ module Pages
       sleep 1
       upload_button.wait_until_present.click
       wait_for_db_activity
-      done_button.click
+      #done_button.click
       wait_for_db_activity
       TryWith.attempts(attempts: 10, sleep: 2) do
       done_button.click if done_button.present?
@@ -130,18 +133,22 @@ module Pages
       sleep 3
 
       TryWith.attempts(attempts: 5, sleep: 2) do
-      process_description_filter.set file
-      process_description_filter.click
-      send_keys :enter
-      wait_for_db_activity
+        process_description_filter.set file
+        process_description_filter.click
+        send_keys :enter
+        wait_for_db_activity
       raise "Update not found. Time out." unless data_loading_list.text.include? file
       end
 
       sleep 3
       scroll_to process_status_filter
-      @upload_process = []
       @upload_process = data_loading_list.text
       raise "Upload #{file} with errors " unless @upload_process.include? 'Processed Successfully'
+
+      wait_for_db_activity
+      TryWith.attempts(attempts: 10, sleep: 2) do
+        save_and_close_button.click if save_and_close_button.present?
+      end
     end
 
     def verify_failure_upload(file)
@@ -160,24 +167,26 @@ module Pages
 
       sleep 3
       scroll_to process_status_filter
-      @upload_process = []
       @upload_process = data_loading_list.text
-      raise "Upload #{file} with errors." unless @upload_process.include? 'Processed with errors'
+      raise "Upload #{file} success." unless @upload_process.include? 'Processed with errors'
 
       view_issues_button.click
+      sleep 3
       wait_for_db_activity
-      view_issues_list.present?
-      raise "#{view_issues_list.text}"
+      raise "It's not possible find the Issues Table." unless view_issues_list.present?
 
+      wait_for_db_activity
+      TryWith.attempts(attempts: 10, sleep: 2) do
+        done_button.click if done_button.present?
+      end
 
+      wait_for_db_activity
+      TryWith.attempts(attempts: 10, sleep: 2) do
+        save_and_close_button.click if save_and_close_button.present?
+      end
 
     end
 
-    def diff_type_file(file)
-      xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
-      @diff_type = xls.sheet(0).cell(2, 2)
-      @diff_description = xls.sheet(0).cell(3, 3)
-    end
 
 
   end

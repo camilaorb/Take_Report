@@ -10,7 +10,7 @@ Feature: UDA
 
   @UDA-02
   Scenario Outline: UDA_VALUES - UDA_DEFAULTS - Upload
-    Given a user is in Foundation Upload screen
+    Given a buyer is in Foundation Upload screen
     When buyer selects the Template Type and Template which auto populates the Process Description with timestamp
       | template_type | template |
       | Items | User Defined Attributes |
@@ -25,19 +25,19 @@ Feature: UDA
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-03 UDA - LOV - Create.ods |
-    Then the the UDA is created in RMS and RMS DB upon successful upload of the file
+    Then the UDA is created in RMS and RMS DB upon successful upload of the file
 
   @UDA-04
   Scenario: UDA - LOV - Edit
-    Given a buyer opts to edit "LOV type UDA"
+    Given a buyer opts to edit a existing "LOV type UDA"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-04 UDA - LOV - Edit.ods |
-    Then the the UDA is updated in RMS and RMS DB upon successful upload of the file
+    Then the UDA is updated in RMS and RMS DB upon successful upload of the file
 
   @UDA-17
   Scenario: UDA - LOV - Delete
-    Given a buyer opts to remove one or more "LOV type UDA"
+    Given a buyer opts to remove a "LOV type UDA"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | UDA-05 UDA - FF - Create.ods |
@@ -54,7 +54,7 @@ Feature: UDA
 
   @UDA-06
   Scenario: UDA - FF - Edit
-    Given a buyer opts to edit "LOV type UDA"
+    Given a buyer opts to edit a existing "LOV type UDA"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-06 UDA - FF - Edit.ods |
@@ -63,7 +63,7 @@ Feature: UDA
 
   @UDA-07
   Scenario: UDA - LOV - FF - Date - Delete
-    Given a buyer opts to remove one or more "UDA ID"
+    Given a buyer opts to remove a "UDA ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-07 UDA - LOV - FF - Date - Delete.ods |
@@ -79,7 +79,7 @@ Feature: UDA
 
   @UDA-09
   Scenario: UDA Values -  Edit
-    Given a buyer opts to edit "UDA Value based on a UDA ID"
+    Given a buyer opts to edit a existing "UDA Value based on a UDA ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-09 UDA Values - Edit |
@@ -87,7 +87,7 @@ Feature: UDA
 
   @UDA-10
   Scenario: UDA Values -  Delete
-    Given a buyer opts to remove one or more "UDA and associated Value and Description"
+    Given a buyer opts to remove a "UDA and associated Value and Description"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-10 UDA Values - Delete |
@@ -103,7 +103,7 @@ Feature: UDA
 
   @UDA-12
   Scenario: UDA Defaults - Edit
-    Given a buyer opts to edit "UDA Default for a specific UDA ID"
+    Given a buyer opts to edit a existing "UDA Default for a specific UDA ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-12 UDA Defaults - Edit.ods |
@@ -111,7 +111,7 @@ Feature: UDA
 
   @UDA-13
   Scenario: UDA Defaults - Delete
-    Given a buyer opts to remove one or more "UDA Default for a specific UDA ID"
+    Given a buyer opts to remove a "UDA Default for a specific UDA ID"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-13 UDA Defaults - Delete.ods |
@@ -138,12 +138,12 @@ Feature: UDA
     Given a buyer has a "UDA template" file that has failed to upload
       | template_type | template | file1 | file2 |
       | Items | Differentiators | UDA-16 UDA_VALUES - UDA_DEFAULTS - upload.ods | UDA-16 UDA_VALUES - UDA_DEFAULTS - Re-Upload.ods |
-    When the buyer downloads the file and makes the necessary correction
+    When the buyer is able to view the reason for error
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
 
   @UDA-17
   Scenario: UDA - LOV - Delete
-    Given a buyer opts to remove one or more "UDA LOL"
+    Given a buyer opts to remove a "UDA LOV"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | UDA-17 UDA - LOV - Delete.ods |
@@ -151,7 +151,7 @@ Feature: UDA
 
   @UDA-18
   Scenario: UDA - Date - Create
-    Given a buyer opts to create a new "new Date type UDA"
+    Given a buyer opts to create a new "Date type UDA"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-18 UDA - Date - Create.ods |
@@ -159,15 +159,15 @@ Feature: UDA
 
   @UDA-19
   Scenario: UDA - Date - Edit
-    Given a user opts to amend and re-upload a UDA template file
-    When the user upload the source file with the information
+    Given a buyer opts to edit a existing "Date type UDA"
+    When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | User Defined Attributes | UDA-19 UDA - Date - Edit.ods |
     Then the UDA is updated in RMS and RMS DB upon successful upload of the file
 
   @UDA-20
   Scenario: UDA Values -  Delete with Items
-    Given a user attempts to delete a UDA Value
+    Given a buyer opts to remove a "UDA Values"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | UDA-20 UDA Values - Delete with Items.ods |
@@ -175,7 +175,7 @@ Feature: UDA
 
   @UDA-21
   Scenario: UDA - Date - Delete
-    Given a user attempts to delete a UDA template file
+    Given a buyer opts to remove a "Date type UDA"
     When a buyer upload the source file with the information
       | template_type | template | file |
       | Items | Differentiators | UDA-21 UDA - Date - Delete.ods |
