@@ -88,5 +88,5 @@ Feature: Banner and Channel
     Given a buyer has a "Banner/Channel" file that has failed to upload
       | template_type | template | file1 | file2 |
       | Foundation | Banners and Channels | BC-11 Banner/Channel - Upload.ods | BC-11 Banner/Channel - Re-Upload.ods |
-    When the buyer is able to view the reason for error
+    When the buyer downloads the file and makes the necessary correction
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
