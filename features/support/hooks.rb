@@ -32,7 +32,7 @@ After ('@logout_rms') do
   puts 'Successfully logged out in After Hook.'
 end
 
-Before ('@upload_a_file') do
+Before ('@upload_diff_type_file') do
   if login_page.close_popup.present?
     login_page.close_popup.click
     wait_for_db_activity

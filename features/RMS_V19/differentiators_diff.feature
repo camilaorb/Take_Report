@@ -186,8 +186,8 @@ Feature: Differentiators
   @DIFF-26
   Scenario: DIFFS -  DIFF_VALUES - DIFF_IDS -  Re-Upload
     Given a buyer has a "Diff Template" file that has failed to upload
-      | template_type | template | file1 | file2 |
-      | Items | Differentiators | DIFF-26 DIFF_VALUES - DIFF_IDS - Upload.ods | DIFF-26 DIFF_VALUES - DIFF_IDS - Re-Upload.ods |
+      | template_type | template        | file1                                       | file2                                          |
+      | Items         | Differentiators | DIFF-26 DIFF_VALUES - DIFF_IDS - Upload.ods | DIFF-26 DIFF_VALUES - DIFF_IDS - Re-Upload.ods |
     When the buyer is able to view the reason for error
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
 
