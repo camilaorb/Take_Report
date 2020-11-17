@@ -153,6 +153,32 @@ module Pages
       #end
     end
 
+    def verify_banners_channels(file)
+      query_button.wait_until_present
+      query_button.click unless process_description_filter.present?
+      wait_for_db_activity
+      sleep 3
+
+      TryWith.attempts(attempts: 5, sleep: 2) do
+        process_description_filter.set file
+        process_description_filter.click
+        send_keys :enter
+        wait_for_db_activity
+        raise "Update not found. Time out." unless data_loading_list.text.include? file
+      end
+
+      sleep 3
+      scroll_to process_status_filter
+      @upload_process = data_loading_list.text
+      raise "Upload #{file} with errors " unless @upload_process.include? 'Processed Successfully'
+
+      #wait_for_db_activity
+      #TryWith.attempts(attempts: 10, sleep: 2) do
+      #save_and_close_button.click if save_and_close_button.present?
+      #end
+    end
+
+
     def verify_failure_upload(file)
       query_button.wait_until_present
       query_button.click unless process_description_filter.present?

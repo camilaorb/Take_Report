@@ -15,7 +15,7 @@ When(/^they create a Diff Group where Group, Group Description, Type are mandato
   differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the new Diff Group is add on the top of Diff Group table and created RMS DB$/) do
@@ -37,11 +37,11 @@ When(/^the user is able to update Group Description, Division, Department in RMS
   differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.open_diff_groups
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.edit_diff_group('Changed Group', YML_DATA['division'], YML_DATA['dept'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 Then(/^the record is update to the Diff Group table and RMS DB$/) do
   differentiators_diff.open_diff_groups
@@ -81,14 +81,21 @@ end
 
 ########## Group Details ##########
 
-When(/^a user enter Size in the Group Detail window$/) do
+Given(/^a user is in existing Differentiator Groups screen$/) do
+  visit(TE.environment['url'])
+  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  differentiators_diff.open_differentiators
+  differentiators_diff.open_diff_groups
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
   differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
+end
+
+When(/^a user enter Size in the Group Detail window$/) do
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_2'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^a record is created to the Group Detail window and RMS DB$/) do
@@ -110,12 +117,12 @@ When(/^a user update the Sequence in the Group Detail table$/) do
   differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_2'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.open_diff_groups
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.select_diff_group_detail('1')
   differentiators_diff.edit_diff_group_detail('2')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 
 end
 
@@ -140,7 +147,7 @@ When(/^a user delete a Group Details$/) do
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
   differentiators_diff.create_diff_group_detail('2', YML_DATA['dgd_detail_2'])
   differentiators_diff.create_diff_group_detail('3', YML_DATA['dgd_detail_3'])
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.open_diff_groups
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.select_diff_group_detail('1')
@@ -154,6 +161,18 @@ Then(/^the record is delete on the Diff Group table and RMS DB$/) do
   differentiators_diff.verify_diff_group_detail(expected_values: 'No data to display.')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_delete_diff_group_detail_table(@new_id, '1')
+  database.disconnect_db
+  login_page.logout_to_rms
+end
+
+When(/^a user delete a Diff Group with item$/) do
+  differentiators_diff.select_diff_group(YML_DATA['dg_item'])
+  differentiators_diff.delete_diff_group_with_item
+end
+
+Then(/^a Message is displayed and user will not be able to remove the Diff Group$/) do
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_diff_group_with_item(YML_DATA['dg_item'])
   database.disconnect_db
   login_page.logout_to_rms
 end
@@ -174,7 +193,7 @@ When(/^user enters the Range, Range Type and selects a Diff Type and Group for D
   differentiators_diff.create_diff_range(@new_id, 'New Range', YML_DATA['type_1'], YML_DATA['dr_group_1'],
                                          YML_DATA['type_2'], YML_DATA['dr_group_2'])
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'], '100')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the Diff Range Header record is created in RMS and RMS DB$/) do
@@ -201,7 +220,7 @@ end
 
 When(/^user enters the Diff Range information$/) do
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'], '100')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the Diff Range Detail record is created in RMS and RMS DB$/) do
@@ -227,14 +246,14 @@ Given(/^a user is in Manage Diff Range screen$/) do
                                          YML_DATA['type_2'], YML_DATA['dr_group_2'])
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'],'100')
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_2'], YML_DATA['size_2'],'100')
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
 end
 
 When(/^user enters the Diff Range details to a existent Range Header$/) do
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['size_3'],'100')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the Diff Range details is created in RMS and RMS DB$/) do
@@ -260,7 +279,7 @@ Given(/^a user retrieves the Range Header and Range Details$/) do
                                          YML_DATA['type_2'], YML_DATA['dr_group_2'])
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_1'], YML_DATA['size_1'],'100')
   differentiators_diff.create_diff_range_detail(YML_DATA['colour_3'], YML_DATA['size_3'],'100')
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.open_manage_diff_range
   differentiators_diff.select_diff_range(@new_id)
 
@@ -288,7 +307,7 @@ When(/^user deletes the Range Details$/) do
   differentiators_diff.select_diff_range_detail(YML_DATA['size_3'])
   differentiators_diff.delete_diff_range_detail
   differentiators_diff.select_diff_range_detail('')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the Range Details is removed in RMS and RMS DB$/) do
@@ -317,7 +336,7 @@ When(/^user enters the relevant Merchandise details, Sub-Department, Category, S
   @new_id = differentiators_diff.diff_ratio_id
   differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['subdpt'], YML_DATA['category'], YML_DATA['subcategory'], YML_DATA['Test_Group_colour'],
                                           YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 
@@ -345,12 +364,12 @@ When(/^user enters Ratio the search criteria$/) do
   differentiators_diff.search_diff_ratio('')
 end
 
-Then(/^the results for the search criteria is displayed in the Results table$/) do
+Then(/^the results for the Ratio search criteria is displayed in the Results table$/) do
   differentiators_diff.add_diff_ratio
   @new_id = differentiators_diff.diff_ratio_id
   differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass2'],
                                          YML_DATA['Test_Group_colour'], YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.search_diff_ratio(@new_id)
   differentiators_diff.verify_diff_ratio(expected_values:'New Diff Ratio 44 Test Department 1 Test Class 2 Test Subclass')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -367,7 +386,7 @@ Then(/^user can create a new Ratio by entering Ratio Description and Merchandise
   @new_id = differentiators_diff.diff_ratio_id
   differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass2'],
                                          YML_DATA['Test_Group_colour'], YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  differentiators_diff.save_and_close
+  shared.save_and_close
   differentiators_diff.search_diff_ratio(@new_id)
   differentiators_diff.verify_diff_ratio(expected_values:'New Diff Ratio 44 Test Department 1 Test Class 2 Test Subclass')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -383,7 +402,7 @@ Then(/^user amend the Ratio Description and Merchandise Hierarchy details$/) do
   @new_id = differentiators_diff.diff_ratio_id
   differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass3'],
                                          YML_DATA['Test_Group_colour'], YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  differentiators_diff.save_and_close
+  shared.save_and_close
 end
 
 Then(/^the Diff Ratio will be updated in RMS DB$/) do

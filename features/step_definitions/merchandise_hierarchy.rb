@@ -533,8 +533,8 @@ Then(/^the default information for the Sub-Department is created in RMS RMS data
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_merch_hier_table(YML_DATA['subdpt'], YML_DATA['information2'], '1', '1', 'N')
   database.disconnect_db
-  merchandise_hierarchy.close_vat
-  merchandise_hierarchy.delete_subdpt
+  merchandise_hierarchy.delete_merch_hier_defaults
+  merchandise_hierarchy.save_and_close_subdpt_actions
   login_page.logout_to_rms
 end
 
@@ -560,15 +560,13 @@ Then(/^All Items that are set up with the Sub-Department that has the 'Required'
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_merch_hier_table(YML_DATA['subdpt'], YML_DATA['information2'], '1', '1', 'Y')
   database.disconnect_db
-  merchandise_hierarchy.close_vat
-  merchandise_hierarchy.delete_subdpt
+  merchandise_hierarchy.delete_merch_hier_defaults
+  merchandise_hierarchy.save_and_close_subdpt_actions
   login_page.logout_to_rms
 end
 
 
 When(/^a user deletes a Merch Hier Default$/) do
-  merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
-  merchandise_hierarchy.access_select_subdpt
   merchandise_hierarchy.access_merch_hier_defaults
   merchandise_hierarchy.create_merch_hier_defaults(YML_DATA['information2'], '1', '1')
   merchandise_hierarchy.save_and_close_subdpt_actions

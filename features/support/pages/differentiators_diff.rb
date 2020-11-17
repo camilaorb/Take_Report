@@ -29,6 +29,7 @@ module Pages
     element(:save_button) { a(:text, 'Save') }
     element(:delete_popup) { div(:text, /delete/) }
     element(:yes_button) { a(:text, 'Yes') }
+    element(:no_button) { a(:text, 'No') }
     element(:no_results) { div(:text, 'No data to display.') }
     element(:list) { table(:class, 'x17f x184').tbody.table }
     element(:done_button) { a(:text, 'Done') }
@@ -48,6 +49,8 @@ module Pages
     element(:chain_field) { text_field(:id, /_ATp:filterOrgIdId::content/) }
     element(:division_field) { text_field(:id, /_ATp:filterMerchIdId::content/) }
     element(:diff_group_list) { div(:id, /mr:pc1:_ATp:t1::db/) }
+    element(:not_delete_msgm) { div(:text, "An item, differentiator range or pack template is currently using this differentiator group, therefore it cannot be deleted.") }
+
 
     #Diff Group Detail
     element(:add_diff_group_detail_button) { div(:id, /mr:at2:_ATp:create/) }
@@ -112,15 +115,6 @@ module Pages
 
     ############################################################################################################################
 
-    def verify_actions(expected_values:)
-      if no_results.present?
-      else
-        @actual_values = []
-        @actual_values = list.text
-        raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
-      end
-    end
-
     def open_differentiators
       TryWith.attempts(attempts: 10, sleep: 2) do
         tasks_button.click
@@ -132,18 +126,6 @@ module Pages
         fd_itens_differentiators_link.click
         wait_for_db_activity
       end
-    end
-
-    def save_and_close
-      TryWith.attempts(attempts: 3, sleep: 2) do
-      save_and_close_button.wait_until_present.click
-      wait_for_db_activity
-      end
-    end
-
-    def save
-      save_button.click
-      wait_for_db_activity
     end
 
     ################################################ Diff Group #######################################################
@@ -190,7 +172,6 @@ module Pages
       wait_for_db_activity
       ok_button.click
       wait_for_db_activity
-
     end
 
     def edit_diff_group(diff_group_description, division, department)
@@ -223,10 +204,23 @@ module Pages
       wait_for_db_activity
     end
 
+    def delete_diff_group_with_item
+      delete_diff_group_button.wait_until_present.click
+      wait_for_db_activity
+      delete_popup.wait_until_present
+      yes_button.click
+      wait_for_db_activity
+      raise "Message not display" unless not_delete_msgm.present?
+      ok_button.click
+      wait_for_db_activity
+      no_button.click
+      wait_for_db_activity
+      cancel_button.click
+    end
+
     def verify_diff_group(expected_values:)
       if no_results.present?
       else
-        @actual_values = []
         @actual_values = diff_group_list.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end
@@ -275,10 +269,11 @@ module Pages
       wait_for_db_activity
     end
 
+
+
     def verify_diff_group_detail(expected_values:)
       if no_results.present?
       else
-        @actual_values = []
         @actual_values = diff_group_detail_list.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end
@@ -413,7 +408,6 @@ module Pages
     def verify_diff_range(expected_values:)
       if no_results.present?
       else
-        @actual_values = []
         @actual_values = range_detail_list.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end
@@ -422,7 +416,6 @@ module Pages
     def verify_range_detail(expected_values:)
       if no_results.present?
       else
-        @actual_values = []
         @actual_values = diff_group_detail_list.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end
@@ -540,7 +533,6 @@ module Pages
     def verify_diff_ratio(expected_values:)
       if no_results.present?
       else
-        @actual_values = []
         @actual_values = diff_ratio_list.text
         raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
       end

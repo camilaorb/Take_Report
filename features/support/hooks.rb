@@ -4,7 +4,7 @@ Before do
   YML_DATA = YAML.load_file("#{Dir.pwd}/features/support/data/#{TE.environment['test_data_file']}")
 end
 
-After do
+After ('@DIFF-01' '@DIFF-02' '@DIFF-03' '@DIFF-04' '@DIFF-05' '@DIFF-06' '@DIFF-27' '@DIFF-07' '@DIFF-08' '@DIFF-10' '@DIFF-11') do
   if differentiators_diff.cancel_button.present?
     differentiators_diff.cancel_button.click
     wait_for_db_activity
@@ -12,10 +12,22 @@ After do
   merchandise_hierarchy.cancel_button.present?
   merchandise_hierarchy.cancel_button.click
   wait_for_db_activity
-  login_page.logout_to_rms
-  puts 'Successfully logged out in After Hook.'
+  puts 'Successfully close pages out in After Hook.'
 rescue
-  puts 'Failed to logout in After Hook.'
+  puts 'Failed to close pages in After Hook.'
+end
+
+After ('@SUP-02' '@SUP-03') do
+  if supplier.cancel_button.present?
+    supplier.cancel_button.click
+    wait_for_db_activity
+  end
+  supplier.cancel_button.present?
+  supplier.cancel_button.click
+  wait_for_db_activity
+  puts 'Successfully close pages out in After Hook.'
+rescue
+  puts 'Failed to close pages in After Hook.'
 end
 
 After ('@logout_rms') do

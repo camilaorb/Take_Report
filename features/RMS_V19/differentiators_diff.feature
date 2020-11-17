@@ -20,27 +20,27 @@ Feature: Differentiators
 
   @DIFF-04
   Scenario: Add Diff Group Detail
-    Given a user is in Differentiator Groups screen
+    Given a user is in existing Differentiator Groups screen
     When a user enter Size in the Group Detail window
     Then a record is created to the Group Detail window and RMS DB
 
   @DIFF-05 @critical
   Scenario: Edit Diff Group Detail
-    Given a user is in Differentiator Groups screen
+    Given a user is in existing Differentiator Groups screen
     When a user update the Sequence in the Group Detail table
     Then the record is update to the Group Detail window and RMS DB
 
   @DIFF-06
   Scenario: Delete Diff Group Detail
-    Given a user is in Differentiator Groups screen
+    Given a user is in existing Differentiator Groups screen
     When a user delete a Group Details
     Then the record is delete on the Diff Group table and RMS DB
 
   @DIFF-27
-  Scenario: Delete Diff Group Detail with Items
-    Given a user attempts to delete a Diff Group
-    When there are Items that use the Diff Group
-    Then the user will not be able to remove the Diff Group
+  Scenario: Delete Diff Group with Items
+    Given a user is in Differentiator Groups screen
+    When a user delete a Diff Group with item
+    Then a Message is displayed and user will not be able to remove the Diff Group
 
   @DIFF-07
   Scenario: Create Diff Range
@@ -82,7 +82,7 @@ Feature: Differentiators
   Scenario: Search Diff Ratio
     Given a user is in Manage Diff Ratio screen
     When user enters Ratio the search criteria
-    Then the results for the search criteria is displayed in the Results table
+    Then the results for the Ratio search criteria is displayed in the Results table
 
   @DIFF-14 @canceled
   Scenario: Maintain Diff Ratio - Create

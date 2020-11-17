@@ -71,8 +71,11 @@ information4: 'HTS' #HTS
 
 ########################### Differentiators Diff  ############################################
 
+### Diff Group ###
 
-### Type Diff Group ###
+dg_item: '663' #Diff Group with item
+
+### Diff Group Type ###
 
 type_1: 'SIZE'
 
@@ -205,3 +208,28 @@ v_code_66: "UGA02"	#UGANDA EXEMPT FROM VAT
 v_code_67: "ZMK00"	#VAT STD RATE-SALES (OUTPUT)
 v_code_68: "ZMK01"	#VAT @ STD RATE-ALL PURCHASES
 v_code_69: "ZMK0X"	#ZAMBIA NOT CLAIMABLE VAT
+
+########################### SUPPLIER  ############################################
+
+## Search ##
+
+supplier_id: '1'
+supplier_site_id: '12'
+
+## Address ##
+
+#Address Type#
+a_type_1: 'Business'
+a_type_2: 'Invoice'
+a_type_3: 'Order'
+a_type_4: 'Postal'
+a_type_5: 'Remittance'
+a_type_6: 'Returns'
+
+#Country
+country_1: 'PT' #Portugal
+country_2: 'BR' #Brasil
+
+#State
+state_1: '13' #Porto
+state_2: 'SP' #São Paulo

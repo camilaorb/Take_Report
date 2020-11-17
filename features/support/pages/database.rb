@@ -234,6 +234,11 @@ module Pages
       raise "Type is wrong. Expected:'#{type}' Actual:'#{new_diff_group[0]}'" unless new_diff_group[0] == type
     end
 
+    def verify_diff_group_with_item(diff_group_id)
+      diff_group = @connection.select_one("Select DIFF_GROUP_ID from DIFF_GROUP_HEAD WHERE DIFF_GROUP_ID = #{diff_group_id}")
+      raise "The Diff Group no '#{diff_group_id}' was deleted" unless diff_group[1] == diff_group[1]
+    end
+
     def verify_delete_diff_group_table(diff_group_id)
       diff_group = @connection.select_one("Select * from DIFF_GROUP_HEAD WHERE DIFF_GROUP_ID = #{diff_group_id}")
       raise "The Diff Group no '#{diff_group_id}' was not deleted" unless diff_group.nil?
@@ -245,6 +250,7 @@ module Pages
       raise "Sequence is wrong. Expected:'#{diff}' Actual:'#{diff_group_detail[2]}'" unless diff_group_detail[1] == diff
       raise "Sequence is wrong. Expected:'#{sequence}' Actual:'#{diff_group_detail[4]}'" unless diff_group_detail[2] == sequence.to_i
     end
+
 
     def verify_delete_diff_group_detail_table(diff_group_detail_id, sequence)
       diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id} AND DISPLAY_SEQ = #{sequence}")

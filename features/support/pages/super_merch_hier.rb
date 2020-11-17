@@ -10,6 +10,15 @@ module Pages
     include Pages
     ############################# Methods ####################
 
+    def creat_a_division
+    merchandise_hierarchy.access_division
+    merchandise_hierarchy.access_division
+    database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+    @new_id = database.division_id
+    database.disconnect_db
+    merchandise_hierarchy.create_new_division(@new_id,'New Division', YML_DATA['buyer'], YML_DATA['merchandiser'], '100000')
+    end
+
     def new_subdept
       merchandise_hierarchy.open_merchandise_hierarchy
       merchandise_hierarchy.access_subdpt
