@@ -233,3 +233,31 @@ country_2: 'BR' #Brasil
 #State
 state_1: '13' #Porto
 state_2: 'SP' #São Paulo
+
+#############################Org-Hierarchy##############################
+Division:
+  division_create: 'test_create'
+  division_edit: 'test_edit'
+  division_manager: 'abc'
+  division_currency: 'AUD'
+
+Country:
+  country_create: 'test_create'
+  country_edit: 'test_edit'
+  country_manager: 'abc'
+  country_currency: 'AUD'
+  country_division: '12'
+
+Region:
+  region_create: 'test_create'
+  region_edit: 'test_edit'
+  region_manager: 'abc'
+  region_currency: 'AUD'
+  region_country: '12'
+
+Area:
+  area_create: 'test_create'
+  area_edit: 'test_edit'
+  area_manager: 'abc'
+  area_currency: 'AUD'
+  area_region: '12'

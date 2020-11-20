@@ -39,7 +39,8 @@ module Pages
     element(:upload_button) { div(:id, /2:ap1:b1/) }
     element(:process_description_field) { text_field(:id, /ap1:it1::content/) }
 
-
+    #Location Foundation
+    element(:location_foundation) {span(:text, 'Location Foundation')}
     ############################################################################################################################
 
 

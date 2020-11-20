@@ -703,6 +703,112 @@ module Pages
       raise "Update was not successful" unless uda_value_description == uda_value_table[2]
     end
 
+    #Organizational_Hierarchy
+
+    # Division #
+    def verify_division_create(division, division_name)
+      division_table = @connection.select_one("select * from chain where chain = '#{division}'")
+      raise "New Division '#{division_name}' Detail was not created" if division_table.nil?
+    end
+
+    def verify_division_edit(division, division_name)
+      division_table = @connection.select_one("select * from chain where chain = '#{division}'")
+      raise "Edit Division '#{division_name}' Detail was not updated" unless division_name = division_table[1]
+    end
+
+    def verify_division_delete(division, division_name)
+      division_table = @connection.select_one("select * from chain where chain = '#{division}'")
+      raise "Division '#{division_name}' Detail was not deleted" unless division_table.nil?
+    end
+
+
+    ## Region ##
+    def verify_region_create(region, region_name)
+      region_table = @connection.select_one("select * from region where region = '#{region}'")
+      raise "New region '#{region_name}' Detail was not created" if region_table.nil?
+    end
+
+    def verify_region_edit(region, name)
+      region_table = @connection.select_one("select * from region where region = '#{region}'")
+      raise "Update Region '#{name}' Detail was not updated" unless name = region_table[1]
+    end
+
+    def verify_region_delete(region)
+      region_table = @connection.select_one("select * from region where region = '#{region}'")
+      raise "Region '#{region}' Detail was not deleted" unless region_table.nil?
+    end
+
+    ##Area##
+    def verify_area_create(area, area_name)
+      area_table = @connection.select_one("select * from district where district = '#{area}'")
+      raise "New area '#{area_name}' Detail was not created" if area_table.nil?
+    end
+
+    def verify_area_edit(area, area_name)
+      area_table = @connection.select_one("select * from district where district = '#{area}'")
+      raise "Update Area '#{area_name}' Detail was not updated" unless area_name = area_table[1]
+    end
+
+    def verify_area_delete(area)
+      area_table = @connection.select_one("select * from district where district = '#{area}'")
+      raise "Area '#{area}' Detail was not deleted" unless area_table.nil?
+    end
+
+    ##Country##
+    def verify_country_create(country, country_name)
+      country_table = @connection.select_one("select * from area where area = '#{country}'")
+      raise "New Country '#{country_name}' Detail was not created" if country_table.nil?
+    end
+
+    def verify_country_edit(country, country_name)
+      country_table = @connection.select_one("select * from area where area = '#{country}'")
+      raise "Update Country '#{country_name}' Detail was not updated" unless country_name = country_table[1]
+    end
+
+    def verify_country_delete(country, country_name)
+      country_table = @connection.select_one("select * from area where area = '#{country}'")
+      raise "Country '#{country}' Detail was not deleted" unless country_table.nil?
+    end
+
+    ##Last Division ID ##
+    def last_division_id
+      last_division_id = @connection.select_one("Select * from (select chain from chain where chain <> 999 order by chain DESC) WHERE ROWNUM = 1")
+      if last_division_id.nil?
+        @new_division_id = 1
+      else
+        @new_division_id = (last_division_id[0] + 1).to_s
+      end
+    end
+
+    ##Last Country ID ##
+    def last_country_id
+      last_country_id = @connection.select_one("Select * from (select area from area where area <> 9999 order by area DESC) WHERE ROWNUM = 1")
+      if last_country_id.nil?
+        @new_country_id = 1
+      else
+        @new_country_id = (last_country_id[0] + 1).to_s
+      end
+    end
+
+    ##Last Region ID ##
+    def last_region_id
+      last_region_id = @connection.select_one("Select * from (select region from region where region <> 9999 and region <> 998 order by region DESC) WHERE ROWNUM = 1")
+      if last_region_id.nil?
+        @new_region_id = 1
+      else
+        @new_region_id = (last_region_id[0] + 1).to_s
+      end
+    end
+
+    ##Last Area ID ##
+    def last_area_id
+      last_area_id = @connection.select_one("Select * from (select district from district where district <> 9999 order by district DESC) WHERE ROWNUM = 1")
+      if last_area_id.nil?
+        @new_area_id = 1
+      else
+        @new_area_id = (last_area_id[0] + 1).to_s
+      end
+    end
 
   end
 end
