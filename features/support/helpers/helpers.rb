@@ -125,3 +125,21 @@ def select_list(element_list, element_dropdown, option)
   end
 end
 
+# Filter
+def filter_activity(filter_element, filter_data)
+  ## Filter ##
+  if (filter_element.present? == true)
+    filter_element.send_keys filter_data
+    2.times do
+      filter_element.send_keys :enter
+    end
+  else
+    TE.browser.img(id: /at1:_ATp:_qbeTbr::icon/).click
+    filter_element.send_keys filter_data
+    wait_for_db_activity
+    2.times do
+      filter_element.send_keys :enter
+    end
+    wait_for_db_activity
+  end
+end

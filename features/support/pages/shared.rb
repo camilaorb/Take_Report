@@ -14,7 +14,7 @@ module Pages
     element(:delete_button) { a(:title, 'Delete') }
     element(:query_button) { div(:id, /_ATp:_qbeTbr/) }
     element(:ok_button) { div(:text, 'OK') }
-    element(:save_and_close_button) { a(:text, 'Save and Close') }
+    element(:save_and_close_button) { a(:text, /Save and Close/) }
     element(:save_button) { a(:text, 'Save') }
     element(:delete_popup) { div(:text, /delete/) }
     element(:yes_button) { a(:text, 'Yes') }
@@ -26,7 +26,10 @@ module Pages
     element(:search_button) { a(:text, 'Search') }
     element(:loading_list) { div(:class, 'AFAutoSuggestBusyStyle') }
     element(:cancel_button) { a(:text, 'Cancel') }
-
+    element(:more_actions_dropdown) { a(:title, 'More Actions') }
+    element(:select_more_action_option) { |text| tr(:title, text ) }
+    element(:close_tab_button) { a(:title, 'Close Tab') }
+    element(:clear_all_filters) { a(:title, 'Clear All') }
     element(:tasks_button) { a(:title, 'Tasks') }
     element(:organizational_Hierarchy) { span(:text, 'Organizational Hierarchy') }
 
@@ -49,14 +52,14 @@ module Pages
     end
 
     def save
-      save_button.click
+      save_button.wait_until_present.click
       wait_for_db_activity
     end
 
     def done
       TryWith.time(timeout: 10) do
         scroll_to(done_button)
-        done_button.click
+        done_button.wait_until_present.click
         wait_for_db_activity
         sleep 5
       end
@@ -70,8 +73,7 @@ module Pages
       end
     end
 
-    #
-    ## Filter - img(alt: 'Query by Example') ##
+## Filter - img(alt: 'Query by Example') ##
     def filter_activity(filter_element, filter_data)
       ## Filter ##
       if (filter_element.present? == true)
@@ -97,7 +99,6 @@ module Pages
       wait_for_db_activity
     end
 
-
     def enter_times(ele, times)
       sleep 1
       times.times do
@@ -106,5 +107,41 @@ module Pages
       wait_for_db_activity
     end
 
+    def delete_item
+      delete_button.click
+      wait_for_db_activity
+      delete_popup.wait_until_present
+      yes_button.click
+      wait_for_db_activity
+      save_and_close_button.click
+      wait_for_db_activity
+    end
+
+    def more_actions_select(option)
+      wait_for_db_activity
+      more_actions_dropdown.wait_until_present.click
+      wait_for_db_activity
+      select_more_action_option(option).wait_until_present.click
+      wait_for_db_activity
+    end
+
+    def cancel
+      cancel_button.wait_until_present.click
+      wait_for_db_activity
+    end
+
+    def close_tab
+      close_tab_button.wait_until_present.click
+      wait_for_db_activity
+    end
+
+    def clear_filters
+      clear_all_filters.wait_until_present.click
+      wait_for_db_activity
+    end
+
+
+
   end
 end
+

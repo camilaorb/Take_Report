@@ -11,6 +11,8 @@ module Pages
 
   class Database < TestEvolve::Core::PageObject
 
+    include Pages
+
     ############################ Methods ###########################
 
     def connect_to_db(db_hostname, db_port, db_servicename, db_username, db_password)
@@ -52,27 +54,13 @@ module Pages
     end
 
 
-    ############### Verify Last Id ######################
+    #####################################
 
     ##### Merchandise Hierarchy #####
 
-    def division_id
-      last_id = @connection.select_one("Select * from (select DIVISION from DIVISION order by DIVISION DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0] + 1).to_s
-      end
-    end
 
-    def department_id
-      last_id = @connection.select_one("Select * from (select GROUP_NO from GROUPS order by GROUP_NO DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0] + 1).to_s
-      end
-    end
+
+
 
     def category_id(subdept_id)
       last_id = @connection.select_one("Select * from (select CLASS from CLASS WHERE DEPT = (#{subdept_id}) order by CLASS DESC) WHERE ROWNUM = 1")
@@ -135,7 +123,18 @@ module Pages
 
     ### Merchandise Hierarchy ###
 
-    def verify_division_table(div_id, division_name, buyer, merchandiser)
+    ## MH Division ##
+
+    def division_id
+      last_id = @connection.select_one("Select * from (select DIVISION from DIVISION order by DIVISION DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0] + 1).to_s
+      end
+    end
+
+    def verify_mh_division_table(div_id, division_name, buyer, merchandiser)
       new_division = @connection.select_one("Select * from DIVISION WHERE DIVISION = #{div_id}")
       raise "New Division no '#{div_id}' was not created" if new_division.nil?
       raise "Name is wrong. Expected:'#{division_name}' Actual:'#{new_division[1]}'" unless new_division[1] == division_name
@@ -146,6 +145,17 @@ module Pages
     def verify_delete_division_table(div_id)
       new_division = @connection.select_one("Select * from DIVISION WHERE DIVISION = #{div_id}")
       raise "The Division no '#{div_id}' was not deleted" unless new_division.nil?
+    end
+
+    ## Department ##
+
+    def department_id
+      last_id = @connection.select_one("Select * from (select GROUP_NO from GROUPS order by GROUP_NO DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0] + 1).to_s
+      end
     end
 
     def verify_department_table(department_id, department_name, buyer, merchandiser)
@@ -160,6 +170,8 @@ module Pages
       new_department = @connection.select_one("Select * from GROUPS WHERE GROUP_NO = #{department_id}")
       raise "The Department no '#{department_id}' was not deleted" unless new_department.nil?
     end
+
+    ## Department ##
 
     def verify_category_table(category_id, subdept_id, category_name)
       new_category = @connection.select_one("Select * from CLASS WHERE DEPT = (#{subdept_id}) AND CLASS = (#{category_id})")
@@ -411,7 +423,7 @@ module Pages
     end
 
 
-    ## org_unit ##
+    #### Organizational Hierarchy ###
     # create #
     def verify_org_unit_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
@@ -445,7 +457,7 @@ module Pages
     end
 
 
-    ##Transfer Entity ##
+    #### Transfer Entity ####
     # create #
     def verify_transfer_entity_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
@@ -478,7 +490,7 @@ module Pages
 
 
 
-    ## Store-Format ##
+    ##### Store-Format ######
     # create #
     def verify_store_format_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
@@ -513,7 +525,7 @@ module Pages
     end
 
 
-    ## supplier_trait ##
+    #### Supplier Trait ####
     # create #
     def verify_supplier_trait_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
@@ -547,7 +559,7 @@ module Pages
       raise "supplier_trait_number #{supplier_trait_number}' Detail was not deleted" unless supplier_trait_table.nil?
     end
 
-    ## transfer_zone ##
+    #### Transfer Zone ####
     # create #
     def verify_transfer_zone_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
@@ -843,37 +855,26 @@ module Pages
       raise "New Store '#{store_name}' Detail was not created" unless store_table.nil?
     end
 
-    ##################    STORES   ###################
+    ##################    Supplier   ###################
 
-    ##Last Store ID ##
-    def last_store_id
-      last_store_id = @connection.select_one("Select * from (select store from store where store <> 99999 and store <> 88888 order by store DESC) WHERE ROWNUM = 1")
-      if last_store_id.nil?
-        @new_store_id = 1
-      else
-        @new_store_id = (last_store_id[0] + 1).to_s
-      end
+    ### Address ###
+
+    def verify_address_table(func_db_code, supplier_id, type, address_1, city, country, state)
+      address_table = @connection.select_one("Select ADD_1, ADDR_TYPE,CITY, STATE, COUNTRY_ID from addr where module = '#{func_db_code}' and key_value_1 = '#{supplier_id}' and country_id = '#{country}'")
+      raise "Address is not on the table." if address_table.nil?
+      raise "Address 1 is not as Expected:'#{address_1}' Actual:'#{address_table[0]}" unless address_table[0] == address_1.to_s
+      raise "Type is not as Expected:'#{type}' Actual:'#{address_table[1]}'" unless address_table[1] == type
+      raise "Detail 2 is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
+      raise "Ratio is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
+      raise "Ratio is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country
     end
 
-    ## Verification for Create and Update Store ##
-    def verify_store_create_update(store, store_name)
-      store_table = @connection.select_one("select * from store where store = '#{store}'")
-      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    def count_address_table(func_db_code, supplier_id, country)
+      address_table = @connection.select_one("select count(*) from addr where module = '#{func_db_code}' AND key_value_1 = '#{supplier_id}' and country_id = '#{country}'")
+      raise "Address is not on the table." if address_table.nil?
+      raise "Address count is not as Expected:'2' Actual:'#{address_table[0]}" unless address_table[0] == '2'.to_i
     end
 
-    ## Location Traits ##
-
-    ## Add Location - Verification ##
-    def verify_add_location(store)
-      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
-      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
-    end
-
-    ## Delete Location - Verification ##
-    def verify_delete_location(store)
-      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
-      raise "New Store '#{store_name}' Detail was not created" unless store_table.nil?
-    end
 
   end
 end

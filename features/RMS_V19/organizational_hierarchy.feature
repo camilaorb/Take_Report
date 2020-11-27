@@ -97,10 +97,3 @@ Feature: Organizational_Hierarchy
 #    When buyer clicks on the District link against the District that is marked for deletionAND opts for Action > Delete
 #    Then the buyer is able to remove the District
 
-
-  @STR-01
-  Scenario: Create New Store
-    Given a buyer selects from the Tasks menu Foundation Data > Location Foundation > Organizational Hierarchy
-    And selects the Stores button
-    When buyer selects Action > Create or use the create icon
-    Then the buyer is able to enter the necessary details for the Store
