@@ -4,11 +4,11 @@
 
 ########################### DB USERS ############################################
 
-USERNAME:	'SYS'
+USERNAME: 'SYS'
 PASSWORD: 'Orcladmin123'
 
-ADMIN_USER : 'SYSTEM'
-ADMIN_PW : 'Orcladmin123'
+ADMIN_USER: 'SYSTEM'
+ADMIN_PW: 'Orcladmin123'
 
 DEV_USER: 'RMS16DEV'
 DEV_PW: 'rms16dev'
@@ -139,75 +139,75 @@ OC: '999' #Other Country
 
 ### Code ###
 
-v_code_1: "AUD00"	#GST @ STD RATE SALES (OUTPUT)
-v_code_2: "AUD01"	#GST @ STD RATE-ALL PURCHASES
-v_code_3: "AUD02"	#GST@STD RATE-PETTY CASH EXP
-v_code_4: "AUD0X"	#AUSTRALIA NOT CLAIMABLE GST
-v_code_5: "AUDEX"	#AUSTRALIA EXEMPT FROM GST
-v_code_6: "BOT00"	#VAT @ STD RATE-SALES (OUTPUT)
-v_code_7: "BOT01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_8: "BOT0X"	#BOTSWANA NOT CLAIMABLE VAT
-v_code_9: "BOTEX"	#BOTSWANA EXEMPT FROM VAT
-v_code_10: "DRC00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_11: "DRC01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_12: "DRCEX"	#CONGO EXEMPT FROM VAT
-v_code_13: "GHA00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_14: "GHA01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_15: "GHAEX"	#GHANA EXEMPT FROM VAT
-v_code_16: "KEN0X"	#KENYA NOT CLAIMABLE VAT
-v_code_17: "KES00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_18: "KES01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_19: "KESEX"	#KENYA EXEMPT FROM VAT
-v_code_20: "LSL00"	#Lesotho Sales Tax
-v_code_21: "LSL01"	#Lesotho Purchases Sales Tax
-v_code_22: "LSL02"	#PETTY CASH EXPENSE 1
-v_code_23: "LSL03"	#PETTY CASH EXPENSE 2
-v_code_24: "LSL04"	#PETTY CASH EXPENSE 3
-v_code_25: "LSL0X"	#LESOTHO NOT CLAIMABLE VAT
-v_code_26: "LSLEX"	#Lesotho Exempt
-v_code_27: "MZM00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_28: "MZM01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_29: "MZMEX"	#MOZAMBIQUE EXEMPT FROM VAT
-v_code_30: "NAM00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_31: "NAM01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_32: "NAM02"	#VAT @ LUX RATE-ALL PURCHASES
-v_code_33: "NAM03"	#VAT @ STD RATE-IMPORTS
-v_code_34: "NAM04"	#NAMIBIA STD RATE OVERHEADS
-v_code_35: "NAM0X"	#NAMIBIA NOT CLAIMABLE VAT
-v_code_36: "NAM20"	#VAT LUX RATE-SALES-OUTP
-v_code_37: "NAM30"	#VAT @ LUXURY RATE-IMPORTS
-v_code_38: "NAMEX"	#NAMIBIA EXEMPT FROM VAT
-v_code_39: "NIG00"	#VAT STD RATE - SALES (OUTPUT)
-v_code_40: "NIG01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_41: "NIG0X"	#NIGERIA NOT CLAIMABLE VAT
-v_code_42: "NIGEX"	#NIGERIA EXEMPT FROM VAT
-v_code_43: "PLN00"	#GST @ STD RATE SALES (OUTPUT)
-v_code_44: "PLN01"	#GST @ STD RATE-ALL PURCHASES
-v_code_45: "PLN02"	#GST @ STD RATE-PETTY CASH EXP
-v_code_46: "PLN0X"	#POLAND NOT CLAIMABLE GST
-v_code_47: "PLNEX"	#POLAND EXEMPT FROM GST
-v_code_48: "RSA00"	#VAT @ STD RATE-SALES (OUTPUT)
-v_code_49: "RSA01"	#RSA Standard
-v_code_50: "RSA02"	#VAT @ STD RATE-PETTY CASH EXP
-v_code_51: "RSA03"	#VAT @ STD RATE-IMPORTS
-v_code_52: "RSA04"	#VAT @ STD RATE-OVERHEADS
-v_code_53: "RSA08"	#VAT @ STD RATE-SUNDRY INCOME
-v_code_54: "RSAEX"	#RSA Exempt
-v_code_55: "RSAZE"	#RSA Zero Rated
-v_code_56: "SWA00"	#GST @ STD RATE SALES (OUTPUT)
-v_code_57: "SWA01"	#GST @ STD RATE-ALL PURCHASES
-v_code_58: "SWA0X"	#SWAZILAND NOT CLAIMABLE GST
-v_code_59: "SWA20"	#GST STD RATE-LAYBYE SALES-OUTP
-v_code_60: "SWAEX"	#SWAZILAND EXEMPT FROM GST
-v_code_61: "TZN00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_62: "TZN01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_63: "TZNEX"	#TANZANIA EXEMPT FROM VAT
-v_code_64: "UGA00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_65: "UGA01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_66: "UGA02"	#UGANDA EXEMPT FROM VAT
-v_code_67: "ZMK00"	#VAT STD RATE-SALES (OUTPUT)
-v_code_68: "ZMK01"	#VAT @ STD RATE-ALL PURCHASES
-v_code_69: "ZMK0X"	#ZAMBIA NOT CLAIMABLE VAT
+v_code_1: "AUD00"    #GST @ STD RATE SALES (OUTPUT)
+v_code_2: "AUD01"    #GST @ STD RATE-ALL PURCHASES
+v_code_3: "AUD02"    #GST@STD RATE-PETTY CASH EXP
+v_code_4: "AUD0X"    #AUSTRALIA NOT CLAIMABLE GST
+v_code_5: "AUDEX"    #AUSTRALIA EXEMPT FROM GST
+v_code_6: "BOT00"    #VAT @ STD RATE-SALES (OUTPUT)
+v_code_7: "BOT01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_8: "BOT0X"    #BOTSWANA NOT CLAIMABLE VAT
+v_code_9: "BOTEX"    #BOTSWANA EXEMPT FROM VAT
+v_code_10: "DRC00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_11: "DRC01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_12: "DRCEX"    #CONGO EXEMPT FROM VAT
+v_code_13: "GHA00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_14: "GHA01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_15: "GHAEX"    #GHANA EXEMPT FROM VAT
+v_code_16: "KEN0X"    #KENYA NOT CLAIMABLE VAT
+v_code_17: "KES00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_18: "KES01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_19: "KESEX"    #KENYA EXEMPT FROM VAT
+v_code_20: "LSL00"    #Lesotho Sales Tax
+v_code_21: "LSL01"    #Lesotho Purchases Sales Tax
+v_code_22: "LSL02"    #PETTY CASH EXPENSE 1
+v_code_23: "LSL03"    #PETTY CASH EXPENSE 2
+v_code_24: "LSL04"    #PETTY CASH EXPENSE 3
+v_code_25: "LSL0X"    #LESOTHO NOT CLAIMABLE VAT
+v_code_26: "LSLEX"    #Lesotho Exempt
+v_code_27: "MZM00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_28: "MZM01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_29: "MZMEX"    #MOZAMBIQUE EXEMPT FROM VAT
+v_code_30: "NAM00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_31: "NAM01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_32: "NAM02"    #VAT @ LUX RATE-ALL PURCHASES
+v_code_33: "NAM03"    #VAT @ STD RATE-IMPORTS
+v_code_34: "NAM04"    #NAMIBIA STD RATE OVERHEADS
+v_code_35: "NAM0X"    #NAMIBIA NOT CLAIMABLE VAT
+v_code_36: "NAM20"    #VAT LUX RATE-SALES-OUTP
+v_code_37: "NAM30"    #VAT @ LUXURY RATE-IMPORTS
+v_code_38: "NAMEX"    #NAMIBIA EXEMPT FROM VAT
+v_code_39: "NIG00"    #VAT STD RATE - SALES (OUTPUT)
+v_code_40: "NIG01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_41: "NIG0X"    #NIGERIA NOT CLAIMABLE VAT
+v_code_42: "NIGEX"    #NIGERIA EXEMPT FROM VAT
+v_code_43: "PLN00"    #GST @ STD RATE SALES (OUTPUT)
+v_code_44: "PLN01"    #GST @ STD RATE-ALL PURCHASES
+v_code_45: "PLN02"    #GST @ STD RATE-PETTY CASH EXP
+v_code_46: "PLN0X"    #POLAND NOT CLAIMABLE GST
+v_code_47: "PLNEX"    #POLAND EXEMPT FROM GST
+v_code_48: "RSA00"    #VAT @ STD RATE-SALES (OUTPUT)
+v_code_49: "RSA01"    #RSA Standard
+v_code_50: "RSA02"    #VAT @ STD RATE-PETTY CASH EXP
+v_code_51: "RSA03"    #VAT @ STD RATE-IMPORTS
+v_code_52: "RSA04"    #VAT @ STD RATE-OVERHEADS
+v_code_53: "RSA08"    #VAT @ STD RATE-SUNDRY INCOME
+v_code_54: "RSAEX"    #RSA Exempt
+v_code_55: "RSAZE"    #RSA Zero Rated
+v_code_56: "SWA00"    #GST @ STD RATE SALES (OUTPUT)
+v_code_57: "SWA01"    #GST @ STD RATE-ALL PURCHASES
+v_code_58: "SWA0X"    #SWAZILAND NOT CLAIMABLE GST
+v_code_59: "SWA20"    #GST STD RATE-LAYBYE SALES-OUTP
+v_code_60: "SWAEX"    #SWAZILAND EXEMPT FROM GST
+v_code_61: "TZN00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_62: "TZN01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_63: "TZNEX"    #TANZANIA EXEMPT FROM VAT
+v_code_64: "UGA00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_65: "UGA01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_66: "UGA02"    #UGANDA EXEMPT FROM VAT
+v_code_67: "ZMK00"    #VAT STD RATE-SALES (OUTPUT)
+v_code_68: "ZMK01"    #VAT @ STD RATE-ALL PURCHASES
+v_code_69: "ZMK0X"    #ZAMBIA NOT CLAIMABLE VAT
 
 ########################### SUPPLIER  ############################################
 
@@ -261,3 +261,40 @@ Area:
   area_manager: 'abc'
   area_currency: 'AUD'
   area_region: '12'
+
+  ###################### Stores ########################
+CreateStore:
+  Store_Name: 'Test Store'
+  10_Character_Name: 'TestStore1'
+  3_Character_Name: 'TST'
+  Channel: '1'
+  Area: '1'
+  Transfer_Zone: '1007'
+  Currency: 'AUD'
+  Language: '1'
+  Time_Zone: 'Greenwich'
+  VAT_Region: '71'
+  Org_Unit: '2001'
+  Store_Open_Date: "29-11-2020"
+  Store_Class: 'Class Stores A'
+  Start_Order_Days: '6'
+  Unique_Transaction_No_by: 'Store'
+  Manager: 'test'
+
+ZoningLocations:
+  Pricing_Store: '5555'
+  CostLocation: '5555'
+
+BusinessAddress:
+  Address: 'xxxx'
+  City: 'xxxxx'
+  Country: 'AU'
+
+# Regarding Update : Initially Just one attribute will be updated , rest can be update accordingly
+UpdateStore:
+  Store_Name: 'Test Edit'
+
+LocationTrait: '41'
+
+# The Store ID to perform All relevent actions #
+Store_ID: '70620'
