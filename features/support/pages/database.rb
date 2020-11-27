@@ -810,6 +810,71 @@ module Pages
       end
     end
 
+
+    ##################    STORES   ###################
+
+    ##Last Store ID ##
+    def last_store_id
+      last_store_id = @connection.select_one("Select * from (select store from store where store <> 99999 and store <> 88888 order by store DESC) WHERE ROWNUM = 1")
+      if last_store_id.nil?
+        @new_store_id = 1
+      else
+        @new_store_id = (last_store_id[0] + 1).to_s
+      end
+    end
+
+    ## Verification for Create and Update Store ##
+    def verify_store_create_update(store, store_name)
+      store_table = @connection.select_one("select * from store where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    end
+
+    ## Location Traits ##
+
+    ## Add Location - Verification ##
+    def verify_add_location(store)
+      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    end
+
+    ## Delete Location - Verification ##
+    def verify_delete_location(store)
+      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" unless store_table.nil?
+    end
+
+    ##################    STORES   ###################
+
+    ##Last Store ID ##
+    def last_store_id
+      last_store_id = @connection.select_one("Select * from (select store from store where store <> 99999 and store <> 88888 order by store DESC) WHERE ROWNUM = 1")
+      if last_store_id.nil?
+        @new_store_id = 1
+      else
+        @new_store_id = (last_store_id[0] + 1).to_s
+      end
+    end
+
+    ## Verification for Create and Update Store ##
+    def verify_store_create_update(store, store_name)
+      store_table = @connection.select_one("select * from store where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    end
+
+    ## Location Traits ##
+
+    ## Add Location - Verification ##
+    def verify_add_location(store)
+      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    end
+
+    ## Delete Location - Verification ##
+    def verify_delete_location(store)
+      store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" unless store_table.nil?
+    end
+
   end
 end
 
