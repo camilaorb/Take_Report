@@ -59,9 +59,6 @@ module Pages
     ##### Merchandise Hierarchy #####
 
 
-
-
-
     def category_id(subdept_id)
       last_id = @connection.select_one("Select * from (select CLASS from CLASS WHERE DEPT = (#{subdept_id}) order by CLASS DESC) WHERE ROWNUM = 1")
       if last_id.nil?
@@ -489,7 +486,6 @@ module Pages
     end
 
 
-
     ##### Store-Format ######
     # create #
     def verify_store_format_table(file)
@@ -693,7 +689,7 @@ module Pages
     def verify_update_uda_values_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
       uda_id = xls.sheet(2).cell(2, 2)
-      uda_value  = xls.sheet(2).cell(2, 3)
+      uda_value = xls.sheet(2).cell(2, 3)
       uda_value_description = xls.sheet(2).cell(2, 4)
 
       uda_value_table = @connection.select_one("select * from uda_values where uda_id = '#{uda_id}' and uda_value = '#{uda_value}'")
@@ -706,7 +702,7 @@ module Pages
     def verify_delete_uda_values_table(file)
       xls = Roo::Spreadsheet.open("#{Dir.pwd}/resources/upload_DB_data/#{file}")
       uda_id = xls.sheet(2).cell(2, 2)
-      uda_value  = xls.sheet(2).cell(2, 3)
+      uda_value = xls.sheet(2).cell(2, 3)
       uda_value_description = xls.sheet(2).cell(2, 4)
 
       uda_value_table = @connection.select_one("select * from uda_values where uda_id = '#{uda_id}' and uda_value = '#{uda_value}'")
@@ -873,6 +869,22 @@ module Pages
       address_table = @connection.select_one("select count(*) from addr where module = '#{func_db_code}' AND key_value_1 = '#{supplier_id}' and country_id = '#{country}'")
       raise "Address is not on the table." if address_table.nil?
       raise "Address count is not as Expected:'2' Actual:'#{address_table[0]}" unless address_table[0] == '2'.to_i
+    end
+
+
+    ## Ware House ##
+    def last_warehouse_id
+      last_warehouse_id = @connection.select_one("Select * from (select wh from wh where wh <> 999999 and wh <> 9999 order by wh DESC) WHERE ROWNUM = 1")
+      if last_warehouse_id.nil?
+        @new_store_id = 1
+      else
+        @new_store_id = (last_warehouse_id[0] + 2).to_s
+      end
+    end
+
+    def verify_warehouse_create_update(store, store_name)
+      store_table = @connection.select_one("select * from store where store = '#{store}'")
+      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
     end
 
 

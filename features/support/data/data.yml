@@ -139,12 +139,12 @@ OC: '999' #Other Country
 
 ### Code ###
 
-v_code_1: "AUD00"	#GST @ STD RATE SALES (OUTPUT)
-v_code_2: "AUD01"	#GST @ STD RATE-ALL PURCHASES
-v_code_3: "AUD02"	#GST@STD RATE-PETTY CASH EXP
-v_code_49: "RSA01"	#RSA Standard
-v_code_54: "RSAEX"	#RSA Exempt
-v_code_55: "RSAZE"	#RSA Zero Rated
+v_code_1: "AUD00"    #GST @ STD RATE SALES (OUTPUT)
+v_code_2: "AUD01"    #GST @ STD RATE-ALL PURCHASES
+v_code_3: "AUD02"    #GST@STD RATE-PETTY CASH EXP
+v_code_49: "RSA01"    #RSA Standard
+v_code_54: "RSAEX"    #RSA Exempt
+v_code_55: "RSAZE"    #RSA Zero Rated
 
 ########################### SUPPLIER  ############################################
 
@@ -262,3 +262,34 @@ LocationTrait: '41'
 
 # The Store ID to perform All relevent actions #
 Store_ID: '70620'
+
+
+################################ Ware House ########################################
+
+Warehouse:
+  warehouse_name: 'test'
+  currency: 'ZAR'
+  vat_region: '1'
+  delivery_option: 'Next Valid Delivery Day'
+  inblund_days: '1'
+  cost_location: 'Warehouse'
+  warehouse_number: '5001'
+
+  address_type_option: 'Business'
+  address: '8'
+  city: 'Cape Town'
+  country: 'ZA'
+
+  #virtual warehouse#
+
+  vwh: '8'
+  name: 'test_08'
+  org_en_type_opt: 'Regular Warehouse'
+  transfer_entity: '1000'
+  org_unit: '1001'
+  channel: '1'
+  pricing_location: '10012'
+
+  primary_virtual_warehouse: '9'
+
+
