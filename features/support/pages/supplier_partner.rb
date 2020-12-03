@@ -40,6 +40,8 @@ module Pages
     element(:cancel_button) { a(:text, /Cancel/) }
     element(:more_actions_dropdown) { a(:title, /More Actions/) }
     element(:clear_all_filters) { a(:title, /Clear All/) }
+    element(:goto_tab) { |text| a(:text, text) }
+
 
 
     #Suppliers
@@ -52,7 +54,7 @@ module Pages
     element(:supplier_id_filter) { text_field(:id, /resId1:it4::content/) }
 
     #Address
-    element(:add_existing_button) { a(:text, /Add from Existing/) }
+    element(:add_existing_button) { img(:id, /_ATp:duplicate::icon/) }
     element(:address_type_field) { select(:id, /_ATp:tiAddressTypeBApply::content/) }
     element(:address_type_list) { |text| select(:id, /_ATp:tiAddressTypeBApply::content/).option(:title, text) }
     element(:address_1_field) { text_field(:id, /_ATp:tiAdd1BApply::content/) }
@@ -201,6 +203,7 @@ module Pages
         wait_for_db_activity
         done_button.click
         wait_for_db_activity
+        goto_tab('Addresses')
       end
     end
 
@@ -274,6 +277,10 @@ module Pages
       delete_popup.wait_until_present
       yes_button.click
       wait_for_db_activity
+    end
+
+    def delete_primary_address
+      raise "Address can be delete" if delete_button.present?
     end
 
     def select_address(address_type, country)

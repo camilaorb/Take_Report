@@ -53,72 +53,9 @@ module Pages
       end
     end
 
-
-    #####################################
-
-    ##### Merchandise Hierarchy #####
-
-
-    def category_id(subdept_id)
-      last_id = @connection.select_one("Select * from (select CLASS from CLASS WHERE DEPT = (#{subdept_id}) order by CLASS DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0] + 1).to_s
-      end
-    end
-
-    def subcategory_id(subdept_id, category_id)
-      last_id = @connection.select_one("Select *from (select SUBCLASS from SUBCLASS WHERE DEPT = (#{subdept_id}) AND CLASS = (#{category_id}) order by SUBCLASS DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0] + 1).to_s
-      end
-    end
-
-    def subdpt_id
-      last_id = @connection.select_one("Select * from (select DEPT from DEPS order by DEPT DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0] + 1).to_s
-      end
-    end
-
-    ##### Diffs #####
-
-    def diff_group_id
-      last_id = @connection.select_one("Select * from (select DIFF_GROUP_ID from DIFF_GROUP_HEAD order by DIFF_GROUP_ID DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0].to_i) + 1
-      end
-    end
-
-    def group_detail_id(diff_group_id)
-      last_id = @connection.select_one("Select * from (select DISPLAY_SEQ from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = (#{diff_group_id}) order by DISPLAY_SEQ DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0].to_i) + 1
-      end
-    end
-
-    def diff_range_id
-      last_id = @connection.select_one("Select * from (select DIFF_RANGE from DIFF_RANGE_HEAD order by DIFF_RANGE DESC) WHERE ROWNUM = 1")
-      if last_id.nil?
-        @new_id = 1
-      else
-        @new_id = (last_id[0].to_i) + 1
-      end
-    end
-
     ############### Verify Data ######################
 
-
-    ### Merchandise Hierarchy ###
+    ##### Merchandise Hierarchy #####
 
     ## MH Division ##
 
@@ -168,7 +105,16 @@ module Pages
       raise "The Department no '#{department_id}' was not deleted" unless new_department.nil?
     end
 
-    ## Department ##
+    ## Category ##
+
+    def category_id(subdept_id)
+      last_id = @connection.select_one("Select * from (select CLASS from CLASS WHERE DEPT = (#{subdept_id}) order by CLASS DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0] + 1).to_s
+      end
+    end
 
     def verify_category_table(category_id, subdept_id, category_name)
       new_category = @connection.select_one("Select * from CLASS WHERE DEPT = (#{subdept_id}) AND CLASS = (#{category_id})")
@@ -182,10 +128,32 @@ module Pages
       raise "The value was not on Daily Purge table" unless item.nil?
     end
 
+    ## SubCategory ##
+
+    def subcategory_id(subdept_id, category_id)
+      last_id = @connection.select_one("Select *from (select SUBCLASS from SUBCLASS WHERE DEPT = (#{subdept_id}) AND CLASS = (#{category_id}) order by SUBCLASS DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0] + 1).to_s
+      end
+    end
+
     def verify_subcategory_table(subcategory_id, subdept_id, category_id, subcategory_name)
       new_subcategory = @connection.select_one("Select * from SUBCLASS WHERE DEPT = (#{subdept_id}) AND CLASS = (#{category_id}) AND SUBCLASS = (#{subcategory_id})")
       raise "Subcategory no '#{subcategory_id}' was not created" if new_subcategory.nil?
       raise "Name is wrong. Expected:'#{subcategory_name}' Actual:'#{new_subcategory[3]}'" unless new_subcategory[3] == subcategory_name
+    end
+
+    ## SubDepartment ##
+
+    def subdpt_id
+      last_id = @connection.select_one("Select * from (select DEPT from DEPS order by DEPT DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0] + 1).to_s
+      end
     end
 
     def verify_subsubdept_table(subdept_id, subdept_name, buyer, merch, profit_calc, purchase, dept, mark_retail, mark_cost,
@@ -234,7 +202,16 @@ module Pages
       raise "Require is wrong. Expected:'#{required}' Actual:'#{new_merch_hier[4]}'" unless new_merch_hier[4] == required
     end
 
-    #### Diffs ###
+    ##### Diffs #####
+
+    def diff_group_id
+      last_id = @connection.select_one("Select * from (select DIFF_GROUP_ID from DIFF_GROUP_HEAD order by DIFF_GROUP_ID DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0].to_i) + 1
+      end
+    end
 
     def verify_diff_group_table(new_diff_group_id, group_name, type)
       new_diff_group = @connection.select_one("Select  DIFF_TYPE , DIFF_GROUP_DESC from DIFF_GROUP_HEAD WHERE DIFF_GROUP_ID = #{new_diff_group_id}")
@@ -253,6 +230,17 @@ module Pages
       raise "The Diff Group no '#{diff_group_id}' was not deleted" unless diff_group.nil?
     end
 
+    ### Diff Group Detail ###
+
+    def group_detail_id(diff_group_id)
+      last_id = @connection.select_one("Select * from (select DISPLAY_SEQ from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = (#{diff_group_id}) order by DISPLAY_SEQ DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0].to_i) + 1
+      end
+    end
+
     def verify_diff_group_detail_table(diff_group_detail_id, diff, sequence)
       diff_group_detail = @connection.select_one("Select DIFF_GROUP_ID, DIFF_ID, DISPLAY_SEQ from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id}")
       raise "New Diff Group Detail no '#{diff_group_detail_id}' was not created" if diff_group_detail.nil?
@@ -260,10 +248,20 @@ module Pages
       raise "Sequence is wrong. Expected:'#{sequence}' Actual:'#{diff_group_detail[4]}'" unless diff_group_detail[2] == sequence.to_i
     end
 
-
     def verify_delete_diff_group_detail_table(diff_group_detail_id, sequence)
       diff_group_detail = @connection.select_one("Select * from DIFF_GROUP_DETAIL WHERE DIFF_GROUP_ID = #{diff_group_detail_id} AND DISPLAY_SEQ = #{sequence}")
       raise "New Diff Group Detail no '#{diff_group_detail_id}' was not deleted" unless diff_group_detail.nil?
+    end
+
+    ### Diff Range ###
+
+    def diff_range_id
+      last_id = @connection.select_one("Select * from (select DIFF_RANGE from DIFF_RANGE_HEAD order by DIFF_RANGE DESC) WHERE ROWNUM = 1")
+      if last_id.nil?
+        @new_id = 1
+      else
+        @new_id = (last_id[0].to_i) + 1
+      end
     end
 
     def verify_diff_range_header_table(diff_range_id, diff_range_desc, diff_group_1, diff_group_2, diff_range_type)
@@ -287,6 +285,8 @@ module Pages
       diff_range_detail = @connection.select_one("Select * from  DIFF_RANGE_DETAIL where DIFF_RANGE = #{diff_range_id} and DIFF_1 = '#{detail_1}'")
       raise "Diff Range Detail no '#{diff_range_id}' was not deleted" unless diff_range_detail.nil?
     end
+
+    ### Diff Ratio ###
 
     def verify_diff_ratio_table(diff_ratio_id, description, dept, ratio_class, subclass, ratio_group1, ratio_group2, ratio_group3, review)
       diff_ratio_head = @connection.select_one("Select * from DIFF_RATIO_HEAD where DIFF_RATIO_ID = #{diff_ratio_id}")
@@ -485,7 +485,6 @@ module Pages
       raise "New TSF Type '#{tsf_type}' Detail was not deleted" unless tsf_type_table.nil?
     end
 
-
     ##### Store-Format ######
     # create #
     def verify_store_format_table(file)
@@ -519,7 +518,6 @@ module Pages
       store_format_table = @connection.select_one("select * from STORE_FORMAT where STORE_FORMAT = '#{store_format_number}'")
       raise "store_format_number #{store_format_number}' Detail was not deleted" unless store_format_table.nil?
     end
-
 
     #### Supplier Trait ####
     # create #
@@ -860,9 +858,9 @@ module Pages
       raise "Address is not on the table." if address_table.nil?
       raise "Address 1 is not as Expected:'#{address_1}' Actual:'#{address_table[0]}" unless address_table[0] == address_1.to_s
       raise "Type is not as Expected:'#{type}' Actual:'#{address_table[1]}'" unless address_table[1] == type
-      raise "Detail 2 is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
-      raise "Ratio is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
-      raise "Ratio is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country
+      raise "City is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
+      raise "State is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
+      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country.to_i
     end
 
     def count_address_table(func_db_code, supplier_id, country)
@@ -871,8 +869,13 @@ module Pages
       raise "Address count is not as Expected:'2' Actual:'#{address_table[0]}" unless address_table[0] == '2'.to_i
     end
 
+    def verify_delete_address_table(func_db_code, supplier_id, type, country)
+      address_table = @connection.select_one("Select ADD_1, ADDR_TYPE,CITY, STATE, COUNTRY_ID from addr where module = '#{func_db_code}' and key_value_1 = '#{supplier_id}' and ADDR_TYPE = '#{type}' and country_id = '#{country}'")
+      raise "Address is not delete." unless address_table.nil?
+    end
 
     ## Ware House ##
+
     def last_warehouse_id
       last_warehouse_id = @connection.select_one("Select * from (select wh from wh where wh <> 999999 and wh <> 9999 order by wh DESC) WHERE ROWNUM = 1")
       if last_warehouse_id.nil?
@@ -886,6 +889,7 @@ module Pages
       store_table = @connection.select_one("select * from store where store = '#{store}'")
       raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
     end
+
 
 
   end

@@ -139,12 +139,12 @@ OC: '999' #Other Country
 
 ### Code ###
 
-v_code_1: "AUD00"    #GST @ STD RATE SALES (OUTPUT)
-v_code_2: "AUD01"    #GST @ STD RATE-ALL PURCHASES
-v_code_3: "AUD02"    #GST@STD RATE-PETTY CASH EXP
-v_code_49: "RSA01"    #RSA Standard
-v_code_54: "RSAEX"    #RSA Exempt
-v_code_55: "RSAZE"    #RSA Zero Rated
+v_code_1: "AUD00"	#GST @ STD RATE SALES (OUTPUT)
+v_code_2: "AUD01"	#GST @ STD RATE-ALL PURCHASES
+v_code_3: "AUD02"	#GST@STD RATE-PETTY CASH EXP
+v_code_49: "RSA01"	#RSA Standard
+v_code_54: "RSAEX"	#RSA Exempt
+v_code_55: "RSAZE"	#RSA Zero Rated
 
 ########################### SUPPLIER  ############################################
 
@@ -175,10 +175,11 @@ code_a_type_6: '03'
 #Country
 country_1: 'PT' #Portugal
 country_2: 'BD' #Bangladesh
+country_3: 'ZA' #South Africa
 
 #State
 state_1: '13' #Porto
-state_2: '05' #São Paulo
+state_2: '05'
 
 ## Module ##
 

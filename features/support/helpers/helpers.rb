@@ -134,7 +134,7 @@ def filter_activity(filter_element, filter_data)
       filter_element.send_keys :enter
     end
   else
-    TE.browser.img(id: /at1:_ATp:_qbeTbr::icon/).click
+    TE.browser.img(id: /_ATp:_qbeTbr::icon/).click
     filter_element.send_keys filter_data
     wait_for_db_activity
     2.times do

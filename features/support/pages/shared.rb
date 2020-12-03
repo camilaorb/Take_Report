@@ -27,7 +27,7 @@ module Pages
     element(:loading_list) { div(:class, 'AFAutoSuggestBusyStyle') }
     element(:cancel_button) { a(:text, 'Cancel') }
     element(:more_actions_dropdown) { a(:title, 'More Actions') }
-    element(:select_more_action_option) { |text| tr(:title, text) }
+    element(:select_more_action_option) { |text| tr(:title, text ) }
     element(:close_tab_button) { a(:title, 'Close Tab') }
     element(:clear_all_filters) { a(:title, 'Clear All') }
     element(:tasks_button) { a(:title, 'Tasks') }
@@ -74,7 +74,7 @@ module Pages
       end
     end
 
-    ## Filter - img(alt: 'Query by Example') ##
+## Filter - img(alt: 'Query by Example') ##
     def filter_activity(filter_element, filter_data)
       ## Filter ##
       if (filter_element.present? == true)
@@ -146,7 +146,5 @@ module Pages
       wait_for_db_activity
     end
 
-
   end
 end
-
