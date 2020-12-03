@@ -874,6 +874,18 @@ module Pages
       raise "Address is not delete." unless address_table.nil?
     end
 
+    ### Partners ###
+
+    def verify_partner_table(supplier_id, type, partner_name, status, currency, terms, contact_name, phone)
+      address_table = @connection.select_one("Select ADD_1, ADDR_TYPE,CITY, STATE, COUNTRY_ID from addr where module = '#{func_db_code}' and key_value_1 = '#{supplier_id}' and country_id = '#{country}'")
+      raise "Address is not on the table." if address_table.nil?
+      raise "Address 1 is not as Expected:'#{address_1}' Actual:'#{address_table[0]}" unless address_table[0] == address_1.to_s
+      raise "Type is not as Expected:'#{type}' Actual:'#{address_table[1]}'" unless address_table[1] == type
+      raise "City is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
+      raise "State is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
+      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country.to_i
+    end
+
     ## Ware House ##
 
     def last_warehouse_id

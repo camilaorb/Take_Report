@@ -422,11 +422,11 @@ Given(/^a buyer access Manage Partners page$/) do
   visit(TE.environment['url'])
   login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   supplier_partner.open_supplier_and_partner
-  supplier_partner.open_supplier
+  supplier_partner.open_manage_partners
 end
 
 When(/^buyer enters Partner information the search criteria$/) do
-  supplier_partner.search_supplier(YML_DATA['supplier_id'])
+  supplier_partner.search_partner(YML_DATA['partner_id'])
 end
 
 Then(/^the results for the Partner search criteria is displayed in the Results table$/) do
@@ -438,14 +438,26 @@ Given(/^a buyer access Create Partners page$/) do
   visit(TE.environment['url'])
   login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   supplier_partner.open_supplier_and_partner
+  supplier_partner.open_create_partners
 end
 
 When(/^the buyer add partner details$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.create_partner(type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  @new_partner_id = supplier_partner.new_partner_id
+  shared.more_actions_select(YML_DATA['address'])
+  supplier_partner.create_address(YML_DATA['a_type_1'], 'test st no 1', 'Vila Nova de Gaia', YML_DATA['country_1'], YML_DATA['state_1'])
+  shared.save_and_close
 end
 
 Then(/^the new partner is add on RMS and RMS DB$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.open_supplier_and_partner
+  supplier_partner.open_manage_partners
+  supplier_partner.search_partner(@new_partner_id)
+  supplier_partner.verify_address_results(expected_values:'')
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_partner_table(@new_partner_id, type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  database.disconnect_db
+  login_page.logout_to_rmss
 end
 
 When(/^the buyer edit partner details$/) do

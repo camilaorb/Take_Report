@@ -199,7 +199,15 @@ import_attributes: 'Import Attributes'
 expenses: 'Expenses'
 delivery_schedule: 'Delivery Schedule'
 
-#############################Org-Hierarchy##############################
+########################### Partner  ############################################
+
+## Search ##
+
+partner_id: '325002'
+
+
+
+############################# Org-Hierarchy ##############################
 Division:
   division_create: 'test_create'
   division_edit: 'test_edit'

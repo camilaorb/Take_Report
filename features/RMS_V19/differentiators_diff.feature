@@ -74,7 +74,7 @@ Feature: Differentiators
 
   @DIFF-12 @canceled
   Scenario: Create Diff Ratio
-    # Given a user is in Create Diff Ratio screen
+    #Given a user is in Create Diff Ratio screen
     # When user enters the relevant Merchandise details, Sub-Department, Category, Sub-Category
     # Then the Diff Ratio is created in RMS and RMS DB
 

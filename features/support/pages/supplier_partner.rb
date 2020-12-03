@@ -18,6 +18,8 @@ module Pages
     element(:fd_supplier_and_partner_link) { a(:text, 'Supplier and Partner Foundatio...') }
     element(:fd_manage_supp_link) { a(:text, 'Manage Suppliers') }
     element(:supplier_search_page) { a(:text, 'Supplier Search') }
+    element(:fd_manage_partners_link) { a(:text, 'Manage Partners') }
+    element(:fd_create_partners_link) { a(:text, 'Create Partner') }
 
     #Comuns elements
     element(:add_button) { div(:title, 'Add') }
@@ -106,6 +108,16 @@ module Pages
 
 
     #Partner
+    # element(:partner_id_field) { text_field(:id, /mR:qryId1:val00::content/) }
+    #  partner_type_list
+    #  partner_type_field
+    #  partner_name
+    #  part_currency
+    #  partner_status_list
+    #  partner_status_field
+    #  partner_terms
+    #  contact_name
+    #  contact_phone.set phone
 
 
 
@@ -121,6 +133,14 @@ module Pages
       end
     end
 
+    def search_all_results
+      search_button.click
+      wait_for_db_activity
+    end
+
+    ####################### Supplier #######################
+
+
     def open_supplier
       TryWith.attempts(attempts: 3, sleep: 2) do
         tasks_button.click unless fd_manage_supp_link.present?
@@ -130,41 +150,8 @@ module Pages
       wait_for_db_activity
     end
 
-    def open_create_partner
-      TryWith.attempts(attempts: 3, sleep: 2) do
-        tasks_button.click unless fd_manage_supp_link.present?
-      end
-      #scroll_to dl_download_link
-      fd_manage_supp_link.click
-      wait_for_db_activity
-    end
-
-    def open_manage_partners
-      TryWith.attempts(attempts: 3, sleep: 2) do
-        tasks_button.click unless fd_manage_supp_link.present?
-      end
-      #scroll_to dl_download_link
-      fd_manage_supp_link.click
-      wait_for_db_activity
-    end
-
-
-    ####################### Supplier #######################
-
-    def search_all_suppliers
-      search_button.click
-      wait_for_db_activity
-    end
-
     def search_supplier(supplier_id)
       supplier_id_field.set supplier_id
-      wait_for_db_activity
-      search_button.click
-      wait_for_db_activity
-    end
-
-    def search_supplier_site(supplier_site_id)
-      supplier_site_field.set supplier_site_id
       wait_for_db_activity
       search_button.click
       wait_for_db_activity
@@ -183,13 +170,6 @@ module Pages
       wait_for_db_activity
       list = result_table.text
       raise "Supplier id no #{new_id} not found" unless list.include? supplier_id.to_s
-    end
-
-    def select_supplier_site(supplier_site_id)
-      filter_activity(supplier_site_id_filter, supplier_site_id)
-      wait_for_db_activity
-      list = result_table.text
-      raise "Supplier Site id no #{supplier_site_id} not found" unless list.include? supplier_site_id.to_s
     end
 
     def access_supplier
@@ -303,6 +283,20 @@ module Pages
 
     ####################### Supplier Site #######################
 
+    def search_supplier_site(supplier_site_id)
+      supplier_site_field.set supplier_site_id
+      wait_for_db_activity
+      search_button.click
+      wait_for_db_activity
+    end
+
+    def select_supplier_site(supplier_site_id)
+      filter_activity(supplier_site_id_filter, supplier_site_id)
+      wait_for_db_activity
+      list = result_table.text
+      raise "Supplier Site id no #{supplier_site_id} not found" unless list.include? supplier_site_id.to_s
+    end
+
     ######### Inventory Management #########
 
     def create_inventory
@@ -317,7 +311,69 @@ module Pages
     end
 
 
+    ####################### Partners #######################
 
+    def open_manage_partners
+      TryWith.attempts(attempts: 3, sleep: 2) do
+        tasks_button.click unless fd_manage_partners_link.present?
+      end
+      #scroll_to dl_download_link
+      fd_manage_partners_link.click
+      wait_for_db_activity
+    end
+
+    def open_create_partners
+      TryWith.attempts(attempts: 3, sleep: 2) do
+        tasks_button.click unless fd_create_partners_link.present?
+      end
+      #scroll_to dl_download_link
+      fd_create_partners_link.click
+      wait_for_db_activity
+    end
+
+    def search_all_partners
+      search_button.click
+      wait_for_db_activity
+    end
+
+    def search_partner(partner_id)
+      partner_id_field.set partner_id
+      wait_for_db_activity
+      search_button.click
+      wait_for_db_activity
+    end
+
+    def new_partner_id
+      wait_for_db_activity
+      partner_id.wait_until_present
+      @new_id = partner_id.value
+    end
+
+    def create_partner(type, partner_name, status, currency, terms, contact_name, phone)
+      select_list(partner_type_list(type), partner_type_field, type)
+      ok_button.click
+      wait_for_db_activity
+      partner_name.set partner_name
+      wait_for_db_activity
+      part_currency.set currency
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      select_list(partner_status_list(status), partner_status_field, status)
+      wait_for_db_activity
+      partner_terms. set terms
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      contact_name.set contact_name
+      wait_for_db_activity
+      contact_phone.set phone
+      wait_for_db_activity
+    end
 
 
 
