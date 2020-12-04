@@ -61,6 +61,7 @@ module Pages
     ##Update Store##
     element(:store_filter) { text_field(label: 'Store') }
     element(:store_link) { a(id: /mR:pc15:_ATp:tbb5:25:cl5/) }
+                                 #mR:pc16:_ATp:tbb6:26:cl6
 
     ##location traits##
     element(:more_actions) { a(title: 'More Actions') }

@@ -897,12 +897,28 @@ module Pages
       end
     end
 
-    def verify_warehouse_create_update(store, store_name)
-      store_table = @connection.select_one("select * from store where store = '#{store}'")
-      raise "New Store '#{store_name}' Detail was not created" if store_table.nil?
+    def verify_warehouse_create_update(warehouse, warehouse_name)
+      warehouse_table = @connection.select_one("select * from wh where wh = '#{warehouse}'")
+      raise "New Store '#{warehouse_name}' Detail was not created" if store_table.nil?
+    end
+
+    def verify_virtual_warehouse_create_update(vwh, vwh_name, physical_wh)
+      vwh_table = @connection.select_one("select * from wh where wh = '#{vwh}'")
+      raise "New virtual warehouse '#{vwh_name}' Detail was not created" if vwh_table.nil?
+      raise "Physical Warehouse '#{physical_wh}' is not assocoated with '#{vwh}'" if physical_wh.to_i != vwh_table[8]
     end
 
 
+
+    ## Warehouse - Address Verification ##
+    def verify_warehouse_address_table(warehouse_id, address, city, country)
+      address_table = @connection.select_one("Select ADD_1,CITY,COUNTRY_ID from addr where module = 'WH' and key_value_1 = '#{warehouse_id}'")
+
+      raise "Address is not on the table." if address_table.nil?
+      raise "Address 1 is not as Expected:'#{address}' Actual:'#{address_table[0]}" unless address_table[0] == address.to_s
+      raise "City is not as Expected:'#{city}' Actual:'#{address_table[1]}'" unless address_table[1] == city
+      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[2]}'" unless address_table[2] == country
+    end
 
   end
 end

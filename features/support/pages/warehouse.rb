@@ -13,6 +13,7 @@ module Pages
     element(:_actions) { a(:text, 'Actions') }
     element(:delete_sign) { img(id: /mr1:pc1:_ATp:delete::icon/) }
     element(:confirm_delete_button) { span text: 'Yes' }
+    element(:warehouse_filter) { text_field(label: 'Warehouse') }
 
     #Create Warehouse
     element(:_warehouse) { span(:text, 'Warehouse') }
@@ -41,6 +42,22 @@ module Pages
     element(:_country) { text_field(label: 'Country') }
     element(:ok_button) { span(text: 'OK') }
 
+
+    #VWH
+    # Create method and set data yml part remains
+    element(:_vwh_page) { span(text: 'Virtual Warehouses') }
+    element(:_vwh) { text_field(label: 'Virtual Warehouse (Required)') }
+    element(:_name) { text_field(label: 'Name (Required)') }
+    element(:_org_en_type) { select(id: /mr:pc1:_ATp:soc4::content/) }
+    element(:_org_en_type_opt) { |text| option(text: text) } #select option from list
+    element(:_transfer_entity) { text_field(label: 'Transfer Entity') }
+    element(:_org_unit) { text_field(label: 'Org Unit') }
+    element(:_channel) { text_field(label: 'Channel (Required)') }
+    element(:_pricing_location) { text_field(label: 'Pricing Location') }
+    element(:_relplenishment_button) { input(id: /mr:pc1:_ATp:sbc11::content/) }
+    element(:_primary_virtual_warehouse) { text_field(label: 'Primary Virtual Warehouse') }
+
+
     def add_warehouse
       wait_for_db_activity
       _warehouse.click
@@ -64,7 +81,7 @@ module Pages
       wait_for_db_activity
       _vat_region.clear
       _vat_region.send_keys vat_region
-      shared.enter_times _vat_region, 1
+      shared.enter_times _vat_region, 2
       wait_for_db_activity
       _delivery_policy.click
       wait_for_db_activity
@@ -122,27 +139,12 @@ module Pages
       shared.save_and_close
     end
 
-    #VWH
-    # Create method and set data yml part remains
-    element(:_vwh_page) { span(text: 'Virtual Warehouses') }
-    element(:_vwh) { text_field(label: 'Virtual Warehouse (Required)') }
-    element(:_name) { text_field(label: 'Name (Required)') }
-    element(:_org_en_type) { select(id: /mr:pc1:_ATp:soc4::content/) }
-    element(:_org_en_type_opt) { |text| option(text: text) } #select option from list
-    element(:_transfer_entity) { text_field(label: 'Transfer Entity') }
-    element(:_org_unit) { text_field(label: 'Org Unit') }
-    element(:_channel) { text_field(label: 'Channel (Required)') }
-    element(:_pricing_location) { text_field(label: 'Pricing Location') }
-    element(:_relplenishment_button) { input(id: /mr:pc1:_ATp:sbc11::content/) }
-    element(:_primary_virtual_warehouse) { text_field(label: 'Primary Virtual Warehouse') }
 
-
-    def add_vwh (vwh, name, org_en_type_opt, transfer_entity, org_unit, channel, pricing_location, primary_virtual_warehouse)
+    def add_vwh (vwh_id, name, org_en_type_opt, transfer_entity, org_unit, channel, pricing_location, primary_virtual_warehouse)
       _vwh_page.click
       wait_for_db_activity
       _add.click
       wait_for_db_activity
-      vwh_id = vwh.to_i + rand(1..999)
       _vwh.send_keys vwh_id
       shared.enter_times _vwh, 1
       wait_for_db_activity
@@ -163,7 +165,7 @@ module Pages
       _pricing_location.send_keys pricing_location
       shared.enter_times _pricing_location, 1
       click_if_replenishment_present
-      shared.ok
+      TE.browser.div(id: /mr:pc1:_ATp:cb16/).click
       shared.save_and_close
       wait_for_db_activity
       _primary_virtual_warehouse.clear
@@ -180,6 +182,45 @@ module Pages
       else
       end
     end
+
+
+    element(:_warehouse_filter) { text_field(label: 'Warehouse') }
+    element(:warehouse_link) { a(id: /mR:pc16:_ATp:tbb6:25:cl6/) }
+
+    ## Reach to Edit Warehouse ##
+    def edit_warehouse(_warehouse_id)
+      wait_for_db_activity
+      _warehouse.click
+      wait_for_db_activity
+      shared.filter_activity(_warehouse_filter, _warehouse_id)
+      warehouse_link.click
+      wait_for_db_activity
+    end
+
+    def update_warehouse (updated_whName, updated_vat_region, updated_delivery_option,
+                          updated_inbound_days)
+
+      wait_for_db_activity
+      _warehouse_name.clear
+      _warehouse_name.send_keys updated_whName
+      wait_for_db_activity
+
+      _vat_region.clear
+      _vat_region.send_keys updated_vat_region
+      shared.enter_times _vat_region, 2
+      wait_for_db_activity
+
+      _delivery_policy.click
+      wait_for_db_activity
+      _next_valid_day_delivery(updated_delivery_option).click
+      wait_for_db_activity
+      _inbound_days.send_keys updated_inbound_days
+
+      shared.save_and_close
+      shared.done
+
+    end
+
 
   end
 end
