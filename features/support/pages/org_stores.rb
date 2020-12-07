@@ -11,7 +11,7 @@ module Pages
 
     ##Reusable##
     element(:add_sign) { img(alt: 'Add') }
-    element(:delete_sign){img(id:/mr1:pc1:_ATp:delete::icon/)}
+    element(:delete_sign) { img(id: /mr1:pc1:_ATp:delete::icon/) }
     element(:confirm_delete_button) { span text: 'Yes' }
 
     #Create Store
@@ -61,7 +61,7 @@ module Pages
     ##Update Store##
     element(:store_filter) { text_field(label: 'Store') }
     element(:store_link) { a(id: /mR:pc15:_ATp:tbb5:25:cl5/) }
-                                 #mR:pc16:_ATp:tbb6:26:cl6
+    #mR:pc16:_ATp:tbb6:26:cl6
 
     ##location traits##
     element(:more_actions) { a(title: 'More Actions') }
@@ -70,8 +70,8 @@ module Pages
     element(:ok_b) { span(text: 'OK') }
 
     ## Delete ##
-    element(:delete_button) {a title: 'Delete'}
-    element(:delete_ok_button){div(id:/mR:cb2/)}
+    element(:delete_button) { a title: 'Delete' }
+    element(:delete_ok_button) { div(id: /mR:cb2/) }
 
     def add_store
       wait_for_db_activity
@@ -111,6 +111,7 @@ module Pages
       shared.enter_times currency, 2
       wait_for_db_activity
       language.send_keys _language
+      sleep 2
       shared.enter_times language, 2
       wait_for_db_activity
       time_zone.send_keys timeZone
@@ -118,6 +119,7 @@ module Pages
       shared.enter_times time_zone, 2
       wait_for_db_activity
       vat_region.send_keys vatRegion
+      sleep 1
       shared.enter_times vat_region, 2
       wait_for_db_activity
       org_unit.send_keys orgUnit
@@ -141,6 +143,7 @@ module Pages
       scroll_to zonning_location
       zonning_location.click
       wait_for_db_activity
+      raise "Pricing Store Field Not Enable" if pricing_store.present? == false
       pricing_store.send_keys _pricingStore
       wait_for_db_activity
       shared.enter_times pricing_store, 2

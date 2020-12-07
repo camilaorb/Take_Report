@@ -20,7 +20,7 @@ Feature: Warehouse
     When a buyer access the Address page for a wh
     Then the buyer is able to add Address WH for the new create physical WH
 
-    #->
+
   @WH-09
   Scenario: Edit Warehouse
     Given  buyer is on the organisations hierarchy screen

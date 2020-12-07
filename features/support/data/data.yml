@@ -241,27 +241,45 @@ CreateStore:
   10_Character_Name: 'TestStore1'
   3_Character_Name: 'TST'
   Channel: '1'
-  Area: '1'
-  Transfer_Zone: '1007'
-  Currency: 'AUD'
+  Area: '10'
+  Transfer_Zone: '1001'
+  Currency: 'ZAR'
   Language: '1'
-  Time_Zone: 'Greenwich'
-  VAT_Region: '71'
-  Org_Unit: '2001'
+  Time_Zone: 'Africa/Johannesburg'
+  VAT_Region: '1'
+  Org_Unit: '1001'
   Store_Open_Date: "29-11-2020"
   Store_Class: 'Class Stores A'
-  Start_Order_Days: '6'
+  Start_Order_Days: '8'
   Unique_Transaction_No_by: 'Store'
   Manager: 'test'
 
 ZoningLocations:
-  Pricing_Store: '5555'
-  CostLocation: '5555'
+  Pricing_Store: '10424'
+  CostLocation: '30754'
+  Pricing_Store_Different_from_currency: '10012'#australia
 
 BusinessAddress:
-  Address: 'xxxx'
-  City: 'xxxxx'
-  Country: 'AU'
+  Address: 'high street'
+  City: 'cape town'
+  Country: 'ZA'
+
+#Existing Zones
+  ZAR: South Africa Initial Pricing
+  AUD: Australia Initial Pricing
+  BWP: Botswana Initial Pricing
+  GHS: Ghana Initial Pricing
+  KES: Kenya Initial Pricing
+  LSL: Lesotho Initial Pricing
+  MNZ: Mozambique Initial Pricing
+  Namibia: Namibia Initial Pricing
+  NGN: Nigeria Initial Pricing
+  PLN: Poland Initial Pricing
+  SZL: Swaziland Initial Pricing
+  TZS: Tanzania Initial Pricing
+  UGX: Uganda Initial Pricing
+  ZMW: Zambia Initial Pricing
+
 
 # Regarding Update : Initially Just one attribute will be updated , rest can be update accordingly
 UpdateStore:
@@ -297,7 +315,9 @@ Warehouse:
   transfer_entity: '1000'
   org_unit: '1001'
   channel: '1'
-  pricing_location: '10012'
+
+  # Note : Pricing Location shold same as Currency Location
+  pricing_location: '10424'
   primary_virtual_warehouse: '9'
 
   # Edit Warehouse #

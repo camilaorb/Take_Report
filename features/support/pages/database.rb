@@ -825,7 +825,7 @@ module Pages
       if last_store_id.nil?
         @new_store_id = 1
       else
-        @new_store_id = (last_store_id[0] + 1).to_s
+        @new_store_id = (last_store_id[0] + 2).to_s
       end
     end
 
@@ -847,6 +847,18 @@ module Pages
     def verify_delete_location(store)
       store_table = @connection.select_one("select * from loc_traits_matrix where store = '#{store}'")
       raise "New Store '#{store_name}' Detail was not created" unless store_table.nil?
+    end
+
+
+    def verify_system_not_creates_new_zone store_name
+      zone_table = @connection.select_one("select * from rpm_zone where name = '#{store_name}'")
+      raise "New Zone For '#{store_name}' was not created" unless zone_table.nil?
+    end
+
+
+    def verify_system_creates_new_zone store_name
+      zone_table = @connection.select_one("select * from rpm_zone where name = '#{store_name}'")
+      raise "New Zone For '#{store_name}' was not created" if zone_table.nil?
     end
 
     ##################    Supplier   ###################
