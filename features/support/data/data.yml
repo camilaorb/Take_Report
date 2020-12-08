@@ -318,12 +318,28 @@ Warehouse:
 
   # Note : Pricing Location shold same as Currency Location
   pricing_location: '10424'
+  pricing_location_diff_from_currency: '10012' #10012 - for australia
+
   primary_virtual_warehouse: '9'
 
   # Edit Warehouse #
-
+  ##Make sure - Edit warehouse must not delete ##
   edit_warehouse: '9800'
-  updated_warehouse_name: 'test_update'
+  updated_warehouse_name: 'test_update_WH'
   updated_vat_region: '71'
   updated_delivery_option: 'Next Day'
   updated_inblund_days: '8'
+
+  updated_address: '10'
+  updated_city: 'cape town 10'
+  updated_country: 'ZA'
+
+## Manage Add Address  - add new address on the top of the address of WH created ##
+  manage_address: '11'
+  manage_city: 'cape town 11'
+  manage_country: 'ZA'
+
+## Manage - Add From Existing Address ##
+  manage_existing_address: '18'
+  manage_existing_city: 'cape town 18'
+  manage_existing_country: 'ZA'

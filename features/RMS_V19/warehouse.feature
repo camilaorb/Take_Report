@@ -15,45 +15,63 @@ Feature: Warehouse
 
 
   @WH-03
-  Scenario: Create Warehouse - Address
+  Scenario: Create Warehouse - Virtual WH - Add Pricing Location - Currency of VWH not equal to Pricing Location
+    Given a buyer completes the fields and descriptions for a new WH
+    When buyer add currency of VWH not equal to Pricing Location
+    Then RMS will create a New Zone for the location with the currency of the new VWH
+
+
+  @WH-04
+  Scenario: Create Warehouse - Virtual WH - Add Pricing Location - Currency of VWH  equal to Pricing Location
+    Given a buyer completes the fields and descriptions for a new WH
+    When buyer add currency of VWH equal to Pricing Location
+    Then RMS will add the VWH to to the existing Zone
+
+
+  @WH-05
+  Scenario: Create Warehouse - Address - Add Address
     Given  a buyer completes the fields and descriptions for a new WH
     When a buyer access the Address page for a wh
     Then the buyer is able to add Address WH for the new create physical WH
 
 
-  @WH-09
-  Scenario: Edit Warehouse
+  @WH-08
+  Scenario: Create Warehouse - Address - Delete Address
+    Given  a buyer completes the fields and descriptions for a new WH
+    When a buyer access the Address page for a wh
+    Then the buyer is able to add Address WH for the new create physical WH
+
+
+  @WH-11
+  Scenario: Manage WH - Edit WH
     Given  buyer is on the organisations hierarchy screen
     When buyer update warehouse with mandatory details
     Then the buyer is able to update WH for the selected physical WH
 
-    ## Working on database verification ##
-  @WH-10
-  Scenario: Edit Address
+
+  @WH-12
+  Scenario: Manage WH - Edit Address
     Given  buyer is on the organisations hierarchy screen
     When buyer update address of warehouse with mandatory details
     Then the buyer is able to update WH address for the selected physical WH
 
-  #The test is under review as it is creating a new zone
-  # Daniela looking in to the matter
-  @WH-11
-  Scenario: Add Address
+
+  @WH-13
+  Scenario: Manage WH - Add Address
     Given  buyer is on the organisations hierarchy screen
     When buyer add address for the created warehouse with mandatory details
     Then the buyer is able to add address for the selected physical WH
 
-  #The test is under review as it is creating a new zone
-  # Daniela looking in to the matter
-  @WH-12
-  Scenario: Add Address From Existing
+
+  @WH-14
+  Scenario: Manage WH - Add Address From Existing
     Given  buyer is on the organisations hierarchy screen
     When buyer add address from existing for the created warehouse with mandatory details
     Then the buyer is able to add address from existing for the selected physical WH
 
-  #The test is under review as it is creating a new zone
-  # Daniela looking in to the matter
-  @WH-13
-  Scenario: Delete Warehouse
+
+  @WH-15
+  Scenario: Manage WH - Delete Warehouse
     Given  buyer is on the organisations hierarchy screen
     When a buyer delete a the Warehouse
     Then the record is removed from the Warehouse table and RMS DB

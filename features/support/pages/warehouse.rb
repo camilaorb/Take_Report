@@ -11,9 +11,11 @@ module Pages
 
     ##Reusable##
     element(:_actions) { a(:text, 'Actions') }
+    element(:_actions_optional) { a(:text, /Actions/) }
     element(:delete_sign) { img(id: /mr1:pc1:_ATp:delete::icon/) }
     element(:confirm_delete_button) { span text: 'Yes' }
     element(:warehouse_filter) { text_field(label: 'Warehouse') }
+
 
     #Create Warehouse
     element(:_warehouse) { span(:text, 'Warehouse') }
@@ -42,6 +44,8 @@ module Pages
     element(:_country) { text_field(label: 'Country') }
     element(:ok_button) { span(text: 'OK') }
 
+    ## Edit Address ##
+    element(:_edit) { img(id: /mR:pc11:_ATp:edit::icon/) }
 
     #VWH
     # Create method and set data yml part remains
@@ -58,6 +62,20 @@ module Pages
     element(:_primary_virtual_warehouse) { text_field(label: 'Primary Virtual Warehouse') }
 
 
+    #Manage warehouse
+    element(:_warehouse_filter) { text_field(label: 'Warehouse') }
+    element(:_warehouse_link) { a(id: /mR:pc16:_ATp:tbb6:25:cl6/) }
+
+    #Delete
+    ## Delete ##
+    element(:delete_button) { a title: 'Delete' }
+    element(:delete_ok_button) { div(id: /mR:cb2/) }
+
+    ## Manage Address - Independent ##
+    # element(:_address_filter_field){input id: /mR:pc11:_ATp:tbb1:_afrFltrMdlcl-tiAdd1BAddr::content/}
+    element(:_delete_icon) { img(id: /mR:pc11:_ATp:delete::icon/) }
+    element(:_filter_add_line_1) { text_field(label: 'Filter: Address Line 1') }
+    element(:_add_from_exs_add) {img(id: /mR:pc11:_ATp:duplicate::icon/)}
     def add_warehouse
       wait_for_db_activity
       _warehouse.click
@@ -137,6 +155,11 @@ module Pages
       ok_button.click
       wait_for_db_activity
       shared.save_and_close
+      wait_for_db_activity
+      shared.save_and_close
+      wait_for_db_activity
+      shared.done
+      wait_for_db_activity
     end
 
 
@@ -184,16 +207,15 @@ module Pages
     end
 
 
-    element(:_warehouse_filter) { text_field(label: 'Warehouse') }
-    element(:warehouse_link) { a(id: /mR:pc16:_ATp:tbb6:25:cl6/) }
-
     ## Reach to Edit Warehouse ##
     def edit_warehouse(_warehouse_id)
+      wait_for_db_activity
+      shared.from_org_hierarchy
       wait_for_db_activity
       _warehouse.click
       wait_for_db_activity
       shared.filter_activity(_warehouse_filter, _warehouse_id)
-      warehouse_link.click
+      _warehouse_link.click
       wait_for_db_activity
     end
 
@@ -218,6 +240,141 @@ module Pages
 
       shared.save_and_close
       shared.done
+    end
+
+    def edit_address
+      wait_for_db_activity
+      _address_page.click
+      wait_for_db_activity
+      _actions_optional.click
+      wait_for_db_activity
+      _edit.click
+    end
+
+    def update_address(updated_address, updated_city, updated_country)
+      wait_for_db_activity
+
+      _address.clear
+      _address.send_keys updated_address
+      shared.enter_times _address, 2
+      wait_for_db_activity
+
+      _city.clear
+      _city.send_keys updated_city
+      shared.enter_times _city, 2
+      wait_for_db_activity
+
+      _country.clear
+      _country.send_keys updated_country
+      shared.enter_times _country, 2
+      wait_for_db_activity
+
+      ok_button.click
+      wait_for_db_activity
+      shared.save_and_close
+      wait_for_db_activity
+      shared.save_and_close
+      wait_for_db_activity
+      shared.done
+      wait_for_db_activity
+    end
+
+    def manage_add_address(address_type_option, address, city, country)
+      _address_page.click
+      wait_for_db_activity
+      sleep 2
+      _add.click
+      wait_for_db_activity
+      _address_type.click
+      wait_for_db_activity
+      _address_type_option(address_type_option).click
+      wait_for_db_activity
+
+      _address.clear
+      wait_for_db_activity
+      _address.send_keys address
+      wait_for_db_activity
+      shared.enter_times _address, 2
+      wait_for_db_activity
+
+      _city.clear
+      _city.send_keys city
+      shared.enter_times _city, 2
+      wait_for_db_activity
+
+      _country.clear
+      wait_for_db_activity
+      _country.send_keys country
+      shared.enter_times _country, 2
+      wait_for_db_activity
+      ok_button.click
+      wait_for_db_activity
+      shared.save_and_close
+    end
+
+
+    def manage_add_from_existing_address(address_type_option, address, city, country)
+      _address_page.click
+      wait_for_db_activity
+      sleep 2
+      _add_from_exs_add.click
+      wait_for_db_activity
+      _address_type.click
+      wait_for_db_activity
+      _address_type_option(address_type_option).click
+      wait_for_db_activity
+
+      _address.clear
+      _address.send_keys address
+      shared.enter_times _address, 2
+      wait_for_db_activity
+
+      _city.clear
+      _city.send_keys city
+      shared.enter_times _city, 2
+      wait_for_db_activity
+
+      _country.clear
+      _country.send_keys country
+      shared.enter_times _country, 2
+      wait_for_db_activity
+      ok_button.click
+      wait_for_db_activity
+      shared.save_and_close
+      shared.save_and_close
+      shared.done
+    end
+
+    def delete_address (warehouse, address_to_remove)
+      edit_warehouse warehouse
+      _address_page.click
+      wait_for_db_activity
+      shared.filter_activity(_filter_add_line_1, address_to_remove)
+      wait_for_db_activity
+      sleep 2
+      _delete_icon.click
+      confirm_delete_button.click
+      wait_for_db_activity
+
+      ## To eliminate some unknown error ##
+      _filter_add_line_1.clear
+      wait_for_db_activity
+      shared.enter_times _filter_add_line_1,2
+
+      shared.save_and_close
+      shared.save_and_close
+      shared.done
+    end
+
+    def delete_warehouse
+      wait_for_db_activity
+      TE.browser.element(title: 'Delete').present?
+      delete_button.click
+      wait_for_db_activity
+      confirm_delete_button.click
+      wait_for_db_activity
+      shared.done
+      wait_for_db_activity
 
     end
 
