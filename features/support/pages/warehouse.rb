@@ -71,11 +71,16 @@ module Pages
     element(:delete_button) { a title: 'Delete' }
     element(:delete_ok_button) { div(id: /mR:cb2/) }
 
+
+    # Additional Address Deletion ##
+    element(:address_table) { div(id: /mR:pc11:_ATp:tbb1::db/) }
+
     ## Manage Address - Independent ##
     # element(:_address_filter_field){input id: /mR:pc11:_ATp:tbb1:_afrFltrMdlcl-tiAdd1BAddr::content/}
     element(:_delete_icon) { img(id: /mR:pc11:_ATp:delete::icon/) }
     element(:_filter_add_line_1) { text_field(label: 'Filter: Address Line 1') }
-    element(:_add_from_exs_add) {img(id: /mR:pc11:_ATp:duplicate::icon/)}
+    element(:_add_from_exs_add) { img(id: /mR:pc11:_ATp:duplicate::icon/) }
+
     def add_warehouse
       wait_for_db_activity
       _warehouse.click
@@ -155,11 +160,11 @@ module Pages
       ok_button.click
       wait_for_db_activity
       shared.save_and_close
-      wait_for_db_activity
-      shared.save_and_close
-      wait_for_db_activity
-      shared.done
-      wait_for_db_activity
+      # wait_for_db_activity
+      # shared.save_and_close
+      # wait_for_db_activity
+      # shared.done
+      # wait_for_db_activity
     end
 
 
@@ -213,6 +218,8 @@ module Pages
       shared.from_org_hierarchy
       wait_for_db_activity
       _warehouse.click
+      wait_for_db_activity
+      _warehouse_filter.clear
       wait_for_db_activity
       shared.filter_activity(_warehouse_filter, _warehouse_id)
       _warehouse_link.click
@@ -350,16 +357,21 @@ module Pages
       _address_page.click
       wait_for_db_activity
       shared.filter_activity(_filter_add_line_1, address_to_remove)
-      wait_for_db_activity
-      sleep 2
-      _delete_icon.click
-      confirm_delete_button.click
-      wait_for_db_activity
 
-      ## To eliminate some unknown error ##
+      #IMP - this code/Below code will delete all "additional address" being created while testing
+      sleep 1
+      until address_table.text == "No data to display." do
+        wait_for_db_activity
+        sleep 2
+        _delete_icon.click
+        confirm_delete_button.click
+        wait_for_db_activity
+      end
+
+      ## To eliminate some unknown popup error ##
       _filter_add_line_1.clear
       wait_for_db_activity
-      shared.enter_times _filter_add_line_1,2
+      shared.enter_times _filter_add_line_1, 2
 
       shared.save_and_close
       shared.save_and_close

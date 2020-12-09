@@ -905,7 +905,7 @@ module Pages
       if last_warehouse_id.nil?
         @new_store_id = 1
       else
-        @new_store_id = (last_warehouse_id[0] + 4).to_s
+        @new_store_id = (last_warehouse_id[0] + 1).to_s
       end
     end
 
@@ -946,6 +946,13 @@ module Pages
       raise "Address 1 is not as Expected:'#{address}' Actual:'#{address_table[0]}" unless address_table[0] == address.to_s
       raise "City is not as Expected:'#{city}' Actual:'#{address_table[1]}'" unless address_table[1] == city
       raise "Country is not as Expected:'#{country}' Actual:'#{address_table[2]}'" unless address_table[2] == country
+    end
+
+
+    ## Delete - Address Verification ##
+    def verify_delete_address(warehouse_id, address)
+      address_table = @connection.select_one("Select ADD_1 from addr where module = 'WH' and key_value_1 = '#{warehouse_id}' and add_1 = #{address}")
+      raise "Address is not Delete from the table." unless address_table.nil?
     end
 
 

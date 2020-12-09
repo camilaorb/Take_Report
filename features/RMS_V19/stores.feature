@@ -14,11 +14,11 @@ Feature: Organizational_Hierarchy
     Then  the buyer is able to enter Cost Location ID
 
 
- @STR-03
- Scenario: Stores - Add Zoning Location to Store - Currency of New Store not the same as Pricing Location
- Given buyer is on the organisations hierarchy screen
-   When buyer create store with different currency
-   Then the new store will be add to each zone group and system create new zone with currency of new loc
+  @STR-03
+  Scenario: Stores - Add Zoning Location to Store - Currency of New Store not the same as Pricing Location
+    Given buyer is on the organisations hierarchy screen
+    When buyer create store with different currency
+    Then the new store will be add to each zone group and system create new zone with currency of new loc
 
 
   @STR-04
