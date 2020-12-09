@@ -16,7 +16,7 @@ end
 
 When(/^a buyer access Suppliers edits page$/) do
   supplier_partner.select_supplier(YML_DATA['supplier_id'])
-  supplier_partner.access_supplier
+  supplier_partner.access_edit_page
 end
 
 Then(/^the buyer is able to amend the details of the Supplier Address$/) do
@@ -34,7 +34,7 @@ Then(/^the results for the Supplier Site search criteria is displayed in the Res
   supplier_partner.verify_supplier_results(expected_values:YML_DATA['supplier_site_id'])
 end
 
-### Manage Address Supplier ###
+### Manage Address ###
 
 ####### Create ########
 
@@ -46,7 +46,7 @@ Given(/^a buyer access the Address page for a supplier$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier(YML_DATA['supplier_id'])
   supplier_partner.select_supplier(YML_DATA['supplier_id'])
-  supplier_partner.access_supplier
+  supplier_partner.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -59,7 +59,7 @@ Given(/^a buyer access the Address page for a supplier site$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_supplier
+  supplier_partner.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -72,7 +72,7 @@ Given(/^a buyer access the Address page for a partner$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_supplier
+  supplier_partner.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -352,7 +352,7 @@ Given(/^a buyer access a existing Primary Address for a partner$/) do
 end
 
 When(/^the buyer attempt to delete the partner address that is setup as a Primary Address$/) do
-  supplier_partner.edit_address('test st no 2', 'ABC', YML_DATA['country_2'], YML_DATA['state_2'])
+  supplier_partner.delete_primary_address
   shared.save_and_close
 end
 
@@ -369,7 +369,7 @@ end
 
 When(/^a buyer access Suppliers Site edits page$/) do
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_supplier
+  supplier_partner.access_edit_page
 end
 
 Then(/^buyer is able to create new inventory for the supplier site$/) do
@@ -379,40 +379,54 @@ Then(/^buyer is able to create new inventory for the supplier site$/) do
 end
 
 Then(/^buyer is able to view Org Unit that is already setup by Finance$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['org_unit'])
 end
 
 And(/^buyer is able to opt for the Org Unit for the supplier site$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.add_org_unit
 end
 
 Then(/^buyer is able to select a supplier trait to the Supplier Site$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['supplier_traits'])
+  supplier_partner.add_supplier_traits(supp_traits)
+  shared.save_and_close
 end
 
 
 Then(/^buyer is able to delete a supplier trait to the Supplier Site$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['supplier_traits'])
 end
 
 
 Then(/^the buyer is able to create documents for the selected supplier site$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['documents'])
+  supplier_partner.add_documents(doc_type, text)
+  shared.save_and_close
 end
 
 
 Then(/^the buyer is able to remove documents for the selected supplier site$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['documents'])
+  supplier_partner.select_documents(doc_type)
+  shared.delete_item
+  shared.save_and_close
 end
 
 
 Then(/^the buyer is able to create Import Attributes and Beneficiary Attributes$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['import_attributes'])
+  supplier_partner.import_attributes
+  supplier_partner.beneficiary_attributes(order, cicle)
+  shared.save_and_close
 end
 
 
 Then(/^the buyer is able to create expense details by entering Shipping Routes, Expenses and Rate Updates$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['expenses'])
+  supplier_partner.shipping_routes
+  supplier_partner.expenses_box
+  supplier_partner.rate_updates
+  shared.save_and_close
 end
 
 
@@ -430,7 +444,7 @@ When(/^buyer enters Partner information the search criteria$/) do
 end
 
 Then(/^the results for the Partner search criteria is displayed in the Results table$/) do
-  supplier_partner.verify_supplier_results(expected_values:YML_DATA['supplier_id'])
+  supplier_partner.verify_supplier_results(expected_values:YML_DATA['partner_id'])
 end
 
 
@@ -457,35 +471,53 @@ Then(/^the new partner is add on RMS and RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_partner_table(@new_partner_id, type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
   database.disconnect_db
-  login_page.logout_to_rmss
+  login_page.logout_to_rms
 end
 
 When(/^the buyer edit partner details$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.search_partner(YML_DATA['partner_id'])
+  supplier_partner.access_edit_page
+  supplier_partner.edit_partner(type, partner_name, status, terms, contact_name, phone)
 end
 
 Then(/^the partner is update on RMS and RMS DB$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.open_supplier_and_partner
+  supplier_partner.open_manage_partners
+  supplier_partner.search_partner(YML_DATA['partner_id'])
+  supplier_partner.verify_address_results(expected_values:'')
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_partner_table(partner_id, type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  database.disconnect_db
+  login_page.logout_to_rms
 end
 
 
 When(/^a buyer access Invoicing Attributes$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.search_partner(YML_DATA['partner_id'])
+  supplier_partner.access_edit_page
+  shared.more_actions_select(YML_DATA['address'])
 end
 
 Then(/^the Receive Invoice is save$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['invoicing_attributes'])
+  add_invoicing_attribute(receive_option, pay_option)
 end
 
 When(/^a buyer access Partners edits page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  supplier_partner.search_partner(YML_DATA['partner_id'])
+  supplier_partner.access_edit_page
 end
 
 
 Then(/^the buyer is able to create documents for the selected Partner$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['documents'])
+  supplier_partner.add_documents(doc_type, text)
+  shared.save_and_close
 end
 
 Then(/^the buyer is able to remove documents for the selected Partner$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  shared.more_actions_select(YML_DATA['documents'])
+  supplier_partner.select_documents(doc_type)
+  shared.delete_item
+  shared.save_and_close
 end

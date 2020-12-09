@@ -143,3 +143,7 @@ def filter_activity(filter_element, filter_data)
     wait_for_db_activity
   end
 end
+
+def is_disable
+  TE.browser.a(xpath: "//a[@aria-disabled='true']").present?
+end

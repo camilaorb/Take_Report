@@ -17,7 +17,7 @@ module Pages
       supplier_partner.open_supplier
       supplier_partner.search_supplier(YML_DATA['supplier_id'])
       supplier_partner.select_supplier(YML_DATA['supplier_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
     end
@@ -26,7 +26,7 @@ module Pages
       supplier_partner.open_supplier
       supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
       supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
     end
@@ -34,7 +34,7 @@ module Pages
     def access_existing_supplier_address
       supplier_partner.search_supplier(YML_DATA['supplier_id'])
       supplier_partner.select_supplier(YML_DATA['supplier_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
       supplier_partner.create_address(YML_DATA['a_type_1'], 'test st no 1', 'Vila Nova de Gaia', YML_DATA['country_1'], YML_DATA['state_1'])
@@ -46,7 +46,7 @@ module Pages
     def access_existing_supp_site_address
       supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
       supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
       supplier_partner.create_address(YML_DATA['a_type_1'], 'test st no 1', 'Vila Nova de Gaia', YML_DATA['country_1'], YML_DATA['state_1'])
@@ -58,7 +58,7 @@ module Pages
     def access_primary_supp_address
       supplier_partner.search_supplier(YML_DATA['supplier_id'])
       supplier_partner.select_supplier(YML_DATA['supplier_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
       supplier_partner.select_address(YML_DATA['a_type_1'], YML_DATA['country_3'])
@@ -67,7 +67,7 @@ module Pages
     def access_primary_supp_site_address
       supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
       supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-      supplier_partner.access_supplier
+      supplier_partner.access_edit_page
       shared.more_actions_select(YML_DATA['address'])
       supplier_partner.close_supplier
       supplier_partner.select_address(YML_DATA['a_type_1'], YML_DATA['country_3'])
@@ -89,10 +89,15 @@ module Pages
     def create_inventory
       supplier_partner.create_inventory
       supplier_partner.replenishment(YML_DATA['a_type_1'], YML_DATA['a_type_1'])
-      supplier_partner.due_order_processing
-      shared.more_actions_select(YML_DATA['address'])
-      supplier_partner.close_supplier
-      supplier_partner.select_address(YML_DATA['a_type_1'], YML_DATA['country_3'])
+      supplier_partner.due_order_processing(order, service)
+      investment_buy(order, service)
+      scaling(order, service)
+      rounding(order, service)
+      supplier_minimums(order, service)
+      truck_splitting(order, service)
+      bracket_constraints(order, service)
+      other_attributes(order, service)
+      shared.save_and_close
     end
 
 

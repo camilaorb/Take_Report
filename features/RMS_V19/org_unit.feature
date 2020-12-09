@@ -1,6 +1,6 @@
 Feature: Org Unit
 
-  @ORGU-01
+  @ORGU-01 @no_critical
   Scenario: Org Units - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

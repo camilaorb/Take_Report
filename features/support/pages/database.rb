@@ -709,7 +709,7 @@ module Pages
       raise "Update was not successful" unless uda_value_description == uda_value_table[2]
     end
 
-    #Organizational_Hierarchy
+    ################## Organizational_Hierarchy ###################
 
     # Division #
     def verify_division_create(division, division_name)
@@ -898,7 +898,26 @@ module Pages
       raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country.to_i
     end
 
-    ## Ware House ##
+    ### Inventory Management ###
+
+    def verify_inventory_mgmt_table(supplier_id, type, partner_name, status, currency, terms, contact_name, phone)
+      invt_mgmt_table = @connection.select_one("select * from sup_inv_mgmt where supplier = '#{supplier_id}'")
+      raise "Inventory Management is not on the table." if invt_mgmt_table.nil?
+      raise "Address 1 is not as Expected:'#{address_1}' Actual:'#{invt_mgmt_table[0]}" unless invt_mgmt_table[0] == address_1.to_s
+      raise "Type is not as Expected:'#{type}' Actual:'#{invt_mgmt_table[1]}'" unless invt_mgmt_table[1] == type
+      raise "City is not as Expected:'#{city}' Actual:'#{invt_mgmt_table[2]}'" unless invt_mgmt_table[2] == city
+      raise "State is not as Expected:'#{state}' Actual:'#{invt_mgmt_table[3]}'" unless invt_mgmt_table[3] == state.to_s
+      raise "Country is not as Expected:'#{country}' Actual:'#{invt_mgmt_table[4]}'" unless invt_mgmt_table[4] == country.to_i
+    end
+
+    ### Supplier Site Traits ###
+
+    def verify_supp_site_traits_table(supplier_id, traits_id)
+      supp_site_traits = @connection.select_one("select * from sup_traits_matrix where sup_trait = '#{traits_id}' and supplier = '#{supplier_id}'")
+      raise "The Supplier Site id '#{supplier_id}' don't have a supplier trait ." if supp_site_traits.nil?
+    end
+
+    ################## WareHouse ###################
 
     def last_warehouse_id
       last_warehouse_id = @connection.select_one("Select * from (select wh from wh where wh <> 999999 and wh <> 9999 order by wh DESC) WHERE ROWNUM = 1")

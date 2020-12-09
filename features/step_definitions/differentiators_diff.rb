@@ -365,18 +365,6 @@ When(/^user enters Ratio the search criteria$/) do
 end
 
 Then(/^the results for the Ratio search criteria is displayed in the Results table$/) do
-  differentiators_diff.add_diff_ratio
-  @new_id = differentiators_diff.diff_ratio_id
-  differentiators_diff.create_diff_ratio('New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass2'],
-                                         YML_DATA['Test_Group_colour'], YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  shared.save_and_close
-  differentiators_diff.search_diff_ratio(@new_id)
-  differentiators_diff.verify_diff_ratio(expected_values:'New Diff Ratio 44 Test Department 1 Test Class 2 Test Subclass')
-  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_diff_ratio_table(@new_id, 'New Diff Ratio', YML_DATA['department'], YML_DATA['class'], YML_DATA['subclass2'],
-                                   YML_DATA['Test_Group_colour'], YML_DATA['Test_Group_Compatibility'], YML_DATA['Test_Diff_Group_Flavour'], '2')
-  database.disconnect_db
-  differentiators_diff.delete_diff_ratio
   login_page.logout_to_rms
 end
 

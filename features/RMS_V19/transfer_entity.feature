@@ -1,6 +1,6 @@
 Feature: Transfer Entity
 
-  @TFE-01
+  @TFE-01 @no_critical
   Scenario: Transfer Entity - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

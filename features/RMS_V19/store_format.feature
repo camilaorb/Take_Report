@@ -1,6 +1,6 @@
 Feature: Store Format
 
-  @STF-01
+  @STF-01 @no_critical
   Scenario: Store Format - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

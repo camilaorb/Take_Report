@@ -104,17 +104,17 @@ Feature: Suppliers and Partners
     Then buyer is able to delete a supplier trait to the Supplier Site
 
 
-  @SUP-14
-  Scenario: Supplier Site - Add Documents
-    Given  a buyer access Manage Supplier screen
-    When a buyer access Suppliers Site edits page
-    Then the buyer is able to create documents for the selected supplier site
+  #@SUP-14 @canceled
+  #Scenario: Supplier Site - Add Documents
+  #  Given  a buyer access Manage Supplier screen
+  #  When a buyer access Suppliers Site edits page
+  #  Then the buyer is able to create documents for the selected supplier site
 
-  @SUP-15
-  Scenario: Supplier Site - Delete Documents
-    Given  a buyer access Manage Supplier screen
-    When a buyer access Suppliers Site edits page
-    Then the buyer is able to remove documents for the selected supplier site
+  #@SUP-15 @canceled
+  #Scenario: Supplier Site - Delete Documents
+  #  Given  a buyer access Manage Supplier screen
+  #  When a buyer access Suppliers Site edits page
+  #  Then the buyer is able to remove documents for the selected supplier site
 
   @SUP-16
   Scenario: Supplier Site - Import Attributes
@@ -188,14 +188,14 @@ Feature: Suppliers and Partners
     When a buyer access Partners edits page
     Then the buyer is able to create expense details by entering Shipping Routes, Expenses and Rate Updates
 
-  @SUP-27
-  Scenario:Manage Partners - Required Documents
-    Given  a buyer access Manage Partners page
-    When a buyer access Partners edits page
-    Then the buyer is able to create documents for the selected Partner
+  #@SUP-27 @canceled
+  #Scenario:Manage Partners - Required Documents
+  #  Given  a buyer access Manage Partners page
+  #  When a buyer access Partners edits page
+  #  Then the buyer is able to create documents for the selected Partner
 
-  @SUP-28
-  Scenario: Manage Partners - Delete Documents
-    Given  a buyer access Manage Partners page
-    When a buyer access Partners edits page
-    Then the buyer is able to remove documents for the selected Partner
+  #@SUP-28 @canceled
+  #Scenario: Manage Partners - Delete Documents
+  #  Given  a buyer access Manage Partners page
+  #  When a buyer access Partners edits page
+  #  Then the buyer is able to remove documents for the selected Partner

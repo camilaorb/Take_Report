@@ -199,6 +199,8 @@ import_attributes: 'Import Attributes'
 expenses: 'Expenses'
 delivery_schedule: 'Delivery Schedule'
 
+invoicing_attributes: 'Invoicing Attributes'
+
 ########################### Partner  ############################################
 
 ## Search ##

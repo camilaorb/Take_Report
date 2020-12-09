@@ -11,7 +11,7 @@ Feature: Banner and Channel
       | file |
       | BC-01 Add Banner to RMS.ods |
 
-  @BC-02
+  @BC-02 @no_critical
   Scenario: Download Foundation - Banners and Channels
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

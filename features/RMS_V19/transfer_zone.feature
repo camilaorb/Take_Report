@@ -1,6 +1,6 @@
 Feature: Transfer Zone
 
-  @TFZ-01
+  @TFZ-01 @no_critical
   Scenario: Transfer Zone - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

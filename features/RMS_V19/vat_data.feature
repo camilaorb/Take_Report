@@ -1,6 +1,6 @@
 Feature: VAT
 
-  @VAT-01
+  @VAT-01 @no_critical
   Scenario: VAT Code - Downloads
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

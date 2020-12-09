@@ -1,6 +1,6 @@
 Feature: UDA
 
-  @UDA-01
+  @UDA-01 @no_critical
   Scenario: UDA_VALUES - UDA_DEFAULTS - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

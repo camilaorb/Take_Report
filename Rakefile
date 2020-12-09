@@ -36,7 +36,14 @@ namespace :ci do
 
   task :critical_tests do
     ENV['CONFIG_DIR'] = 'ci_config/critical_tests'
-    system "parallel_cucumber -n 4 features -o \"-t '@critical and not (@bug or @wip or @singlethread)'\""
+    system "parallel_cucumber -n 1 features -o \"-t '@critical and not (@bug or @wip or @singlethread)'\""
+  rescue StandardError => e
+    puts "At least one test failed, please check your reports. #{e}"
+  end
+
+  task :no_critical_tests do
+    ENV['CONFIG_DIR'] = 'ci_config/no_critical_tests'
+    system "parallel_cucumber -n 1 features -o \"-t '@no_critical and not (@bug or @wip or @singlethread or @critical)'\""
   rescue StandardError => e
     puts "At least one test failed, please check your reports. #{e}"
   end

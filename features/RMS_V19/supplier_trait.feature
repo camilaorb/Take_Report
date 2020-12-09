@@ -1,6 +1,6 @@
 Feature: Supplier Trait
 
-  @SPT-01
+  @SPT-01 @no_critical
   Scenario: Supplier Trait - Download
     Given a buyer is in Foundation Download screen
     When buyer selects Template Type, Template and opts for Download

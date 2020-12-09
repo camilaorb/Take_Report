@@ -43,6 +43,7 @@ module Pages
     element(:more_actions_dropdown) { a(:title, /More Actions/) }
     element(:clear_all_filters) { a(:title, /Clear All/) }
     element(:goto_tab) { |text| a(:text, text) }
+    element(:expand_labelbox) { |text| a(:title, text) }
 
 
 
@@ -74,7 +75,6 @@ module Pages
     #Inventory
     element(:new_information_message) { div(:text, /Do you want to create new information?/) }
     #Replenishment
-    element(:expand_replenishment) { a(:title, 'Expand Replenishment') }
     element(:order_control_dropdown) { select(:id, /mR:soc12::content/) }
     element(:order_control_option) { |text| select(:id, /mR:soc12::content/).option(:title, text) }
     element(:review_cycle_dropdown) { select(:id, /mR:soc10::content/) }
@@ -111,7 +111,7 @@ module Pages
     # element(:partner_id_field) { text_field(:id, /mR:qryId1:val00::content/) }
     #  partner_type_list
     #  partner_type_field
-    #  partner_name
+    #  partner_name_field
     #  part_currency
     #  partner_status_list
     #  partner_status_field
@@ -172,7 +172,7 @@ module Pages
       raise "Supplier id no #{new_id} not found" unless list.include? supplier_id.to_s
     end
 
-    def access_supplier
+    def access_edit_page
       edit_button.click
       wait_for_db_activity
     end
@@ -260,7 +260,8 @@ module Pages
     end
 
     def delete_primary_address
-      raise "Address can be delete" if delete_button.present?
+      delete_button.click
+      raise "Address can be delete" if delete_popup.present?
     end
 
     def select_address(address_type, country)
@@ -304,9 +305,171 @@ module Pages
       wait_for_db_activity
     end
 
-    def replenishment
-      expand_replenishment.click if expand_replenishment.present?
-      select_list(address_type_list(type), address_type_field, type)
+    def replenishment(order, cicle)
+      expand_labelbox('Replenishment').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def due_order_processing(order, service)
+      expand_labelbox('Due Order Processing').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def investment_buy(order, service)
+      expand_labelbox('Investment Buy').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def scaling(order, service)
+      expand_labelbox('Scaling').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def rounding(order, service)
+      expand_labelbox('Rounding').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def supplier_minimums(order, service)
+      expand_labelbox('Supplier Minimums').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def truck_splitting(order, service)
+      expand_labelbox('Truck Splitting').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def bracket_constraints(order, service)
+      expand_labelbox('Bracket Constraints').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def other_attributes(order, service)
+      expand_labelbox('Other Attributes').click unless ordem_control_field.present?
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    ######### Org Unit #########
+
+    def view_org_unit(expected_values)
+      if no_results.present?
+        raise "No results"
+      else
+        @actual_values = result_table.text
+        raise "Values were not as expected.\nExpected:\n#{expected_values}\nActual:\n#{@actual_values}" unless @actual_values.include?expected_values
+      end
+    end
+
+    ######### Supplier Traits #########
+
+    def add_supplier_traits(supp_traits)
+      add_button.click
+      wait_for_db_activity
+      select_list(supplier_traits_list(supp_traits), supplier_traits_field, supp_traits)
+      ok_button.click
+    end
+
+    ######### Documents #########
+
+    def add_documents(doc_type, text)
+      add_button.click
+      wait_for_db_activity
+      document_dropdown_field.set doc_type
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      text_field.set text
+    end
+
+    def select_documents(doc_type)
+      filter_activity(document_filter, doc_type)
+      wait_for_db_activity
+    end
+
+    ######### Import Attributes #########
+
+    def import_attributes
+      expand_labelbox('Import Attributes').click unless ordem_control_field.present?
+
+      document_dropdown_field.set doc_type
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+
+      wait_for_db_activity
+    end
+
+    def beneficiary_attributes(order, cicle)
+      expand_labelbox('Beneficiary Attributes').click unless ordem_control_field.present?
+
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    ######### Expenses #########
+
+    def shipping_routes
+      expand_labelbox('Shipping Routes').click unless ordem_control_field.present?
+
+      document_dropdown_field.set doc_type
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+
+      wait_for_db_activity
+    end
+
+    def expenses_box(order, cicle)
+      expand_labelbox('Expenses').click unless ordem_control_field.present?
+
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      wait_for_db_activity
+    end
+
+    def rate_updates(order, cicle)
+      expand_labelbox('Rate Updates').click unless ordem_control_field.present?
+
+      select_list(ordem_control_list(order), ordem_control_field, order)
+      wait_for_db_activity
+      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
       wait_for_db_activity
     end
 
@@ -353,7 +516,7 @@ module Pages
       select_list(partner_type_list(type), partner_type_field, type)
       ok_button.click
       wait_for_db_activity
-      partner_name.set partner_name
+      partner_name_field.set partner_name
       wait_for_db_activity
       part_currency.set currency
       wait_until_enabled(loading_list)
@@ -375,6 +538,33 @@ module Pages
       wait_for_db_activity
     end
 
+    def edit_partner(type, partner_name, status, terms, contact_name, phone)
+      select_list(partner_type_list(type), partner_type_field, type)
+      ok_button.click
+      wait_for_db_activity
+      partner_name.set partner_name
+      wait_for_db_activity
+      select_list(partner_status_list(status), partner_status_field, status)
+      wait_for_db_activity
+      partner_terms. set terms
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      contact_name.set contact_name
+      wait_for_db_activity
+      contact_phone.set phone
+      wait_for_db_activity
+    end
+
+    def add_invoicing_attribute(receive_option, pay_option)
+      wait_for_db_activity
+      select_list(receive_invoice_list(receive_option), receive_invoice_field, receive_option)
+      wait_for_db_activity
+      select_list(pay_invoice_list(pay_option), pay_invoice_field, pay_option)
+      ok_button.click
+    end
 
 
 
