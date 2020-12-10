@@ -106,6 +106,9 @@ module Pages
     element(:scaling_level_dropdown) { select(:id, /mR:soc8::content/) }
     element(:scaling_level_option) { |text| select(:id, /mR:soc8::content/).option(:title, text) }
 
+    #Supplier Trait
+    element(:supplier_traits_field) { text_field(:id, /_ATp:supTraitId::contentt/) }
+
 
     #Partner
     # element(:partner_id_field) { text_field(:id, /mR:qryId1:val00::content/) }
@@ -306,75 +309,49 @@ module Pages
     end
 
     def replenishment(order, cicle)
-      expand_labelbox('Replenishment').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
+      expand_labelbox('Replenishment').click unless order_control_dropdown.present?
+      select_list(order_control_option(order), order_control_dropdown, order)
       wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
-    end
-
-    def due_order_processing(order, service)
-      expand_labelbox('Due Order Processing').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      select_list(review_cycle_option(cicle), review_cycle_dropdown, cicle)
       wait_for_db_activity
     end
 
-    def investment_buy(order, service)
-      expand_labelbox('Investment Buy').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+    def due_order_processing
+      expand_labelbox('Due Order Processing').click unless due_order_process_checkbox.present?
+      due_order_process_checkbox.click
       wait_for_db_activity
     end
 
-    def scaling(order, service)
-      expand_labelbox('Scaling').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
-    end
-
-    def rounding(order, service)
-      expand_labelbox('Rounding').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+    def investment_buy(order)
+      expand_labelbox('Investment Buy').click unless ib_eligibility_checkbox.present?
+      ib_eligibility_checkbox.click
+      select_list(ib_order_control_option(order), ib_order_control_dropdown, order)
       wait_for_db_activity
     end
 
-    def supplier_minimums(order, service)
-      expand_labelbox('Supplier Minimums').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
+    def scaling
+      expand_labelbox('Scaling').click unless scale_orders_constraints_checkbox.present?
+      scale_orders_constraints_checkbox.click
     end
 
-    def truck_splitting(order, service)
-      expand_labelbox('Truck Splitting').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
+    def rounding
+      #expand_labelbox('Rounding').click unless ordem_control_field.present?
     end
 
-    def bracket_constraints(order, service)
-      expand_labelbox('Bracket Constraints').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
+    def supplier_minimums
+      #expand_labelbox('Supplier Minimums').click unless ordem_control_field.present?
     end
 
-    def other_attributes(order, service)
-      expand_labelbox('Other Attributes').click unless ordem_control_field.present?
-      select_list(ordem_control_list(order), ordem_control_field, order)
-      wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
-      wait_for_db_activity
+    def truck_splitting
+      #expand_labelbox('Truck Splitting').click unless ordem_control_field.present?
+    end
+
+    def bracket_constraints
+      #expand_labelbox('Bracket Constraints').click unless ordem_control_field.present?
+    end
+
+    def other_attributes
+      #expand_labelbox('Other Attributes').click unless ordem_control_field.present?
     end
 
     ######### Org Unit #########
@@ -388,12 +365,29 @@ module Pages
       end
     end
 
+    def add_org_unit(org_unit)
+      add_button.click
+      wait_for_db_activity
+      org_unit_field.set org_unit
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
+      ok_button.click
+    end
+
     ######### Supplier Traits #########
 
     def add_supplier_traits(supp_traits)
       add_button.click
       wait_for_db_activity
-      select_list(supplier_traits_list(supp_traits), supplier_traits_field, supp_traits)
+      supplier_traits_field. set supp_traits
+      wait_until_enabled(loading_list)
+      wait_for_db_activity
+      send_keys :enter
+      wait_for_db_activity
+      sleep 3
       ok_button.click
     end
 
@@ -420,7 +414,7 @@ module Pages
 
     def import_attributes
       expand_labelbox('Import Attributes').click unless ordem_control_field.present?
-
+      select_list(ib_order_control_option(order), ib_order_control_dropdown, order)
       document_dropdown_field.set doc_type
       wait_until_enabled(loading_list)
       wait_for_db_activity

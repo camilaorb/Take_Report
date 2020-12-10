@@ -88,15 +88,15 @@ module Pages
 
     def create_inventory
       supplier_partner.create_inventory
-      supplier_partner.replenishment(YML_DATA['a_type_1'], YML_DATA['a_type_1'])
-      supplier_partner.due_order_processing(order, service)
-      investment_buy(order, service)
-      scaling(order, service)
-      rounding(order, service)
-      supplier_minimums(order, service)
-      truck_splitting(order, service)
-      bracket_constraints(order, service)
-      other_attributes(order, service)
+      supplier_partner.replenishment('Automatic', 'Every Day')
+      supplier_partner.due_order_processing
+      supplier_partner.investment_buy('Automatic')
+      #supplier_partner.scaling
+      #supplier_partner.rounding
+      #supplier_partner.supplier_minimums
+      #supplier_partner.truck_splitting
+      #supplier_partner.bracket_constraints
+      #supplier_partner.other_attributes
       shared.save_and_close
     end
 

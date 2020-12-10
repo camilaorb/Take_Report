@@ -1,6 +1,6 @@
 #org_hierarchy#
 # create
-Given(/^buyer is on the organisations hierarchy screen$/) do
+Given(/^buyer is on the organizations hierarchy screen$/) do
   visit(TE.environment['url'])
   login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
   organizational_hierarchy.open_org_hierarchy

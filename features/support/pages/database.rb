@@ -872,7 +872,7 @@ module Pages
       raise "Type is not as Expected:'#{type}' Actual:'#{address_table[1]}'" unless address_table[1] == type
       raise "City is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
       raise "State is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
-      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country.to_i
+      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country
     end
 
     def count_address_table(func_db_code, supplier_id, country)
@@ -916,6 +916,26 @@ module Pages
       supp_site_traits = @connection.select_one("select * from sup_traits_matrix where sup_trait = '#{traits_id}' and supplier = '#{supplier_id}'")
       raise "The Supplier Site id '#{supplier_id}' don't have a supplier trait ." if supp_site_traits.nil?
     end
+
+    def verify_delete_supp_site_traits_table(supplier_id, traits_id)
+      supp_site_traits = @connection.select_one("select * from sup_traits_matrix where sup_trait = '#{traits_id}' and supplier = '#{supplier_id}'")
+      raise "The Supplier Site id '#{supplier_id}' don't have a supplier trait ." unless supp_site_traits.nil?
+    end
+
+    ### Import Attributes ###
+
+    def verify_import_att_table(supp_site_id, func_db_code)
+      import_att = @connection.select_one("select * from EXP_PROF_HEAD where module = '#{func_db_code}' and Key_Value_1 = '#{supp_site_id}'")
+      raise "The Supplier Site id '#{supp_site_id}' don't have a supplier trait ." if import_att.nil?
+    end
+
+    ### Expense ###
+
+    def verify_expense_table(item_id, func_db_code)
+      expense_table = @connection.select_one("select * from EXP_PROF_HEAD where module = '#{func_db_code}' and Key_Value_1 = '#{item_id}'")
+      raise "The Supplier Site id '#{item_id}' don't have a supplier trait ." if expense_table.nil?
+    end
+
 
     ################## WareHouse ###################
 

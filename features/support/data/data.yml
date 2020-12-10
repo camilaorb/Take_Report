@@ -201,6 +201,9 @@ delivery_schedule: 'Delivery Schedule'
 
 invoicing_attributes: 'Invoicing Attributes'
 
+## Supplier Trait
+supp_trait: '1'
+
 ########################### Partner  ############################################
 
 ## Search ##

@@ -21,6 +21,7 @@ end
 
 Then(/^the buyer is able to amend the details of the Supplier Address$/) do
   shared.more_actions_select(YML_DATA['address'])
+
   login_page.logout_to_rms
 end
 
@@ -80,6 +81,7 @@ end
 ## Communal ##
 When(/^the buyer add address details$/) do
   supplier_partner.create_address(YML_DATA['a_type_1'], 'test st no 1', 'Vila Nova de Gaia', YML_DATA['country_1'], YML_DATA['state_1'])
+  shared.save_and_close
   shared.save_and_close
 end
 
@@ -156,6 +158,7 @@ end
 When(/^the buyer edit address details$/) do
   supplier_partner.edit_address('test st no 2', 'ABC', YML_DATA['country_2'], YML_DATA['state_2'])
   shared.save_and_close
+  shared.save_and_close
 end
 
 ## Supplier ##
@@ -199,6 +202,7 @@ end
 
 When(/^the buyer opt for 'Add From Existing'$/) do
   supplier_partner.add_existing_address(YML_DATA['a_type_1'])
+  shared.save_and_close
   shared.save_and_close
 end
 
@@ -246,6 +250,7 @@ end
 When(/^the buyer delete the supplier address that is set up as non-primary$/) do
   super_supp_part.delete_address
   shared.save_and_close
+  shared.save_and_close
 end
 
 
@@ -254,7 +259,7 @@ Then(/^the Address is delete for the Supplier on RMS and RMS DB$/) do
   supplier_partner.select_address(YML_DATA['a_type_1'], YML_DATA['country_1'])
   supplier_partner.verify_address_results(expected_values:'')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_delete_address_table(YML_DATA['db_supplier'], YML_DATA['supplier_id'], YML_DATA['code_a_type_1'], 'test st no 2', 'ABC', YML_DATA['country_2'], YML_DATA['state_2'])
+  database.verify_delete_address_table(YML_DATA['db_supplier'], YML_DATA['supplier_id'], YML_DATA['code_a_type_1'], YML_DATA['country_2'])
   database.disconnect_db
   login_page.logout_to_rms
 end
@@ -375,7 +380,15 @@ end
 Then(/^buyer is able to create new inventory for the supplier site$/) do
   shared.more_actions_select(YML_DATA['inventory_management'])
   super_supp_part.create_inventory
-
+  shared.save_and_close
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_inventory_mgmt_table(YML_DATA['db_supplier'], YML_DATA['supplier_site_id'], YML_DATA['code_a_type_1'], 'No.123', 'Durban', YML_DATA['country_3'], YML_DATA[''])
+  database.disconnect_db
+  shared.more_actions_select(YML_DATA['inventory_management'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+  login_page.logout_to_rms
 end
 
 Then(/^buyer is able to view Org Unit that is already setup by Finance$/) do
@@ -384,17 +397,44 @@ end
 
 And(/^buyer is able to opt for the Org Unit for the supplier site$/) do
   supplier_partner.add_org_unit
+  shared.save_and_close
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_supp_site_org_unit_table(YML_DATA['db_supplier'], YML_DATA['supplier_site_id'], YML_DATA['code_a_type_1'], 'No.123', 'Durban', YML_DATA['country_3'], YML_DATA[''])
+  database.disconnect_db
+  shared.more_actions_select(YML_DATA['org_unit'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+  login_page.logout_to_rms
 end
 
 Then(/^buyer is able to select a supplier trait to the Supplier Site$/) do
   shared.more_actions_select(YML_DATA['supplier_traits'])
-  supplier_partner.add_supplier_traits(supp_traits)
+  supplier_partner.add_supplier_traits(YML_DATA['supp_traits'])
   shared.save_and_close
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.disconnect_db
+  shared.more_actions_select(YML_DATA['supplier_traits'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+  login_page.logout_to_rms
 end
 
 
 Then(/^buyer is able to delete a supplier trait to the Supplier Site$/) do
+  shared.more_actions_select(YML_DATA['supp_trait'])
+  supplier_partner.add_supplier_traits(YML_DATA['supp_traits'])
+  shared.save_and_close
   shared.more_actions_select(YML_DATA['supplier_traits'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_delete_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.disconnect_db
+  login_page.logout_to_rms
 end
 
 
@@ -418,6 +458,14 @@ Then(/^the buyer is able to create Import Attributes and Beneficiary Attributes$
   supplier_partner.import_attributes
   supplier_partner.beneficiary_attributes(order, cicle)
   shared.save_and_close
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.disconnect_db
+  shared.more_actions_select(YML_DATA['supplier_traits'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+  login_page.logout_to_rms
 end
 
 
