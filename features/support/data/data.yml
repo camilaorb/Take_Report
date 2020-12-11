@@ -348,3 +348,10 @@ Warehouse:
   manage_existing_address: '18'
   manage_existing_city: 'cape town 18'
   manage_existing_country: 'ZA'
+
+  ##Unhappy path scenarios ##
+  # Expected Error #
+
+  expected_error1: 'The Business address is required.Virtual Warehouses need to be created.'
+  expected_error2: 'The entered value is already used by a store, warehouse, or external finisher. Enter a new value.'
+  expected_error3: 'Cannot delete a primary virtual warehouse. To delete this warehouse, you must select a new primary virtual warehouse for the physical warehouse or delete the physical warehouse itself.'

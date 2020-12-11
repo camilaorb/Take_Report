@@ -75,3 +75,21 @@ Feature: Warehouse
     Given  buyer is on the organisations hierarchy screen
     When a buyer delete a the Warehouse
     Then the record is removed from the Warehouse table and RMS DB
+
+  @unhappy-sce-01
+  Scenario: Add WH - Without Address and VWH
+    Given  buyer is on the organisations hierarchy screen
+    When buyer opts to create warehouse without mandatory details
+    Then the buyer is not able to create WH and can observe Address and VWH error
+
+  @unhappy-sce-02
+  Scenario: Add WH - With Existing Warehouse
+    Given  buyer is on the organisations hierarchy screen
+    When buyer opts to create warehouse without mandatory details
+    Then the buyer is not able to create WH and can observe Existing WH error
+
+  @unhappy-sce-03
+  Scenario: Manage WH - Delete Virtual WH
+    Given  buyer is on the organisations hierarchy screen
+    When buyer opts to delete Virtual warehouse of the existing WH
+    Then the buyer is not able to Delete WH and can observe the expected error

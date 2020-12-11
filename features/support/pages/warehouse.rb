@@ -15,6 +15,7 @@ module Pages
     element(:delete_sign) { img(id: /mr1:pc1:_ATp:delete::icon/) }
     element(:confirm_delete_button) { span text: 'Yes' }
     element(:warehouse_filter) { text_field(label: 'Warehouse') }
+    element(:delete_icon) { img(id: /_ATp:delete::icon/) }
 
 
     #Create Warehouse
@@ -80,6 +81,12 @@ module Pages
     element(:_delete_icon) { img(id: /mR:pc11:_ATp:delete::icon/) }
     element(:_filter_add_line_1) { text_field(label: 'Filter: Address Line 1') }
     element(:_add_from_exs_add) { img(id: /mR:pc11:_ATp:duplicate::icon/) }
+
+    ## Unhappy Scenarios ##
+    element(:_add_vwh_popup) { div(id: 'd1_msgDlg::_ccntr').div.div.table }
+    element(:_existing_wh_popup) { TE.browser.table(id: /mR:whBWarehouse/).div(index: 4) }
+    element(:_delete_vwh_from_existing_wh) { div(id: /msgDlg::_ccntr/) }
+
 
     def add_warehouse
       wait_for_db_activity
@@ -390,6 +397,51 @@ module Pages
 
     end
 
+    ## Unhappy Paths ##
+    def verify_add_vwh_popup (expected_error)
+      shared.save_and_close
+      wait_for_db_activity
+      shared.verify_error(expected_error, _add_vwh_popup.text.delete!("\n"))
+      wait_for_db_activity
+      shared.ok
+      wait_for_db_activity
+      shared.cancel
+      wait_for_db_activity
+      shared.done
+      wait_for_db_activity
+    end
+
+    def verify_create_with_existing_wh_id (warehouse_id, expected_error)
+      wait_for_db_activity
+      _warehouse_id.send_keys warehouse_id
+      wait_for_db_activity
+      shared.enter_times _warehouse_id, 1
+      wait_for_db_activity
+      shared.verify_error(expected_error, _existing_wh_popup.text.delete!("\n"))
+      wait_for_db_activity
+      shared.cancel
+      wait_for_db_activity
+      shared.done
+      wait_for_db_activity
+    end
+
+    def verify_delete_vwh_of_existing_wh (_warehouse_id, expected_error)
+      edit_warehouse(_warehouse_id)
+      wait_for_db_activity
+      _vwh_page.click
+      wait_for_db_activity
+      delete_icon.click
+      wait_for_db_activity
+      confirm_delete_button.click
+      wait_for_db_activity
+      shared.verify_error(expected_error, _delete_vwh_from_existing_wh.text.delete!("\n"))
+      wait_for_db_activity
+
+      ## We want explicitly show the error in the Test -  Evolve Report,
+      # and that's why This test is expected to fail ##
+      raise _delete_vwh_from_existing_wh.text
+
+    end
 
   end
 end

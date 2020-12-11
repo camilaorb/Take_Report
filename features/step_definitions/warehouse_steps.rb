@@ -355,3 +355,38 @@ end
 When(/^buyer add currency of VWH equal to Pricing Location$/) do
 
 end
+
+## Unhappy Scenarios ##
+
+Then(/^the buyer is not able to create WH and can observe Address and VWH error$/) do
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  @new_id = database.last_warehouse_id
+
+  warehouse.add_warehouse
+  warehouse.create_warehouse(@new_id, YML_DATA['Warehouse']['warehouse_name'],
+                             YML_DATA['Warehouse']['currency'],
+                             YML_DATA['Warehouse']['vat_region'],
+                             YML_DATA['Warehouse']['delivery_option'],
+                             YML_DATA['Warehouse']['inblund_days'],
+                             YML_DATA['Warehouse']['cost_location'],
+                             YML_DATA['Warehouse']['warehouse_number'])
+
+  warehouse.verify_add_vwh_popup YML_DATA['Warehouse']['expected_error1']
+end
+
+When(/^buyer opts to create warehouse without mandatory details$/) do
+
+end
+
+Then(/^the buyer is not able to create WH and can observe Existing WH error$/) do
+  warehouse.add_warehouse
+  warehouse.verify_create_with_existing_wh_id(YML_DATA['Warehouse']['edit_warehouse'],YML_DATA['Warehouse']['expected_error2'])
+end
+
+When(/^buyer opts to delete Virtual warehouse of the existing WH$/) do
+
+end
+
+Then(/^the buyer is not able to Delete WH and can observe the expected error$/) do
+  warehouse.verify_delete_vwh_of_existing_wh(YML_DATA['Warehouse']['edit_warehouse'],YML_DATA['Warehouse']['expected_error3'])
+end

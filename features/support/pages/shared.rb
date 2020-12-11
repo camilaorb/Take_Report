@@ -163,5 +163,11 @@ module Pages
       wait_for_db_activity
     end
 
+    ## Unhappy Paths / Error Verification ##
+    def verify_error (expected_error,actual_error)
+      raise "Error Mismatch" if expected_error.eql? actual_error  == false
+    end
+
+
   end
 end
