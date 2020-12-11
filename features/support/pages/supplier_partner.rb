@@ -109,18 +109,35 @@ module Pages
     #Supplier Trait
     element(:supplier_traits_field) { text_field(:id, /_ATp:supTraitId::contentt/) }
 
+    #Import / Beneficiary Attributes
+    element(:ia_partner_1_dropdown) { select(:id, /mR:soc1::content/) }
+    element(:ia_partner_1_option) { |text| select(:id, /mR:soc1::content/).option(:title, text) }
+    element(:ia_partner_1_field) { text_field(:id, /mR:partner11Id::content/) }
+    element(:beneficiary_checkbox) { checkbox(:id, /mR:sbc2::content/) }
+    element(:place_of_expiry) { text_field(:id, /mR:placeOfExpiry2Id::content/) }
+    element(:presentation_terms_dropdown) { select(:id, /mR:soc6::content/) }
+    element(:presentation_terms_option) { |text| select(:id, /mR:soc6::content/).option(:title, text) }
+    element(:variance_percent) { text_field(:id, /mR:it1::content/) }
+
+
 
     #Partner
-    # element(:partner_id_field) { text_field(:id, /mR:qryId1:val00::content/) }
-    #  partner_type_list
-    #  partner_type_field
-    #  partner_name_field
-    #  part_currency
-    #  partner_status_list
-    #  partner_status_field
-    #  partner_terms
-    #  contact_name
-    #  contact_phone.set phone
+    element(:partner_type_field) { select(:id, /soc1::content/) }
+    element(:partner_type_list) { |text| select(:id, /soc1::content/).option(:title, text) }
+    element(:partner_id_field) { text_field(:id, /mr1:partnerIdBPartner::content/) }
+    element(:partner_name_field) { text_field(:id, /mr1:it4::content/) }
+    element(:part_currency) { text_field(:id, /mr1:iclov3::content/) }
+    element(:partner_status_field) { select(:id, /:mr1:soc4::content/) }
+    element(:partner_status_list) { |text| select(:id, /:mr1:soc4::content/).option(:title, text) }
+    element(:partner_terms) { text_field(:id, /mr1:iclov4::content/) }
+    element(:contact_name) { text_field(:id, /mr1:it6::content/) }
+    element(:contact_phone) { text_field(:id, /mr1:it7::content/) }
+
+    #Invoincing Attribute
+    element(:receive_invoice_field) { select(:id, /mr1:soc2::content/) }
+    element(:receive_invoice_list) { |text| select(:id, /mr1:soc2::content/).option(:title, text) }
+    element(:pay_invoice_field) { select(:id, /mr1:soc1::content/) }
+    element(:pay_invoice_list) { |text| select(:id, /mr1:soc1::content/).option(:title, text) }
 
 
 
@@ -412,25 +429,25 @@ module Pages
 
     ######### Import Attributes #########
 
-    def import_attributes
-      expand_labelbox('Import Attributes').click unless ordem_control_field.present?
-      select_list(ib_order_control_option(order), ib_order_control_dropdown, order)
-      document_dropdown_field.set doc_type
+    def import_attributes(partner_type,partner_id)
+      expand_labelbox('Import Attributes').click unless ia_partner_1_dropdown.present?
+      select_list(ia_partner_1_option(partner_type), ia_partner_1_dropdown, partner_type)
+      ia_partner_1_field.set partner_id
       wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       sleep 3
-
       wait_for_db_activity
     end
 
-    def beneficiary_attributes(order, cicle)
-      expand_labelbox('Beneficiary Attributes').click unless ordem_control_field.present?
-
-      select_list(ordem_control_list(order), ordem_control_field, order)
+    def beneficiary_attributes(expiry, variance, terms)
+      expand_labelbox('Beneficiary Attributes').click unless beneficiary_checkbox.present?
+      beneficiary_checkbox.click unless beneficiary_checkbox.check?
       wait_for_db_activity
-      select_list(review_cycle_list(cicle), review_cycle_field, cicle)
+      place_of_expiry.set expiry
+      variance_percent.set variance
+      select_list(presentation_terms_option(terms), presentation_terms_dropdown, terms)
       wait_for_db_activity
     end
 

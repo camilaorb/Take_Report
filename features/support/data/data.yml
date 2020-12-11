@@ -146,6 +146,7 @@ v_code_49: "RSA01"    #RSA Standard
 v_code_54: "RSAEX"    #RSA Exempt
 v_code_55: "RSAZE"    #RSA Zero Rated
 
+
 ########################### SUPPLIER  ############################################
 
 ## Search ##
@@ -201,15 +202,32 @@ delivery_schedule: 'Delivery Schedule'
 
 invoicing_attributes: 'Invoicing Attributes'
 
-## Supplier Trait
+## Supplier Trait ##
 supp_trait: '1'
+
+## Import / Beneficiary Attributes ##
+
+place_of_expiry_1: '02'
+
 
 ########################### Partner  ############################################
 
 ## Search ##
-
 partner_id: '325002'
+partn_type_1: 'Agent'
+partn_db_type_1: 'AG'
 
+## Create and Edit ##
+part_terms: '00DI02'
+
+## Invoincing Attribute ##
+receive_inv_1: 'Store'
+receive_inv_2: 'Central'
+pay_inv_1: 'Store'
+pay_inv_2: 'Central'
+
+invc_db_type_1: 'S' #Store
+invc_db_type_2: 'C' #Central
 
 
 ############################# Org-Hierarchy ##############################

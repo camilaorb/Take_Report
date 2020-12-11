@@ -455,16 +455,12 @@ end
 
 Then(/^the buyer is able to create Import Attributes and Beneficiary Attributes$/) do
   shared.more_actions_select(YML_DATA['import_attributes'])
-  supplier_partner.import_attributes
-  supplier_partner.beneficiary_attributes(order, cicle)
+  supplier_partner.import_attributes('Agent',YML_DATA['partner_id'])
+  supplier_partner.beneficiary_attributes(YML_DATA['part_terms'], '10', 'By Negotiation')
   shared.save_and_close
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.verify_import_att_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
   database.disconnect_db
-  shared.more_actions_select(YML_DATA['supplier_traits'])
-  shared.delete_item
-  shared.save_and_close
-  shared.save_and_close
   login_page.logout_to_rms
 end
 
@@ -504,10 +500,11 @@ Given(/^a buyer access Create Partners page$/) do
 end
 
 When(/^the buyer add partner details$/) do
-  supplier_partner.create_partner(type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  supplier_partner.create_partner(YML_DATA['partn_type'], 'Partner_Test_Team', 'Inative', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila', '351910000000')
   @new_partner_id = supplier_partner.new_partner_id
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.create_address(YML_DATA['a_type_1'], 'test st no 1', 'Vila Nova de Gaia', YML_DATA['country_1'], YML_DATA['state_1'])
+  shared.save_and_close
   shared.save_and_close
 end
 
@@ -515,27 +512,30 @@ Then(/^the new partner is add on RMS and RMS DB$/) do
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_manage_partners
   supplier_partner.search_partner(@new_partner_id)
-  supplier_partner.verify_address_results(expected_values:'')
+  supplier_partner.verify_address_results(expected_values:'Partner_Test_Team')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_partner_table(@new_partner_id, type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  database.verify_partner_table(@new_partner_id, YML_DATA['partn_db_type_1'], 'Partner_Test_Team', 'I', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila', '351910000000')
   database.disconnect_db
+  shared.delete_item
   login_page.logout_to_rms
 end
 
 When(/^the buyer edit partner details$/) do
   supplier_partner.search_partner(YML_DATA['partner_id'])
   supplier_partner.access_edit_page
-  supplier_partner.edit_partner(type, partner_name, status, terms, contact_name, phone)
+  supplier_partner.edit_partner('Partner_Test_Team_changed', 'Active', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila_test', '351910000000')
+  shared.save_and_close
 end
 
 Then(/^the partner is update on RMS and RMS DB$/) do
-  supplier_partner.open_supplier_and_partner
-  supplier_partner.open_manage_partners
   supplier_partner.search_partner(YML_DATA['partner_id'])
-  supplier_partner.verify_address_results(expected_values:'')
+  supplier_partner.verify_address_results(expected_values:'Partner_Test_Team_changed')
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_partner_table(partner_id, type, 'Partner_Test_Team', status, currency, terms, contact_name, phone)
+  database.verify_partner_table(YML_DATA['partner_id'], YML_DATA['partn_db_type_1'], 'Partner_Test_Team_changed', 'A', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila_test', '351910000000')
   database.disconnect_db
+  supplier_partner.access_edit_page
+  supplier_partner.edit_partner('Partner_Test_Team', 'Inative', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila', '351910000000')
+  shared.save_and_close
   login_page.logout_to_rms
 end
 
@@ -543,12 +543,20 @@ end
 When(/^a buyer access Invoicing Attributes$/) do
   supplier_partner.search_partner(YML_DATA['partner_id'])
   supplier_partner.access_edit_page
-  shared.more_actions_select(YML_DATA['address'])
+  shared.more_actions_select(YML_DATA['invoicing_attributes'])
 end
 
 Then(/^the Receive Invoice is save$/) do
   shared.more_actions_select(YML_DATA['invoicing_attributes'])
-  add_invoicing_attribute(receive_option, pay_option)
+  add_invoicing_attribute(YML_DATA['receive_inv_1'], YML_DATA['pay_inv_1'])
+  shared.save
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_invc_att_table(YML_DATA['partner_id'], YML_DATA['invc_db_type_1'], YML_DATA['invc_db_type_1'])
+  shared.more_actions_select(YML_DATA['invoicing_attributes'])
+  database.disconnect_db
+  add_invoicing_attribute('', '')
+  shared.save_and_close
+  login_page.logout_to_rms
 end
 
 When(/^a buyer access Partners edits page$/) do

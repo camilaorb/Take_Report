@@ -888,14 +888,17 @@ module Pages
 
     ### Partners ###
 
-    def verify_partner_table(supplier_id, type, partner_name, status, currency, terms, contact_name, phone)
-      address_table = @connection.select_one("Select ADD_1, ADDR_TYPE,CITY, STATE, COUNTRY_ID from addr where module = '#{func_db_code}' and key_value_1 = '#{supplier_id}' and country_id = '#{country}'")
-      raise "Address is not on the table." if address_table.nil?
-      raise "Address 1 is not as Expected:'#{address_1}' Actual:'#{address_table[0]}" unless address_table[0] == address_1.to_s
-      raise "Type is not as Expected:'#{type}' Actual:'#{address_table[1]}'" unless address_table[1] == type
-      raise "City is not as Expected:'#{city}' Actual:'#{address_table[2]}'" unless address_table[2] == city
-      raise "State is not as Expected:'#{state}' Actual:'#{address_table[3]}'" unless address_table[3] == state.to_s
-      raise "Country is not as Expected:'#{country}' Actual:'#{address_table[4]}'" unless address_table[4] == country.to_i
+    def verify_partner_table(partner_id, type, partner_name, status, currency, terms, contact_name, phone)
+      partner_table = @connection.select_one("select PARTNER_ID, PARTNER_TYPE,PARTNER_DESC, STATUS, CURRENCY_CODE, TERMS,
+                                              CONTACT_NAME, CONTACT_PHONE  from partner where partner_id = '#{partner_id}'")
+      raise "Partner is not on the table." if partner_table.nil?
+      raise "Partner Type is not as Expected:'#{type}' Actual:'#{partner_table[0]}" unless partner_table[0] == type
+      raise "Partner Name is not as Expected:'#{partner_name}' Actual:'#{partner_table[1]}'" unless partner_table[1] == partner_name
+      raise "Partner Status is not as Expected:'#{status}' Actual:'#{partner_table[2]}'" unless partner_table[2] == status
+      raise "Partner Currency is not as Expected:'#{currency}' Actual:'#{partner_table[3]}'" unless partner_table[3] == currency
+      raise "Partner Terms is not as Expected:'#{terms}' Actual:'#{partner_table[4]}'" unless partner_table[4] == terms
+      raise "Partner Contact Name is not as Expected:'#{contact_name}' Actual:'#{partner_table[5]}'" unless partner_table[5] == contact_name
+      raise "Partner Contact Number is not as Expected:'#{phone}' Actual:'#{partner_table[6]}'" unless partner_table[6] == phone
     end
 
     ### Inventory Management ###
@@ -935,6 +938,16 @@ module Pages
       expense_table = @connection.select_one("select * from EXP_PROF_HEAD where module = '#{func_db_code}' and Key_Value_1 = '#{item_id}'")
       raise "The Supplier Site id '#{item_id}' don't have a supplier trait ." if expense_table.nil?
     end
+
+    ### Invoincing Attributes ###
+
+    def verify_invc_att_table(partner_id, invc_receive, invc_pay)
+      invc_att = @connection.select_one("    select PARTNER_ID, INVC_RECEIVE_LOC, INVC_PAY_LOC from partner where partner_id = '#{partner_id}'")
+      raise "The Partner id '#{partner_id}' don't have Invoincing Attribute ." if invc_att.nil?
+      raise "Receive is not as Expected:'#{invc_receive}' Actual:'#{invc_att[1]}'" unless invc_att[1] == invc_receive
+      raise "Pay is not as Expected:'#{invc_pay}' Actual:'#{invc_att[2]}'" unless invc_att[2] == invc_pay
+    end
+
 
 
     ################## WareHouse ###################
