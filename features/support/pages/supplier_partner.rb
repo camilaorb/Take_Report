@@ -107,7 +107,7 @@ module Pages
     element(:scaling_level_option) { |text| select(:id, /mR:soc8::content/).option(:title, text) }
 
     #Supplier Trait
-    element(:supplier_traits_field) { text_field(:id, /_ATp:supTraitId::contentt/) }
+    element(:supplier_traits_field) { text_field(:id, /_ATp:supTraitId::content/) }
 
     #Import / Beneficiary Attributes
     element(:ia_partner_1_dropdown) { select(:id, /mR:soc1::content/) }
@@ -399,7 +399,7 @@ module Pages
     def add_supplier_traits(supp_traits)
       add_button.click
       wait_for_db_activity
-      supplier_traits_field. set supp_traits
+      supplier_traits_field.set supp_traits
       wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter

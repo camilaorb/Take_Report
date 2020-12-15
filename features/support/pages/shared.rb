@@ -11,7 +11,7 @@ module Pages
     element(:add_button) { div(:title, 'Add') }
     element(:create_button) { div(:title, 'Create') }
     element(:edit_button) { div(:id, /_ATp:edit/) }
-    element(:delete_button) { a(:title, 'Delete') }
+    element(:delete_button) { a(:title, /Delete/) }
     element(:query_button) { div(:id, /_ATp:_qbeTbr/) }
     element(:ok_button) { div(:text, 'OK') }
     element(:ok_button_1) { span(:text, 'OK') }

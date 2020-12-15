@@ -410,12 +410,13 @@ end
 
 Then(/^buyer is able to select a supplier trait to the Supplier Site$/) do
   shared.more_actions_select(YML_DATA['supplier_traits'])
-  supplier_partner.add_supplier_traits(YML_DATA['supp_traits'])
+  supplier_partner.add_supplier_traits(YML_DATA['supp_trait'])
   shared.save_and_close
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.verify_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supp_trait'])
   database.disconnect_db
   shared.more_actions_select(YML_DATA['supplier_traits'])
+  #supplier_partner.select_supplier_traits(YML_DATA['supp_trait'])
   shared.delete_item
   shared.save_and_close
   shared.save_and_close
@@ -424,15 +425,15 @@ end
 
 
 Then(/^buyer is able to delete a supplier trait to the Supplier Site$/) do
-  shared.more_actions_select(YML_DATA['supp_trait'])
-  supplier_partner.add_supplier_traits(YML_DATA['supp_traits'])
+  shared.more_actions_select(YML_DATA['supplier_traits'])
+  supplier_partner.add_supplier_traits(YML_DATA['supp_trait'])
   shared.save_and_close
   shared.more_actions_select(YML_DATA['supplier_traits'])
   shared.delete_item
   shared.save_and_close
   shared.save_and_close
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_delete_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supplier_traits'])
+  database.verify_delete_supp_site_traits_table(YML_DATA['supplier_site_id'], YML_DATA['supp_trait'])
   database.disconnect_db
   login_page.logout_to_rms
 end
