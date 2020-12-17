@@ -2,9 +2,9 @@ Feature: BWS Item Menu
 
   @BWS-MENU-01
   Scenario: review a list of Items
-    Given a buyer selects the 'Item & Ordering Worklist' option from task menu
-    When 'Item & Ordering Worklist' task open
-    Then the assistant buyer has the option to review a list of Items or either create new, copy or open an exiting item or merge, delete or reject an item
+    Given the Assistant Buyer on 'Item & Ordering Worklist' page
+    When the assistant buyer finish
+    Then the buyer can open RMS
 
   @bws-iv-02
   Scenario: Add Existing Item

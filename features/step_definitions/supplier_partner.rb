@@ -16,7 +16,7 @@ end
 
 When(/^a buyer access Suppliers edits page$/) do
   supplier_partner.select_supplier(YML_DATA['supplier_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
 end
 
 Then(/^the buyer is able to amend the details of the Supplier Address$/) do
@@ -47,7 +47,7 @@ Given(/^a buyer access the Address page for a supplier$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier(YML_DATA['supplier_id'])
   supplier_partner.select_supplier(YML_DATA['supplier_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -60,7 +60,7 @@ Given(/^a buyer access the Address page for a supplier site$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -73,7 +73,7 @@ Given(/^a buyer access the Address page for a partner$/) do
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   shared.more_actions_select(YML_DATA['address'])
   supplier_partner.close_supplier
 end
@@ -374,7 +374,7 @@ end
 
 When(/^a buyer access Suppliers Site edits page$/) do
   supplier_partner.select_supplier_site(YML_DATA['supplier_site_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
 end
 
 Then(/^buyer is able to create new inventory for the supplier site$/) do
@@ -523,7 +523,7 @@ end
 
 When(/^the buyer edit partner details$/) do
   supplier_partner.search_partner(YML_DATA['partner_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   supplier_partner.edit_partner('Partner_Test_Team_changed', 'Active', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila_test', '351910000000')
   shared.save_and_close
 end
@@ -534,7 +534,7 @@ Then(/^the partner is update on RMS and RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_partner_table(YML_DATA['partner_id'], YML_DATA['partn_db_type_1'], 'Partner_Test_Team_changed', 'A', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila_test', '351910000000')
   database.disconnect_db
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   supplier_partner.edit_partner('Partner_Test_Team', 'Inative', YML_DATA['Currency'], YML_DATA['part_terms'], 'Camila', '351910000000')
   shared.save_and_close
   login_page.logout_to_rms
@@ -543,7 +543,7 @@ end
 
 When(/^a buyer access Invoicing Attributes$/) do
   supplier_partner.search_partner(YML_DATA['partner_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
   shared.more_actions_select(YML_DATA['invoicing_attributes'])
 end
 
@@ -562,7 +562,7 @@ end
 
 When(/^a buyer access Partners edits page$/) do
   supplier_partner.search_partner(YML_DATA['partner_id'])
-  supplier_partner.access_edit_page
+  shared.access_edit_page
 end
 
 

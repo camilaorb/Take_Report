@@ -38,6 +38,11 @@ def visit(url)
   TE.browser.goto(url)
 end
 
+def goto_bwb
+  TE.browser.goto(TE.environment['bws_url'])
+  # raise 'BWB login page has not loaded' unless TE.browser.div(:id, 'cb1').visible?
+end
+
 def verify_url(url, expected_url)
   Watir::Wait.until { TE.browser.url != url }
   raise "The expected URL is this #{expected_url} but we got #{TE.browser.url}" unless TE.browser.url == expected_url

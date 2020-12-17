@@ -287,7 +287,7 @@ BusinessAddress:
   City: 'cape town'
   Country: 'ZA'
 
-#Existing Zones
+  #Existing Zones
   ZAR: South Africa Initial Pricing
   AUD: Australia Initial Pricing
   BWP: Botswana Initial Pricing
@@ -357,12 +357,12 @@ Warehouse:
   updated_city: 'cape town 10'
   updated_country: 'ZA'
 
-## Manage Add Address  - add new address on the top of the address of WH created ##
+  ## Manage Add Address  - add new address on the top of the address of WH created ##
   manage_address: '11'
   manage_city: 'cape town 11'
   manage_country: 'ZA'
 
-## Manage - Add From Existing Address ##
+  ## Manage - Add From Existing Address ##
   manage_existing_address: '18'
   manage_existing_city: 'cape town 18'
   manage_existing_country: 'ZA'
@@ -373,3 +373,24 @@ Warehouse:
   expected_error1: 'The Business address is required.Virtual Warehouses need to be created.'
   expected_error2: 'The entered value is already used by a store, warehouse, or external finisher. Enter a new value.'
   expected_error3: 'Cannot delete a primary virtual warehouse. To delete this warehouse, you must select a new primary virtual warehouse for the physical warehouse or delete the physical warehouse itself.'
+
+################################ Location List ########################################
+
+location_list_id: '75003'
+
+division_chain: '5' #org hier
+
+location_type_1: 'Store'
+location_type_2: 'Warehouse'
+
+static: 'Y' #when static checkbox is mark, the STATIC_IND should be Y
+dinamic: 'N'  #when static checkbox is NOT mark, STATIC_IND should be N
+
+db_location_type_1: 'S'
+db_location_type_2: 'W'
+
+
+# Location List More options #
+location_option: 'Locations'
+criteria_option: 'Criteria'
+location_list_rebuild_option: 'Location List Rebuild'

@@ -192,11 +192,6 @@ module Pages
       raise "Supplier id no #{new_id} not found" unless list.include? supplier_id.to_s
     end
 
-    def access_edit_page
-      edit_button.click
-      wait_for_db_activity
-    end
-
     def close_supplier
       TryWith.attempts(attempts: 10, sleep: 2) do
         supplier_search_page.click

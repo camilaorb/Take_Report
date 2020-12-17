@@ -19,8 +19,6 @@ RMS_sandbox:
   db_server: OPOMOMDB01
   unix_username: oretail
   unix_pwd: welcome
-
-BWS_sandbox:
   bws_url: http://opomomapp01:15102/olr-fusion-retail-express/faces/login.jsf
   bws_buyer: buyer
   bws_buyer_pw: Welcome123

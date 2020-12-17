@@ -993,7 +993,6 @@ module Pages
     ## Manage WH ; Add - Address(top of existing address) Verification##
     def verify_manage_add_address(warehouse_id, address, city, country)
       address_table = @connection.select_one("Select ADD_1,CITY,COUNTRY_ID from addr where module = 'WH' and key_value_1 = '#{warehouse_id}' and add_1 = #{address}")
-
       raise "Address is not on the table." if address_table.nil?
       raise "Address 1 is not as Expected:'#{address}' Actual:'#{address_table[0]}" unless address_table[0] == address.to_s
       raise "City is not as Expected:'#{city}' Actual:'#{address_table[1]}'" unless address_table[1] == city
@@ -1006,6 +1005,25 @@ module Pages
       address_table = @connection.select_one("Select ADD_1 from addr where module = 'WH' and key_value_1 = '#{warehouse_id}' and add_1 = #{address}")
       raise "Address is not Delete from the table." unless address_table.nil?
     end
+
+
+    ################## Location List ###################
+
+    def verify_location_head_table(location_lis_id, description, comment, static)
+      loc_list_head = @connection.select_one("select LOC_LIST_DESC, COMMENT_DESC, STATIC_IND from loc_list_head where loc_list = '#{location_lis_id}'")
+      raise "location List id '#{location_lis_id}' not found ." if loc_list_head.nil?
+      raise "Description is not as Expected:'#{description}' Actual:'#{loc_list_head[0]}'" unless loc_list_head[0] == description
+      raise "Comments is not as Expected:'#{comment}' Actual:'#{loc_list_head[1]}'" unless loc_list_head[1] == comment
+      raise "Static is not as Expected:'#{static}' Actual:'#{loc_list_head[2]}'" unless loc_list_head[2] == static
+    end
+
+    def verify_location_details_table(location_lis_id, location, type)
+      loc_list_detail = @connection.select_one("select * from loc_list_detail where loc_list = '#{location_lis_id}'")
+      raise "The Locations for Location List id '#{location_lis_id}' Not found." if loc_list_detail.nil?
+      raise "Location is not as Expected:'#{location}' Actual:'#{loc_list_detail[1]}'" unless loc_list_detail[1] == location
+      raise "Type is not as Expected:'#{type}' Actual:'#{loc_list_detail[2]}'" unless loc_list_detail[2] == type
+    end
+
 
 
   end

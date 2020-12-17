@@ -168,6 +168,10 @@ module Pages
       raise "Error Mismatch" if expected_error.eql? actual_error  == false
     end
 
+    def access_edit_page
+      edit_button.click
+      wait_for_db_activity
+    end
 
   end
 end
