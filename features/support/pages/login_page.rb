@@ -9,7 +9,6 @@ module Pages
 
     ############################# Objects #####################
 
-
     #Login
     element(:username_field) { text_field(:id, 'pt1:r1:0:login_it1::content') }
     element(:password_field) { text_field(:id, 'pt1:r1:0:login_it2::content') }
@@ -68,7 +67,29 @@ module Pages
 
     def user_logged_in?(usr)
       user_menu(usr).present?
+    end
+
+
+    element(:bws_id){text_field(id: /username::content/)}
+    element(:bws_password){text_field(id: /password::content/)}
+    element(:bws_login_button){span(text: 'Login')}
+
+    ## Login To BWS ##
+    def login_to_bws (id, pwd)
+      TryWith.attempts(attempts: 2, sleep: 1) do
+        bws_id.send_keys id
+        bws_password.send_keys pwd
+      end
+      TryWith.attempts(attempts: 2, sleep: 1) do
+        bws_login_button.click
+      end
+    end
+
+    def logout_to_bws
+
 
     end
+
+
   end
 end

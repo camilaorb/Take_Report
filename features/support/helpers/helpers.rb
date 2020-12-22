@@ -3,9 +3,17 @@ require 'json'
 
 # example helper methods
 
+# RMS -Foundation
 def wait_for_db_activity
   TryWith.time(timeout: 300) do
     raise 'DB activity did not complete within allowed time limit' unless TE.browser.span(:id, 'pt1:statusIndComp').img.alt == 'Idle'
+  end
+end
+
+# BWS - Pageload
+def wait_for_db_activity_bws
+  TryWith.time(timeout: 300) do
+    raise 'DB activity did not complete within allowed time limit' unless TE.browser.span(:id, /pt_pt1:pt_statInd/).img.alt == 'Idle'
   end
 end
 

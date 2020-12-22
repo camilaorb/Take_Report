@@ -119,6 +119,14 @@ module Pages
       end
     end
 
+    def enter_times_bws(ele, times)
+      wait_for_db_activity_bws
+      times.times do
+        ele.send_keys :enter
+        wait_for_db_activity_bws
+      end
+    end
+
     def delete_item
       delete_button.click
       wait_for_db_activity

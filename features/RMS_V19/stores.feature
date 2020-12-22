@@ -46,6 +46,23 @@ Feature: Organizational_Hierarchy
     When buyer delete location trait for the store
     Then the record is removed from the Store Location Traits table and RMS DB
 
+  @unhappy-str-01
+    # no zonning loation
+  Scenario: Add Stores  - without zonning location
+    Given buyer is on the organizations hierarchy screen
+    When buyer create store without zonning location
+    Then the buyer is not able to create Store and can observe to add zonning location error
+
+  @unhappy-str-02
+    # without business address
+  Scenario: Add Stores  - without business address
+    Given buyer is on the organizations hierarchy screen
+    When buyer create store without business address
+    Then the buyer is not able to create Store and can observe to add business address error
+
+  @unhappy-str-03
+    # location traits
+
 #  @STR-05  @Pending
 #     #    This is not in scope but will be reviewed by the business in December
 #     #   - possible inclusion once the process of replenishment is confirmed

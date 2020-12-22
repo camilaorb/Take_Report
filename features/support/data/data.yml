@@ -44,9 +44,6 @@ category: '1'
 
 subcategory: '1'
 
-
-
-
 ### Sub Department ###
 
 profit_calc_type: 'Direct Cost'
@@ -374,23 +371,29 @@ Warehouse:
   expected_error2: 'The entered value is already used by a store, warehouse, or external finisher. Enter a new value.'
   expected_error3: 'Cannot delete a primary virtual warehouse. To delete this warehouse, you must select a new primary virtual warehouse for the physical warehouse or delete the physical warehouse itself.'
 
-################################ Location List ########################################
+  #---------------------------#
+  #############################
+  ## Buyers Work Sheet - BWS ##
+  #############################
+  #--------------------------#
 
-location_list_id: '75003'
+BWS:
+  task: 'Buyer Worksheet Group'
 
-division_chain: '5' #org hier
+  add_item:
+    Sub_Department: '44 - Test Sub-Department'
+    Category: '1 - Test Category'
+    Sub_Category: '1 - Change Sub Category'
+    Main_Desc: 'test'
+    Marketing_Desc: 'test'
+    Differentiator_1: 'COFFEE'
+    Differentiator_2: '927 - Sport Sizes'
+    Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
+    Country_of_Sourcing: 'ZA - South Africa'
+    Country_of_Manufacture: 'ZA - South Africa'
+    Port_Of_Lading: '1001 - Shanghai, China'
+    Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+    Cost: '500.00'
+    Supplier_Pack_Size: '1'
+    Inner_Pack_Size: '20'
 
-location_type_1: 'Store'
-location_type_2: 'Warehouse'
-
-static: 'Y' #when static checkbox is mark, the STATIC_IND should be Y
-dinamic: 'N'  #when static checkbox is NOT mark, STATIC_IND should be N
-
-db_location_type_1: 'S'
-db_location_type_2: 'W'
-
-
-# Location List More options #
-location_option: 'Locations'
-criteria_option: 'Criteria'
-location_list_rebuild_option: 'Location List Rebuild'

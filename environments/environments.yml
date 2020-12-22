@@ -6,6 +6,9 @@ qa1:
   wikipedia_site: https://en.wikipedia.org/wiki/Main_Page
 
 RMS_sandbox:
+  bws_url: http://opomomapp01:15102/olr-fusion-retail-express/faces/login.jsf
+  bws_buyer: admin
+  bws_buyer_pw: Welcome123
   url: http://opomomapp01:11002/Rms/faces/RmsLogin
   user: RMS_ADMIN
   pw: Welcome123
@@ -19,6 +22,3 @@ RMS_sandbox:
   db_server: OPOMOMDB01
   unix_username: oretail
   unix_pwd: welcome
-  bws_url: http://opomomapp01:15102/olr-fusion-retail-express/faces/login.jsf
-  bws_buyer: buyer
-  bws_buyer_pw: Welcome123
