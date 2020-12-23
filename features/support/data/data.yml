@@ -384,7 +384,7 @@ BWS:
     Sub_Department: '44 - Test Sub-Department'
     Category: '1 - Test Category'
     Sub_Category: '1 - Change Sub Category'
-    Main_Desc: 'test'
+    Main_Desc: 'test (Sachin)'
     Marketing_Desc: 'test'
     Differentiator_1: 'COFFEE'
     Differentiator_2: '927 - Sport Sizes'
@@ -395,5 +395,5 @@ BWS:
     Cost_Zone_Group_ID: '1000 - MRP Cost Group'
     Cost: '500.00'
     Supplier_Pack_Size: '1'
-    Inner_Pack_Size: '20'
+#    Inner_Pack_Size: '20'
 

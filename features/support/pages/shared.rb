@@ -36,6 +36,7 @@ module Pages
 
     ## Possible Save and Closes ##
     element(:save_and_close_01) { a(:text, /Save and Close/) }
+    element(:save_and_close_02) { span(:text, /Save And Close/) }
 
     ############################### Methods ###############################
 
@@ -50,6 +51,12 @@ module Pages
         wait_for_db_activity
         save_and_close_01.click
         wait_for_db_activity
+
+      elsif save_and_close_02.present?
+        sleep 1
+        wait_for_db_activity_bws
+        save_and_close_02.click
+        wait_for_db_activity_bws
       end
     end
 
@@ -172,13 +179,17 @@ module Pages
     end
 
     ## Unhappy Paths / Error Verification ##
-    def verify_error (expected_error,actual_error)
-      raise "Error Mismatch" if expected_error.eql? actual_error  == false
+    def verify_error (expected_error, actual_error)
+      raise "Error Mismatch" if expected_error.eql? actual_error == false
     end
 
     def access_edit_page
       edit_button.click
       wait_for_db_activity
+    end
+
+    def bws_ok
+      TE.browser.span(text: 'OK').click
     end
 
   end

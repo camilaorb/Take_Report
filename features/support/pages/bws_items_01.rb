@@ -12,19 +12,8 @@ module Pages
     ## Element Repo ##
     element(:buyer_worksheet_button) { a(id: /pt_np2:1:pt_cni1/) }
     #buyers_worksheet
-
-    def verify_items
-
-    end
-
-
     element(:task) { |text| a(text: text) }
 
-
-    def select_task task
-      buyer_worksheet_button.wait_until(&:present?).click!
-      task(task).wait_until(&:present?).click!
-    end
 
     element(:actions_icon) { a(text: 'Actions') }
     element(:view_icon) { a(text: 'View') }
@@ -69,7 +58,14 @@ module Pages
     element(:_cost_zone_groupID) { text_field(label: 'Cost Zone Group ID') }
     element(:_cost) { text_field(label: 'Unit Cost') }
     element(:_supplier_pack_size) { text_field(label: 'Supplier Pack Size') }
+    element(:_inner_pack_size) { input(id: /itInnerPackSize::content/).to_subtype }
+    element(:save_and_close_02) { span(:text, 'Save And Close') }
 
+    ## PopUp Error
+    element(:pop_up_message) { div(id: /d1_msgDlg_cancel/) }
+
+    # ITEM ID - Independent Test
+    element(:auto_generated_item_id) { span(id: /rOptDets:styleView:it1::content/) }
 
     # verify the items options are available #
     def verify_list_of_top_bar_items
@@ -107,7 +103,7 @@ module Pages
                       differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
                       cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size)
 
-      sleep 2
+      sleep 5
       6.times do
         add_item_arrow.click
       end
@@ -115,34 +111,72 @@ module Pages
       scroll_bws "bottom"
 
       ## Fill The Details ##
-      elements_with_data = {sub_department => sub_Department,
-                            _category => category,
-                            _sub_category => sub_category,
-                            _main_desc => main_Desc,
-                            _detailed_desc => "test",
-                            _diff1 => differentiator_1,
-                            _diff_group_2_description => differentiator_2,
-                            _special_instructions => "Test Order",
-                            _supplier_site => supplier_Site,
-                            _country_of_sourcing => country_of_Sourcing,
-                            _country_of_manufacture => country_of_Manufacture,
-                            _port_of_lading => port_Of_Lading,
-                            _cost_zone_groupID => cost_Zone_Group_ID,
-                            _cost => cost,
-                            _supplier_pack_size => supplier_Pack_Size}
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order",
+                             _supplier_site => supplier_Site,
+                             _country_of_sourcing => country_of_Sourcing,
+                             _country_of_manufacture => country_of_Manufacture,
+                             _port_of_lading => port_Of_Lading,
+                             _cost_zone_groupID => cost_Zone_Group_ID,
+                             _cost => cost,
+                             _supplier_pack_size => supplier_Pack_Size,
+      }
+
       ## Found something strange
       # re-start from here
-      elements_with_data.each {|k,v|
+      @elements_with_data.each { |k, v|
         k.clear
         wait_for_db_activity_bws
+        sleep 1
         k.send_keys v
         wait_for_db_activity_bws
         #shared.enter_times_bws k, 2
         # Defect while enter 2 or more time in the field and so that
-        # to continue test until defect ewsolve , we will click at another place
+        # to continue test until defect resolve , we will click at another place
         TE.browser.h2(text: /Item Information/).click
-        wait_for_db_activity_bws
       }
+    end
+
+    def re_fill_the_empty_field
+      @elements_with_data.each { |k, v|
+        if k.value.empty? == true
+          clear = k.clear
+          wait_for_db_activity_bws
+          sleep 1
+          k.send_keys v
+          wait_for_db_activity_bws
+          #shared.enter_times_bws k, 2
+          # Defect while enter 2 or more time in the field and so that
+          # to continue test until defect resolve , we will click at another place
+          TE.browser.h2(text: /Item Information/).click
+          if pop_up_message.present? == true
+            pop_up_message.click
+          end
+        end
+      }
+
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      # There are some issue with the diff field and dexcription field which auto blank
+      save_and_close_02.click
+      shared.bws_ok
+    end
+
+
+    element(:bws_table_check_box) { input(id: /pc1:tStyles:checkboxHeader::content/) }
+
+    #-> working
+    def delete_created
+      select_task "Buyer Worksheet Group"
+      retrive_added_item_id
+      @item_id
     end
 
     ## ReUsables ##
@@ -170,6 +204,20 @@ module Pages
       end
     end
 
+    def select_task task
+      buyer_worksheet_button.wait_until(&:present?).click!
+      task(task).wait_until(&:present?).click!
+    end
+
+    def retrive_added_item_id
+      range = TE.browser.table(summary: 'list of worksheet styles').tbody.trs.size
+      for i in 0..range
+        if TE.browser.table(summary: 'list of worksheet styles').tbody.trs[i].tds[12].text.include? "Sachin"
+          @item_id = TE.browser.table(summary: 'list of worksheet styles').tbody.trs[i].tds[11].text
+        end
+      end
+    end
 
   end
 end
+#> TE.browser.a(xpath: "//a[contains(@href,'100Metalico')]").present?
