@@ -91,25 +91,27 @@ When(/^the 'Item sub\-tab' displays within the Item Information section$/) do
 end
 
 Then(/^the assistant Buyer is able add specific details including Item’s merchandise hierarchy, Supplier Site, Country of Sources and Country of Manufacturing, Base Cost and Differentiators$/) do
-  #
-  # bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
-  #                            YML_DATA['BWS']['add_item']['Category'],
-  #                            YML_DATA['BWS']['add_item']['Sub_Category'],
-  #                            YML_DATA['BWS']['add_item']['Main_Desc'],
-  #                            YML_DATA['BWS']['add_item']['Marketing_Desc'],
-  #                            YML_DATA['BWS']['add_item']['Differentiator_1'],
-  #                            YML_DATA['BWS']['add_item']['Differentiator_2'],
-  #                            YML_DATA['BWS']['add_item']['Supplier_Site'],
-  #                            YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
-  #                            YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
-  #                            YML_DATA['BWS']['add_item']['Port_Of_Lading'],
-  #                            YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
-  #                            YML_DATA['BWS']['add_item']['Cost'],
-  #                            YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
-  #                            YML_DATA['BWS']['add_item']['Inner_Pack_Size'])
-  #
-  # bws_items_01.re_fill_the_empty_field
+  bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+                             YML_DATA['BWS']['add_item']['Category'],
+                             YML_DATA['BWS']['add_item']['Sub_Category'],
+                             YML_DATA['BWS']['add_item']['Main_Desc'],
+                             YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                             YML_DATA['BWS']['add_item']['Differentiator_1'],
+                             YML_DATA['BWS']['add_item']['Differentiator_2'],
+                             YML_DATA['BWS']['add_item']['Supplier_Site'],
+                             YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                             YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                             YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                             YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                             YML_DATA['BWS']['add_item']['Cost'],
+                             YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                             YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                             YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                             YML_DATA['BWS']['add_item']['Packing_Method'])
+
+
   bws_items_01.delete_created
+  bws_items_01.log_out_from_bws
 end
 
 When(/^the assistant buyer selects the Add Existing Item$/) do
@@ -117,7 +119,8 @@ When(/^the assistant buyer selects the Add Existing Item$/) do
 end
 
 Then(/^the buyer will be presented with a pop\-up to search from approved Items from RMS$/) do
-
+  bws_items_01.add_item_select_options "add_existing_item"
+  bws_items_01.verify_add_item_popup
 end
 
 When(/^the assistant buyer selects the Copy From Existing Item$/) do
@@ -125,10 +128,28 @@ When(/^the assistant buyer selects the Copy From Existing Item$/) do
 end
 
 Then(/^the user will be presented with a pop\-up to search from approved Items from RMS to Copy From$/) do
-
+  bws_items_01.add_item_select_options "copy_from_existing"
+  bws_items_01.verify_add_item_popup
 end
 
 Then(/^Item ID will be copied form the existing item and Item ID will be automatically generated using ORIN Type$/) do
+  bws_items_01.add_item_select_options "copy_from_existing"
+  bws_items_01.existing_item_details YML_DATA['BWS']['copy_from_existing']['existing_item'],
+                                     YML_DATA['BWS']['copy_from_existing']['existing_supplier'],
+                                     YML_DATA['BWS']['copy_from_existing']['existing_country_of_source']
+
+  #To change the details of the copy from existing Item
+  bws_items_01.update_copy_from_exsiting_item_details(YML_DATA['BWS']['copy_from_existing']['main_desc'],
+                                                      YML_DATA['BWS']['copy_from_existing']['marketing_desc'],
+                                                      YML_DATA['BWS']['copy_from_existing']['detail_desc'],
+                                                      YML_DATA['BWS']['copy_from_existing']['supplier_site'],
+                                                      YML_DATA['BWS']['copy_from_existing']['country_of_sourcing'],
+                                                      YML_DATA['BWS']['copy_from_existing']['Country_of_Manufacture'],
+                                                      YML_DATA['BWS']['copy_from_existing']['cost_zone_group_id'],
+                                                      YML_DATA['BWS']['copy_from_existing']['cost'],
+                                                      YML_DATA['BWS']['copy_from_existing']['packing_method'],
+                                                      YML_DATA['BWS']['copy_from_existing']['inner_pack_size'],
+                                                      YML_DATA['BWS']['copy_from_existing']['case_pack_qty'])
 
 end
 

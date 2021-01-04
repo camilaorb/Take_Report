@@ -10,33 +10,33 @@ Feature: BWS Item Menu
 
     #18/12/2020 Task
   @BWS-MENU-02
-  Scenario: Add new ITEM (1/4)
+  Scenario: Add new ITEM
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When  the 'Item sub-tab' displays within the Item Information section
     Then the assistant Buyer is able add specific details including Item’s merchandise hierarchy, Supplier Site, Country of Sources and Country of Manufacturing, Base Cost and Differentiators
 
 
   @BWS-MENU-03
-  Scenario: Add new ITEM (2/4)
+  Scenario: Add ITEM - Add Existing Item
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Add Existing Item
     Then the buyer will be presented with a pop-up to search from approved Items from RMS
 
 
   @BWS-MENU-04
-  Scenario: Add new ITEM (3/4)
+  Scenario: Add ITEM - Copy From Existing Item(1/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Copy From Existing Item
     Then  the user will be presented with a pop-up to search from approved Items from RMS to Copy From
 
 
   @BWS-MENU-05
-  Scenario: Add new ITEM (4/4)
+  Scenario: Add Item - Copy From Existing Item(2/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Copy From Existing Item
     Then Item ID will be copied form the existing item and Item ID will be automatically generated using ORIN Type
 
-
+#-> working
   @BWS-MENU-06
   Scenario: Delete ITEM (1/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu

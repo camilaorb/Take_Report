@@ -19,6 +19,7 @@ module Pages
     element(:view_icon) { a(text: 'View') }
     element(:format_icon) { a(text: 'Format') }
     element(:add_item_icon) { span(text: 'Add Item') }
+    element(:delete_icon) { span(text: 'Delete Selected') }
 
     # Regarding Add ITEM and it's Options #, pc1:ctb2::popArea
     element(:add_item_arrow) { td xpath: "//td[contains(@_afrpopid,'pc1:mAddNewSku')]" } #just to click
@@ -59,13 +60,35 @@ module Pages
     element(:_cost) { text_field(label: 'Unit Cost') }
     element(:_supplier_pack_size) { text_field(label: 'Supplier Pack Size') }
     element(:_inner_pack_size) { input(id: /itInnerPackSize::content/).to_subtype }
+    element(:_case_pack_qty) { text_field(label: 'Case Pack Qty') }
     element(:save_and_close_02) { span(:text, 'Save And Close') }
+    element(:_apply) { span(:text, 'Apply') }
+
 
     ## PopUp Error
     element(:pop_up_message) { div(id: /d1_msgDlg_cancel/) }
 
     # ITEM ID - Independent Test
     element(:auto_generated_item_id) { span(id: /rOptDets:styleView:it1::content/) }
+
+    # Elements for Test Extraction ID #
+    element(:test_item_desc_ele) { |index_no| element xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr[#{index_no}]/td[9]" }
+    element(:test_item_id_ele) { |index_no| element xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr[#{index_no}]/td[8]" }
+    element(:test_id_check_box) { |index_no| element xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr[#{index_no}]/td[1]" }
+
+    # Packing Method
+    element(:_packing_method) { select(:id, /rOptDets:styleView:soc1::content/) }
+    element(:_packing_method_opt) { |text| option(text: text) }
+
+    #Delete Task
+    element(:bws_table_check_box) { input(id: /pc1:tStyles:checkboxHeader::content/) }
+
+    # Logout
+    element(:_admin) { a(text: /ADMIN/) }
+    element(:_logout) { td(text: 'Logout') }
+
+    #Add From Existing#
+    element(:_add_item_popup) { div(id: /pt_region1:0:d2/) }
 
     # verify the items options are available #
     def verify_list_of_top_bar_items
@@ -98,15 +121,10 @@ module Pages
       submit_the_buy.present?
     end
 
-    ## 18/12/2020
     def adds_item_bws(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
                       differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
-                      cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size)
+                      cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size, case_pack_qty, packing_method)
 
-      sleep 5
-      6.times do
-        add_item_arrow.click
-      end
       add_item_select_options "add_new_item"
       scroll_bws "bottom"
 
@@ -122,14 +140,11 @@ module Pages
                              _supplier_site => supplier_Site,
                              _country_of_sourcing => country_of_Sourcing,
                              _country_of_manufacture => country_of_Manufacture,
-                             _port_of_lading => port_Of_Lading,
                              _cost_zone_groupID => cost_Zone_Group_ID,
                              _cost => cost,
-                             _supplier_pack_size => supplier_Pack_Size,
+                             _case_pack_qty => case_pack_qty
       }
 
-      ## Found something strange
-      # re-start from here
       @elements_with_data.each { |k, v|
         k.clear
         wait_for_db_activity_bws
@@ -141,46 +156,129 @@ module Pages
         # to continue test until defect resolve , we will click at another place
         TE.browser.h2(text: /Item Information/).click
       }
+
+      _packing_method.click
+      _packing_method_opt(packing_method).click
+
+
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      #Due to defect some field needs to refill
+      re_fill_the_empty_field @elements_with_data
+
+      # There are some issue with the diff field and dexcription field which auto blank
+      _apply.click
+      save_and_close_02.click
+      sleep 2
+      wait_for_db_activity_bws
+      shared.bws_ok
     end
 
-    def re_fill_the_empty_field
+    ## ADD ITEM from Existing & Copy From Existing ITEM VERIFICATION ##
+    def verify_add_item_popup
+      wait_for_db_activity_bws
+      raise "The PopUp To Search From Approved Not Present" if _add_item_popup.present? == false
+      wait_for_db_activity_bws
+      sleep 1
+      shared.bws_cancel
+      wait_for_db_activity_bws
+      log_out_from_bws
+    end
+
+
+    #->working
+
+    element(:_vpn) { text_field(label: 'VPN') }
+    element(:_item) { text_field(label: 'Item') }
+    element(:_supplier) { text_field(label: /Supplier/) }
+    element(:_country_source) { text_field(label: 'Country of Sourcing Code') }
+
+    def existing_item_details(item_id, supplier, country_of_source)
+      wait_for_db_activity_bws
+      _item.send_keys item_id, :enter
+      wait_for_db_activity_bws
+      _supplier.send_keys supplier, :enter
+      wait_for_db_activity_bws
+      _country_source.send_keys country_of_source, :enter
+      wait_for_db_activity_bws
+      TE.browser.div(id: /pt_region1:0:b7/).click
+    end
+
+    element(:_maerketing_description) { text_field(label: 'Marketing Desc') }
+
+    def update_copy_from_exsiting_item_details(main_desc, marketing_desc, detailed_desc, supplier_site,
+                                               country_of_sourcing, country_of_manufacture, cost_zone_group_id,
+                                               cost, packing_method, inner_size, case_pack_qty)
+
+      ## Fill The Details ##
+      @elements_with_data = {
+          _main_desc => main_desc,
+          _maerketing_description => marketing_desc,
+          _detailed_desc => detailed_desc,
+          _special_instructions => "Test Order",
+          _supplier_site => supplier_site,
+          _country_of_sourcing => country_of_sourcing,
+          _country_of_manufacture => country_of_manufacture,
+          _cost_zone_groupID => cost_zone_group_id,
+          _cost => cost,
+          _case_pack_qty => case_pack_qty
+      }
       @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+      re_fill_the_empty_field @elements_with_data
+    end
+
+
+    ## ReUsables ##
+    def re_fill_the_empty_field data
+      data.each { |k, v|
         if k.value.empty? == true
           clear = k.clear
           wait_for_db_activity_bws
           sleep 1
           k.send_keys v
           wait_for_db_activity_bws
-          #shared.enter_times_bws k, 2
-          # Defect while enter 2 or more time in the field and so that
-          # to continue test until defect resolve , we will click at another place
-          TE.browser.h2(text: /Item Information/).click
-          if pop_up_message.present? == true
-            pop_up_message.click
-          end
+          shared.enter_times_bws k, 2
         end
+        _packing_method.click
+        _packing_method_opt("Flat").click
       }
-
-      # Auto Generated ID #Independency Purpose
-      @item_id_auto_generated = auto_generated_item_id.text
-
-      # There are some issue with the diff field and dexcription field which auto blank
-      save_and_close_02.click
-      shared.bws_ok
     end
 
 
-    element(:bws_table_check_box) { input(id: /pc1:tStyles:checkboxHeader::content/) }
-
-    #-> working
     def delete_created
       select_task "Buyer Worksheet Group"
-      retrive_added_item_id
-      @item_id
+      wait_for_db_activity_bws
+      @item_id = retrive_added_item_id
+      wait_for_db_activity_bws
+      test_id_check_box(@index_no).click
+      wait_for_db_activity_bws
+      delete_icon.click
+      wait_for_db_activity_bws
+      shared.bws_ok
+      wait_for_db_activity_bws
+      shared.bws_ok
+      wait_for_db_activity_bws
+      shared.bws_ok
+      wait_for_db_activity_bws
     end
 
-    ## ReUsables ##
     def add_item_select_options(option)
+      6.times do
+        sleep 1
+        add_item_arrow.click
+      end
       if option == "add_new_item"
         add_new_item.double_click
       elsif option == "add_existing_item"
@@ -210,14 +308,20 @@ module Pages
     end
 
     def retrive_added_item_id
-      range = TE.browser.table(summary: 'list of worksheet styles').tbody.trs.size
-      for i in 0..range
-        if TE.browser.table(summary: 'list of worksheet styles').tbody.trs[i].tds[12].text.include? "Sachin"
-          @item_id = TE.browser.table(summary: 'list of worksheet styles').tbody.trs[i].tds[11].text
+      range = TE.browser.elements(xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr").count
+      for i in 1..range
+        if test_item_desc_ele(i).text.include? "TestTeam"
+          @test_item_id = test_item_id_ele(i).text
+          @index_no = i #to click the checkbox base on the element
         end
       end
+      @test_item_id.to_s
+    end
+
+    def log_out_from_bws
+      _admin.click
+      _logout.click
     end
 
   end
 end
-#> TE.browser.a(xpath: "//a[contains(@href,'100Metalico')]").present?

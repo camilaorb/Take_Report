@@ -189,7 +189,32 @@ module Pages
     end
 
     def bws_ok
-      TE.browser.span(text: 'OK').click
+      sleep 2
+      if TE.browser.div(id: /d4_ok/).present?
+        2.times do
+          TE.browser.div(id: /d4_ok/).click
+        end
+      elsif TE.browser.div(id: /d9_ok/).present?
+        TE.browser.div(id: /d9_ok/).click
+
+      elsif TE.browser.div(id: /pc1:ctb1/).present?
+        TE.browser.div(id: /pc1:ctb1/).click
+
+      elsif TE.browser.span(text: 'OK').present?
+        TE.browser.span(text: 'OK').click
+
+      elsif TE.browser.div(id: /pt_region1:0:b7/).present?
+        TE.browser.div(id: /pt_region1:0:b7/).click
+      else
+        raise "Element not Present"
+      end
+    end
+
+
+    def bws_cancel
+      if TE.browser.span(text: 'Cancel').present?
+        TE.browser.span(text: 'Cancel').click
+      end
     end
 
   end
