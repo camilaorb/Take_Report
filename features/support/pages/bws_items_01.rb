@@ -164,6 +164,7 @@ module Pages
       # Auto Generated ID #Independency Purpose
       @item_id_auto_generated = auto_generated_item_id.text
 
+      @item_id_auto_generated
       #Due to defect some field needs to refill
       re_fill_the_empty_field @elements_with_data
 
@@ -236,7 +237,14 @@ module Pages
         TE.browser.h2(text: /Item Information/).click
       }
 
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      @item_id_auto_generated
+      #Due to defect some field needs to refill
       re_fill_the_empty_field @elements_with_data
+      shared.bws_apply
+      shared.bws_save_and_close
     end
 
 
@@ -256,16 +264,18 @@ module Pages
       }
     end
 
+    element(:confrimation_popup){div(id: /pt_region2:0:m3/)}
 
     def delete_created
       select_task "Buyer Worksheet Group"
       wait_for_db_activity_bws
-      @item_id = retrive_added_item_id
+      retrive_added_item_index @item_id_auto_generated
       wait_for_db_activity_bws
       test_id_check_box(@index_no).click
       wait_for_db_activity_bws
       delete_icon.click
       wait_for_db_activity_bws
+      raise "The Confirmation Message is Not as Expected" if confrimation_popup.text != "Confirmation\n  Are you sure you wish to delete the selected Styles from the Buyer Worksheet"
       shared.bws_ok
       wait_for_db_activity_bws
       shared.bws_ok
@@ -275,7 +285,7 @@ module Pages
     end
 
     def add_item_select_options(option)
-      6.times do
+      2.times do
         sleep 1
         add_item_arrow.click
       end
@@ -307,16 +317,20 @@ module Pages
       task(task).wait_until(&:present?).click!
     end
 
-    def retrive_added_item_id
+
+    ##- ---------------  Working ----------------------------- -##
+
+    def retrive_added_item_index id
       range = TE.browser.elements(xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr").count
       for i in 1..range
-        if test_item_desc_ele(i).text.include? "TestTeam"
-          @test_item_id = test_item_id_ele(i).text
+        if test_item_id_ele(i).text.include? id
           @index_no = i #to click the checkbox base on the element
         end
       end
-      @test_item_id.to_s
+      @index_no.to_s
     end
+
+    ## -----------------------------------------------------------------------------##
 
     def log_out_from_bws
       _admin.click

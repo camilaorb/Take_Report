@@ -91,7 +91,8 @@ When(/^the 'Item sub\-tab' displays within the Item Information section$/) do
 end
 
 Then(/^the assistant Buyer is able add specific details including Item’s merchandise hierarchy, Supplier Site, Country of Sources and Country of Manufacturing, Base Cost and Differentiators$/) do
-  bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+
+   bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
                              YML_DATA['BWS']['add_item']['Category'],
                              YML_DATA['BWS']['add_item']['Sub_Category'],
                              YML_DATA['BWS']['add_item']['Main_Desc'],
@@ -150,7 +151,8 @@ Then(/^Item ID will be copied form the existing item and Item ID will be automat
                                                       YML_DATA['BWS']['copy_from_existing']['packing_method'],
                                                       YML_DATA['BWS']['copy_from_existing']['inner_pack_size'],
                                                       YML_DATA['BWS']['copy_from_existing']['case_pack_qty'])
-
+  bws_items_01.delete_created
+  bws_items_01.log_out_from_bws
 end
 
 When(/^the buyer selects the Item & Ordering Line using the checkbox and Delete Item \(red cross logo\) from the menu$/) do
@@ -158,7 +160,29 @@ When(/^the buyer selects the Item & Ordering Line using the checkbox and Delete 
 end
 
 Then(/^the Item & Ordering Line from the worklist will be deleted$/) do
+  # Independent
+  bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+                             YML_DATA['BWS']['add_item']['Category'],
+                             YML_DATA['BWS']['add_item']['Sub_Category'],
+                             YML_DATA['BWS']['add_item']['Main_Desc'],
+                             YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                             YML_DATA['BWS']['add_item']['Differentiator_1'],
+                             YML_DATA['BWS']['add_item']['Differentiator_2'],
+                             YML_DATA['BWS']['add_item']['Supplier_Site'],
+                             YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                             YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                             YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                             YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                             YML_DATA['BWS']['add_item']['Cost'],
+                             YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                             YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                             YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                             YML_DATA['BWS']['add_item']['Packing_Method'])
 
+  # Verify Delete
+  bws_items_01.delete_created
+
+  bws_items_01.log_out_from_bws
 end
 
 And(/^the Item is on a repeating Purchase Order$/) do

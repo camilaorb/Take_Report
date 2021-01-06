@@ -217,5 +217,17 @@ module Pages
       end
     end
 
+    def bws_apply
+      if TE.browser.span(text: 'Apply').present?
+        TE.browser.span(text: 'Apply').click
+      end
+    end
+
+    def bws_save_and_close
+      if TE.browser.span(text: 'Save And Close').present?
+        TE.browser.span(text: 'Save And Close').click
+      end
+    end
+
   end
 end

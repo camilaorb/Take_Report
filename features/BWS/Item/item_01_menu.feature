@@ -4,11 +4,11 @@ Feature: BWS Item Menu
   # developed yet
   @BWS-MENU-01
   Scenario: review a list of Items
-    Given the Assistant Buyer on 'Item & Ordering Worklist' page
-    When the assistant buyer finish
-    Then the buyer can open RMS
+    Given a buyer selects the 'Item & Ordering Worklist' option from task menu
+    When 'Item & Ordering Worklist' task open
+    Then the assistant buyer has the option to review a list of Items or either create new, copy or open an exiting item or merge, delete or reject an item
 
-    #18/12/2020 Task
+
   @BWS-MENU-02
   Scenario: Add new ITEM
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
@@ -36,13 +36,14 @@ Feature: BWS Item Menu
     When the assistant buyer selects the Copy From Existing Item
     Then Item ID will be copied form the existing item and Item ID will be automatically generated using ORIN Type
 
-#-> working
+
   @BWS-MENU-06
   Scenario: Delete ITEM (1/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the buyer selects the Item & Ordering Line using the checkbox and Delete Item (red cross logo) from the menu
     Then the Item & Ordering Line from the worklist will be deleted
 
+    #-> working
   @BWS-MENU-07
   Scenario: Delete ITEM (2/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
