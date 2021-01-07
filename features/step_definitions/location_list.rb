@@ -63,11 +63,27 @@ Given("a buyer have added a location to the list") do
 end
 
 When("the buyer opts to delete the Location from the List") do
-  pending # Write code here that turns the phrase above into concrete actions
+  location_list.access_create_location_list
+  shared.more_actions_select(YML_DATA['location_option'])
+  select_location_detail(YML_DATA['Store_ID'])
+  shared.delete_item
+  shared.save_and_close
+  shared.save_and_close
+
 end
 
 Then("the buyer can remove the location") do
-  pending # Write code here that turns the phrase above into concrete actions
+  location_list.access_menage_location_list
+  location_list.search_location_list(@location_list_id)
+  shared.access_edit_page
+  shared.more_actions_select(YML_DATA['location_option'])
+
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_delete_location_details_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['division_chain'], YML_DATA['dynamic'])
+  database.disconnect_db
+  shared.delete_item
+  shared.done
+  login_page.logout_to_rms
 end
 
 Given("accesses the Add Criteria page") do

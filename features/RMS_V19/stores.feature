@@ -1,4 +1,4 @@
-Feature: Organizational_Hierarchy
+Feature: Store
 
   @STR-01
   Scenario: Stores - Add Stores
@@ -46,6 +46,21 @@ Feature: Organizational_Hierarchy
     When buyer delete location trait for the store
     Then the record is removed from the Store Location Traits table and RMS DB
 
+  @STR-10
+  Scenario: More Actions - Add Walkthrough
+    Given buyer completes the setup of a store
+    When the buyer opts to add walkthrough for a selected store
+    And enters a store from a list of stores
+    Then the user can either add more stores by repeating the step or selecting OK to commit the store(s)
+
+  @STR-11
+  Scenario: More Actions - Delete store from Walkthrough stores
+    Given buyer completes the setup of a store
+    When the buyer Remove a store for a selected store
+    Then the walkthrough store is removed
+
+
+
   @unhappy-str-01
     # no zonning loation
   Scenario: Add Stores  - without zonning location
@@ -60,7 +75,7 @@ Feature: Organizational_Hierarchy
     When buyer create store without business address
     Then the buyer is not able to create Store and can observe to add business address error
 
-  @unhappy-str-03
+  #@unhappy-str-03
     # location traits
 
 #  @STR-05  @Pending

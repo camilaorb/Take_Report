@@ -1,4 +1,4 @@
-Feature: Organizational_Hierarchy
+Feature: Organizational Hierarchy
 
   @ORGH-01
   Scenario: Division - Add Division

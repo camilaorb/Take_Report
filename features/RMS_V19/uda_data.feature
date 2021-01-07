@@ -142,13 +142,13 @@ Feature: UDA
     When the buyer downloads the file and makes the necessary correction
     Then the buyer is able to re-upload the template file and re-assess the latest status of the upload
 
-#  @UDA-17
-#  Scenario: UDA - LOV - Delete
-#    Given a buyer opts to remove a "UDA LOV"
-#    When a buyer upload the source file with the information
-#      | template_type | template | file |
-#      | Items | Differentiators | UDA-17 UDA - LOV - Delete.ods |
-#    Then the user will not be able to remove the UDA LOV
+  @UDA-17
+  Scenario: UDA - LOV - Delete
+    Given a buyer opts to remove a "UDA LOV"
+    When a buyer upload the source file with the information
+      | template_type | template | file |
+      | Items | Differentiators | UDA-17 UDA - LOV - Delete.ods |
+    Then the user will not be able to remove the UDA LOV
 
   @UDA-18
   Scenario: UDA - Date - Create

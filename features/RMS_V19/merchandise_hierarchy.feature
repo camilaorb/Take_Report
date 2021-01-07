@@ -142,6 +142,34 @@ Feature: Merchandise Hierarchy
     When a user deletes a Merch Hier Default
     Then record is deleted successfully
 
+  @MERCH-22
+  Scenario: Add Location
+    Given a user has created a Sub-Department
+    When a user access Up Charges page
+    Then the user is able to add the upcharges to the new location
+
+  @MERCH-23
+  Scenario: Add Upcharges
+    Given a user has set up a Sub-Department and assigned a from/to combination location
+    When a user access Up Charges page
+    And user enters the component details , component, Up Charge Group, Component Rate, Per Count, Per Count UOM, Component Currency
+    Then the upcharges are associated with the defined location for the new sub-department
+
+  @MERCH-24
+  Scenario: Edit Upcharges
+    Given a user has set up a Sub-Department and assigned a from/to combination location
+    When a user access Up Charges page
+    And user updates the component details namely Up Charge Group, Component Rate, Component Currency
+    Then the upcharges are updated for the selected location defined for the sub-department
+
+  @MERCH-25
+  Scenario: Delete Upcharges
+    Given a user has set up a Sub-Department and assigned a from/to combination location
+    When a user access Up Charges page
+    And opts to Delete the upcharge
+    Then the upcharge record are removed for the selected location defined for the sub-department
+
+
   @DLYPRG
   Scenario: running dlyprg nightly job
     Given the purge batch process is complete "dlyprg"

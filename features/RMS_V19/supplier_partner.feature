@@ -122,7 +122,7 @@ Feature: Suppliers and Partners
     When a buyer access Suppliers Site edits page
     Then the buyer is able to create Import Attributes and Beneficiary Attributes
 
-  @SUP-17 @issue
+  @SUP-17
   Scenario: Supplier Site - Expense
     Given  a buyer access Manage Supplier screen
     When a buyer access Suppliers Site edits page
@@ -182,7 +182,7 @@ Feature: Suppliers and Partners
     When the buyer attempt to delete the partner address that is setup as a Primary Address
     Then the buyer is unable to delete the partner address
 
-  @SUP-26 @issue
+  @SUP-26
   Scenario: Manage Partners - Expense
     Given a buyer access Manage Partners page
     When a buyer access Partners edits page

@@ -1024,6 +1024,16 @@ module Pages
       raise "Type is not as Expected:'#{type}' Actual:'#{loc_list_detail[2]}'" unless loc_list_detail[2] == type
     end
 
+    def verify_delete_location_head_table(location_lis_id, description, comment, static)
+      loc_list_head = @connection.select_one("select LOC_LIST_DESC, COMMENT_DESC, STATIC_IND from loc_list_head where loc_list = '#{location_lis_id}'")
+      raise "Location List is not delete." unless loc_list_head.nil?
+    end
+
+    def verify_delete_location_details_table(location_lis_id, location, type)
+      loc_list_detail = @connection.select_one("select * from loc_list_detail where loc_list = '#{location_lis_id}'")
+      raise "Location is not delete." unless loc_list_detail.nil?
+    end
+
 
 
   end
