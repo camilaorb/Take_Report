@@ -2,12 +2,17 @@
 Given(/^the Assistant Buyer on 'Item & Ordering Worklist' page$/) do
   visit(TE.environment['bws_url'])
   login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
-  bws_items_01.select_task YML_DATA['BWS']['task']
+  bws_items_01.select_task YML_DATA['bws_group']
 
 end
 
 When(/^the assistant Buyer manually adds an Add New Item to the Buyers Worklist$/) do
-  bws_items_01.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+  bws_03_item_create.access_create_new_item
+
+end
+
+Then(/^the assistant Buyer is able add specific details$/) do
+  bws_03_item_create.fields_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
                              YML_DATA['BWS']['add_item']['Category'],
                              YML_DATA['BWS']['add_item']['Sub_Category'],
                              YML_DATA['BWS']['add_item']['Main_Desc'],
@@ -24,18 +29,21 @@ When(/^the assistant Buyer manually adds an Add New Item to the Buyers Worklist$
                              YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
                              YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                              YML_DATA['BWS']['add_item']['Packing_Method'])
-
-
-  bws_items_01.delete_created
-  bws_items_01.log_out_from_bws
+  bws_03_item_create.calcel_and_delete_created
+  bws_03_item_create.log_out_from_bws
 end
 
-Then(/^the assistant Buyer is able add specific details$/) do
-  visit(TE.environment['rms_url'])
-  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
-  foundation_data_loading.open_data_loading
-  foundation_data_loading.open_data_loading_download
-  login_page.logout_to_rms
+Given(/^an Assistant Buyer on item create tab$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_items_01.select_task YML_DATA['bws_group']
+  bws_03_item_create.access_create_new_item
+end
+
+When(/^an assistant buyer enters the Sub-Department$/) do
+  bws_03_item_create.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+  bws_items_01.delete_created
+  bws_items_01.log_out_from_bws
 end
 
 

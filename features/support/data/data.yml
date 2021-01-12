@@ -392,14 +392,15 @@ location_option: 'Locations'
 criteria_option: 'Criteria'
 location_list_rebuild_option: 'Location List Rebuild'
 
-  #---------------------------#
-  #############################
-  ## Buyers Work Sheet - BWS ##
-  #############################
-  #--------------------------#
+#----------------------------------------------------------------------------------------------------------#
+############################################################################################################
+################## Buyers Work Sheet - BWS #################################################################
+############################################################################################################
+#----------------------------------------------------------------------------------------------------------#
 
-BWS:
-  task: 'Buyer Worksheet Group'
+#BWS Tasks
+  bws_group: 'Buyer Worksheet Group'
+  po_maint: 'PO Maintenance'
 
   add_item:
     Sub_Department: '44 - Test Sub-Department'
@@ -417,7 +418,7 @@ BWS:
     Cost: '500.00'
     Supplier_Pack_Size: '1'
     Inner_Pack_Size: '20'
-#    Inner_Pack_Size: '20'
+#   Inner_Pack_Size: '20'
     Packing_Method: 'Flat'
 
   copy_from_existing:
@@ -435,3 +436,26 @@ BWS:
     packing_method: 'Flat'
     inner_pack_size: '1'
     case_pack_qty: '10'
+
+#Add Item
+input_Sub_Department: '44 - Test Sub-Department'
+input_Category: '1 - Test Category'
+input_Sub_Category: '1 - Change Sub Category'
+input_Main_Desc: 'test team'
+input_Marketing_Desc: 'test'
+input_Differentiator_1: 'COFFEE'
+input_Differentiator_2: '927 - Sport Sizes'
+input_Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
+input_Country_of_Sourcing: 'ZA - South Africa'
+input_Country_of_Manufacture: 'ZA - South Africa'
+input_Port_Of_Lading: '1001 - Shanghai, China'
+input_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+input_Cost: '500.00'
+input_Supplier_Pack_Size: '1'
+input_Inner_Pack_Size: '20'
+input_Packing_Method: 'Flat'
+
+#elements_names
+
+item_element_subdepartment: 'Sub-Department'
+item_element_category:

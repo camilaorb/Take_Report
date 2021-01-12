@@ -1,13 +1,15 @@
 require 'test-evolve/core/page_object'
 
 module Pages
-  def bws_items_01
-    @bws_items_01 ||= Bws_items_01.new
+  def bws_item_actions
+    @bws_item_actions ||= BwsItemActions.new
   end
 
-  class Bws_items_01 < TestEvolve::Core::PageObject
+  class BwsItemActions < TestEvolve::Core::PageObject
 
     include Pages
+
+    ############################################### Objects ##############################################################
 
     ## Element Repo ##
     element(:buyer_worksheet_button) { a(id: /pt_np2:1:pt_cni1/) }
@@ -90,36 +92,7 @@ module Pages
     #Add From Existing#
     element(:_add_item_popup) { div(id: /pt_region1:0:d2/) }
 
-    # verify the items options are available #
-    def verify_list_of_top_bar_items
-      sleep 2
-      list_of_item = [actions_icon, view_icon, format_icon, add_item_icon,
-                      item_upload, export_invalid_items,
-                      item_download, delete_symbol, delete_selected, export_to_excel]
-      list_of_item.each do |item|
-        raise "#{item.inspect} is not Present in the ITEM LIST" if item.present? == false
-      end
-
-      sleep 2
-      wait_for_db_activity_bws
-      add_item_arrow.wait_until(&:present?).double_click
-      wait_for_db_activity_bws
-
-      options_of_add_items = [add_new_item, add_existing_item, copy_from_existing]
-      options_of_add_items.each do |item|
-        raise "#{item.inspect} is not Present in the ITEM LIST" if item.present? == false
-      end
-    end
-
-    def verify_list_of_worksheet_table
-      list_of_worksheet_table.present?
-      edit_pencil.present?
-    end
-
-    def verify_submit_ok_buttons
-      bws_ok.present?
-      submit_the_buy.present?
-    end
+    ############################################# Methods ##############################################################
 
     def adds_item_bws(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
                       differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
@@ -332,10 +305,6 @@ module Pages
 
     ## -----------------------------------------------------------------------------##
 
-    def log_out_from_bws
-      _admin.click
-      _logout.click
-    end
 
   end
 end

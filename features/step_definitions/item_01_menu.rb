@@ -1,7 +1,7 @@
 Given(/^a buyer selects the 'Item & Ordering Worklist' option from task menu$/) do
   visit(TE.environment['bws_url'])
   login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
-  bws_items_01.select_task YML_DATA['BWS']['task']
+  bws_items_01.select_task YML_DATA['bws_group']
 end
 
 Then(/^the assistant buyer has the option to review a list of Items or either create new, copy or open an exiting item or merge, delete or reject an item$/) do
@@ -14,9 +14,6 @@ When(/^'Item & Ordering Worklist' task open$/) do
 
 end
 
-Given(/^the Assistant Buyer on 'Item & Ordering Worklist' page$/) do
-
-end
 
 When(/^the assistant buyer is able to enter Item$/) do
 
@@ -50,9 +47,7 @@ Then(/^the Assistant Buyer is able to move to the next tab$/) do
 
 end
 
-Given(/^an Assistant Buyer on item create tab$/) do
 
-end
 
 When(/^the assistant buyer selects the 'Green Plus' button located next to the 'Swing Tag' field$/) do
 
