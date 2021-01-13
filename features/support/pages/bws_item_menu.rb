@@ -8,7 +8,6 @@ module Pages
   class BwsItemMenu < TestEvolve::Core::PageObject
 
     include Pages
-
     ############################################### Objects ##############################################################
 
     ## Element Repo ##

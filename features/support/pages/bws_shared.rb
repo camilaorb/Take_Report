@@ -160,6 +160,16 @@ module Pages
       wait_for_db_activity_bws
     end
 
+    def retrive_added_item_index id
+      range = TE.browser.elements(xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr").count
+      for i in 1..range
+        if test_item_id_ele(i).text.include? id
+          @index_no = i #to click the checkbox base on the element
+        end
+      end
+      @index_no.to_s
+    end
+
     def add_item_select_options(option)
       2.times do
         sleep 1
