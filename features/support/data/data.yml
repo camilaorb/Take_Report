@@ -436,7 +436,16 @@ location_list_rebuild_option: 'Location List Rebuild'
     packing_method: 'Flat'
     inner_pack_size: '1'
     case_pack_qty: '10'
+    ## uda ##
+  uda_id_1: '1006' #colour
+  uda_id_2: '1350' #shape
+  uda_val_1: '1527' #lovendor
+  uda_val_2: '2685' #gift box
 
+  ## skus ##
+  sku_01: 'By Group'
+  sku_02: 'From List'
+  sku_range: '1'
 #Add Item
 input_Sub_Department: '44 - Test Sub-Department'
 input_Category: '1 - Test Category'
