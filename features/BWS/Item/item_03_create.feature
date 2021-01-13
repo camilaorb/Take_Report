@@ -20,7 +20,7 @@ Feature: BWS Create Item
   @BWS-CREATEITEM-03
   Scenario: Item Tab - Category
     Given an Assistant Buyer on item create tab
-    When an assistant buyer enters a  the Category using LOV
+    When an assistant buyer enters a the Category
     Then  the values listed for the sub-category are specific to the selected sub-department and category
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
@@ -28,7 +28,7 @@ Feature: BWS Create Item
   Scenario: Item Tab - Item Main Description
     Given an Assistant Buyer on item create tab
     When the assistant buyer enters the Main Description for the Item
-    Then the field is limited to 250 Characters
+    Then the field is limited to '250' Characters
     #When user attempts to enter >250 characters, the marketing description will not allow
     #Defaulted from Main Description
     #Mandatory field
@@ -50,7 +50,7 @@ Feature: BWS Create Item
   Scenario: Add New Item - Item Tab - Detailed Description
     Given an Assistant Buyer on item create tab
     When the assistant buyer enters the Detailed Description for the Item
-    Then the field is limited to 250 Characters
+    Then the field is limited to '250' Characters
     #holds Item Detailed Description
     # -Mandatory
     # -Alphanumeric
@@ -60,7 +60,7 @@ Feature: BWS Create Item
   Scenario: Add New Item - Item Tab - Supplier Label
     Given an Assistant Buyer on item create tab
     When an assistant buyer enters description for the Supplier Label
-    Then the description must not exceed 15 characters
+    Then the field is limited to '15' Characters
     #Optional field
     #Alphanumeric
     #Maps to SUPP_LABEL of ITEM_SUPPLIER table in RMS schema
@@ -68,7 +68,7 @@ Feature: BWS Create Item
   @BWS-CREATEITEM-08
   Scenario: Item Tab - Differentiator - Colour
     Given an Assistant Buyer on item create tab
-    When the assistant buyer enters the Colour using the drop-down values
+    When the assistant buyer enters the Colour ID
     Then the colour Diff is created
     #The Diff is always set to "ID" for the COLOUR Diff, not group
     #User can only pick 1 colour for the Style
@@ -79,9 +79,9 @@ Feature: BWS Create Item
   @BWS-CREATEITEM-09
   Scenario: Item Tab - Differentiator - Size
     Given an Assistant Buyer on item create tab
-    When the assistant buyer enters the Size using the drop-down values
+    When the assistant buyer enters the Size ID
     Then the Size Diffs are created
-    #The Diff is always set to "GROUP" for the SIZE Diff, not group
+    #The Diff is always set to "ID" for the SIZE Diff, not group
     #Diff Type is always defaulted to GROUP
     #Once a Size and Colour are selected the Item created is at aggregate level
     #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
@@ -92,7 +92,7 @@ Feature: BWS Create Item
     Given an Assistant Buyer on item create tab
     When the  assistant buyer enters the colour differentiator on Supplier Diff 1 field
     Then the assistant buyer is able to enter the supplier colour
-    And the number of characters allowed in the field must not exceed 120 characters
+    And the field is limited to '120' Characters
     And Only available if colour is defined using Differentiator Colour otherwise it is disabled
     #If the Colour Differentiator is not defined then this field is disabled
     #Maps to SUPP_DIFF_1 of ITEM_SUPPLIER table in RMS schema

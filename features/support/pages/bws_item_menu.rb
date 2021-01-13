@@ -8,6 +8,7 @@ module Pages
   class BwsItemMenu < TestEvolve::Core::PageObject
 
     include Pages
+
     ############################################### Objects ##############################################################
 
     ## Element Repo ##
@@ -124,9 +125,31 @@ module Pages
       submit_the_buy.present?
     end
 
+    def add_item_select_options(option)
+      2.times do
+        sleep 1
+        add_item_arrow.click
+      end
+      if option == "add_new_item"
+        add_new_item.double_click
+      elsif option == "add_existing_item"
+        add_existing_item.double_click
+      elsif option == "copy_from_existing"
+        copy_from_existing.double_click
+      else
+        "Invalid Selection"
+      end
+    end
+
     def access_create_new_item
       add_item_select_options "add_new_item"
       scroll_bws "bottom"
+    end
+
+    def access_create_new_item_button
+      add_item_icon.wait_until(&:present?).click
+      wait_for_db_activity_bws
+      scroll_to sub_department
     end
 
 

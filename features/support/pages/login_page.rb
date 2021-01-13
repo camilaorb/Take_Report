@@ -23,6 +23,13 @@ module Pages
     element(:close_popup) { a(:id, /d1::close/) }
     element(:close_popup_2) { a(:id, /d3::close/) }
 
+    #BWS
+    element(:bws_id){text_field(id: /username::content/)}
+    element(:bws_password){text_field(id: /password::content/)}
+    element(:bws_login_button){span(text: 'Login')}
+    element(:_admin) { a(text: /ADMIN/) }
+    element(:_logout) { td(text: 'Logout') }
+
     ############################# Methods ####################
 
     def login_to_rms(usr, pwd)
@@ -70,9 +77,6 @@ module Pages
     end
 
 
-    element(:bws_id){text_field(id: /username::content/)}
-    element(:bws_password){text_field(id: /password::content/)}
-    element(:bws_login_button){span(text: 'Login')}
 
     ## Login To BWS ##
     def login_to_bws (id, pwd)
@@ -85,9 +89,9 @@ module Pages
       end
     end
 
-    def logout_to_bws
-
-
+    def log_out_from_bws
+      _admin.click
+      _logout.click
     end
 
 

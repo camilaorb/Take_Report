@@ -142,49 +142,6 @@ module Pages
 
     element(:confrimation_popup){div(id: /pt_region2:0:m3/)}
 
-    def delete_created
-      select_task "Buyer Worksheet Group"
-      wait_for_db_activity_bws
-      retrive_added_item_index @item_id_auto_generated
-      wait_for_db_activity_bws
-      test_id_check_box(@index_no).click
-      wait_for_db_activity_bws
-      delete_icon.click
-      wait_for_db_activity_bws
-      raise "The Confirmation Message is Not as Expected" if confrimation_popup.text != "Confirmation\n  Are you sure you wish to delete the selected Styles from the Buyer Worksheet"
-      shared.bws_ok
-      wait_for_db_activity_bws
-      shared.bws_ok
-      wait_for_db_activity_bws
-      shared.bws_ok
-      wait_for_db_activity_bws
-    end
-
-    def retrive_added_item_index id
-      range = TE.browser.elements(xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr").count
-      for i in 1..range
-        if test_item_id_ele(i).text.include? id
-          @index_no = i #to click the checkbox base on the element
-        end
-      end
-      @index_no.to_s
-    end
-
-    def add_item_select_options(option)
-      2.times do
-        sleep 1
-        add_item_arrow.click
-      end
-      if option == "add_new_item"
-        add_new_item.double_click
-      elsif option == "add_existing_item"
-        add_existing_item.double_click
-      elsif option == "copy_from_existing"
-        copy_from_existing.double_click
-      else
-        "Invalid Selection"
-      end
-    end
 
     def scroll_bws option
       if option == "top"
@@ -204,10 +161,7 @@ module Pages
     end
 
 
-    def log_out_from_bws
-      _admin.click
-      _logout.click
-    end
+
 
     def bws_ok
       sleep 2
