@@ -48,4 +48,11 @@ namespace :ci do
     puts "At least one test failed, please check your reports. #{e}"
   end
 
+  task :bws_tests do
+    ENV['CONFIG_DIR'] = 'ci_config/bws_tests'
+    system "parallel_cucumber -n 1 features -o \"-t '@bws_tests and not (@bug or @wip or @singlethread)'\""
+  rescue StandardError => e
+    puts "At least one test failed, please check your reports. #{e}"
+  end
+
 end
