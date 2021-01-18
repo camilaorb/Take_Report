@@ -70,9 +70,6 @@ When(/^an Assistant Buyer opts to add HTS Code$/) do
 
 end
 
-Then(/^the user is only able to add a code from a list of HTS codes$/) do
-
-end
 
 When(/^an assistant buyer opts to add UDA$/) do
 
