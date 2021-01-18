@@ -109,34 +109,13 @@ module Pages
     element(:_uda_val_2) { input(id: /pcUdaWorksheet:tUdaWorksheet:1:udaValueWsId::content/).to_subtype }
 
 
-    # verify the items options are available #
-    def verify_list_of_top_bar_items
-      sleep 2
-      list_of_item = [actions_icon, view_icon, format_icon, add_item_icon,
-                      item_upload, export_invalid_items,
-                      item_download, delete_symbol, delete_selected, export_to_excel]
-      list_of_item.each do |item|
-        raise "#{item.inspect} is not Present in the ITEM LIST" if item.present? == false
-      end
-
-      sleep 2
-      wait_for_db_activity_bws
-      add_item_arrow.wait_until(&:present?).double_click
-      wait_for_db_activity_bws
-
-      options_of_add_items = [add_new_item, add_existing_item, copy_from_existing]
-      options_of_add_items.each do |item|
-        raise "#{item.inspect} is not Present in the ITEM LIST" if item.present? == false
-      end
-    end
-
     ## Create ITEM ##
     ## Item ##
     def adds_item_bws(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
                       differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
                       cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size, case_pack_qty, packing_method)
 
-      bws_shared.add_item_select_options "add_new_item"
+      #  bws_shared.add_item_select_options "add_new_item"
       bws_shared.scroll_bws "bottom"
 
       ## Fill The Details ##
@@ -151,6 +130,7 @@ module Pages
                              _supplier_site => supplier_Site,
                              _country_of_sourcing => country_of_Sourcing,
                              _country_of_manufacture => country_of_Manufacture,
+                             _port_of_lading => port_Of_Lading,
                              _cost_zone_groupID => cost_Zone_Group_ID,
                              _cost => cost,
                              _case_pack_qty => case_pack_qty
@@ -169,7 +149,9 @@ module Pages
       }
 
       _packing_method.click
+      wait_for_db_activity_bws
       _packing_method_opt(packing_method).click
+      wait_for_db_activity_bws
 
       # Auto Generated ID #Independency Purpose
       @item_id_auto_generated = auto_generated_item_id.text
@@ -179,10 +161,64 @@ module Pages
 
       # There are some issue with the diff field and description field which auto blank
       _apply.click
+      wait_for_db_activity_bws
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+      bws_shared.bws_ok
+    end
+
+    ## @CopyFromExisting - To Add An ITEM Based On Existing ITEM ##
+    def existing_item_details(item_id, supplier, country_of_source)
+      wait_for_db_activity_bws
+      _item.send_keys item_id, :enter
+      wait_for_db_activity_bws
+      _supplier.send_keys supplier, :enter
+      wait_for_db_activity_bws
+      _country_source.send_keys country_of_source, :enter
+      wait_for_db_activity_bws
+      TE.browser.div(id: /pt_region1:0:b7/).click
+    end
+
+    ## @CopyFromExisting  ##
+    def update_copy_from_exsiting_item_details(main_desc, marketing_desc, detailed_desc, supplier_site,
+                                               country_of_sourcing, country_of_manufacture, cost_zone_group_id, cost, packing_method, inner_size, case_pack_qty)
+
+      @elements_with_data = {
+          _main_desc => main_desc,
+          _maerketing_description => marketing_desc,
+          _detailed_desc => detailed_desc,
+          _special_instructions => "Test Order",
+          _supplier_site => supplier_site,
+          _country_of_sourcing => country_of_sourcing,
+          _country_of_manufacture => country_of_manufacture,
+          _cost_zone_groupID => cost_zone_group_id,
+          _cost => cost,
+          _case_pack_qty => case_pack_qty
+      }
+      @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #bws_shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      @item_id_auto_generated
+      #Due to defect some field needs to refill
+      bws_shared.re_fill_the_empty_field @elements_with_data
+      bws_shared.bws_apply
+      bws_shared.bws_save_and_close
     end
 
     #UDAs#
-    def udas(uda_id_1, uda_id_2, uda_val_1, uda_val_2)
+    def add_udas(uda_id_1, uda_id_2, uda_val_1, uda_val_2)
       wait_for_db_activity_bws
       _udas.click
       wait_for_db_activity_bws
@@ -241,6 +277,7 @@ module Pages
     ## dimensions ##
     element(:_dimensions) { a(text: 'Dimensions') }
     element(:_dimension_add_button) { div(id: /dimensionView:pcDimension:b1/) }
+
     def add_dimension
       _dimensions.click
       wait_for_db_activity_bws
@@ -248,7 +285,6 @@ module Pages
       wait_for_db_activity_bws
       _dimension_add_button.click
       wait_for_db_activity_bws
-
       ## further implementation ##
     end
 
@@ -263,74 +299,24 @@ module Pages
 
     element(:_order_inf_add) { div(id: /rOptDets:ordersView:pc4:ctb1/) }
 
+    ## Implementation Remains ##
+    def add_location_ranging
+
+    end
+
+    def add_price_by_zone
+
+    end
+
     def order_information
       _order_inf_add.present?
       ## Wait the defect to resolve ##
       # Defect ID : MP-951
     end
 
-    ## ADD ITEM from Existing & Copy From Existing ITEM VERIFICATION ##
-    def verify_add_item_popup
-      wait_for_db_activity_bws
-      raise "The PopUp To Search From Approved Not Present" if _add_item_popup.present? == false
-      wait_for_db_activity_bws
-      sleep 1
-      bws_shared.bws_cancel
-      wait_for_db_activity_bws
-      bws_shared.log_out_from_bws
-    end
-
-    def existing_item_details(item_id, supplier, country_of_source)
-      wait_for_db_activity_bws
-      _item.send_keys item_id, :enter
-      wait_for_db_activity_bws
-      _supplier.send_keys supplier, :enter
-      wait_for_db_activity_bws
-      _country_source.send_keys country_of_source, :enter
-      wait_for_db_activity_bws
-      TE.browser.div(id: /pt_region1:0:b7/).click
-    end
-
-    def update_copy_from_exsiting_item_details(main_desc, marketing_desc, detailed_desc, supplier_site,
-                                               country_of_sourcing, country_of_manufacture, cost_zone_group_id, cost, packing_method, inner_size, case_pack_qty)
-      ## Fill The Details ##
-      @elements_with_data = {
-          _main_desc => main_desc,
-          _maerketing_description => marketing_desc,
-          _detailed_desc => detailed_desc,
-          _special_instructions => "Test Order",
-          _supplier_site => supplier_site,
-          _country_of_sourcing => country_of_sourcing,
-          _country_of_manufacture => country_of_manufacture,
-          _cost_zone_groupID => cost_zone_group_id,
-          _cost => cost,
-          _case_pack_qty => case_pack_qty
-      }
-      @elements_with_data.each { |k, v|
-        k.clear
-        wait_for_db_activity_bws
-        sleep 1
-        k.send_keys v
-        wait_for_db_activity_bws
-        #bws_shared.enter_times_bws k, 2
-        # Defect while enter 2 or more time in the field and so that
-        # to continue test until defect resolve , we will click at another place
-        TE.browser.h2(text: /Item Information/).click
-      }
-
-      # Auto Generated ID #Independency Purpose
-      @item_id_auto_generated = auto_generated_item_id.text
-
-      @item_id_auto_generated
-      #Due to defect some field needs to refill
-      bws_shared.re_fill_the_empty_field @elements_with_data
-      bws_shared.bws_apply
-      bws_shared.bws_save_and_close
-    end
-
     ## Please do not move this (-> "delete_created") method to anywhere otherwise it will have an issue to delete created item ##
     def delete_created
-      select_task "Buyer Worksheet Group"
+      bws_shared.select_task "Buyer Worksheet Group"
       wait_for_db_activity_bws
       retrive_added_item_index @item_id_auto_generated
       wait_for_db_activity_bws
@@ -338,7 +324,7 @@ module Pages
       wait_for_db_activity_bws
       delete_icon.click
       wait_for_db_activity_bws
-      raise "The Confirmation Message is Not as Expected" if confrimation_popup.text != "Confirmation\n  Are you sure you wish to delete the selected Styles from the Buyer Worksheet"
+      # raise "The Delete Confirmation Message is Not as Expected" if confrimation_popup.text != "Confirmation\n  Are you sure you wish to delete the selected Styles from the Buyer Worksheet"
       shared.bws_ok
       wait_for_db_activity_bws
       shared.bws_ok
@@ -346,6 +332,17 @@ module Pages
       shared.bws_ok
       wait_for_db_activity_bws
     end
+
+    def retrive_added_item_index id
+      range = TE.browser.elements(xpath: "//div[contains(@id,'pc1:tStyles::db')]/table/tbody/tr").count
+      for i in 1..range
+        if test_item_id_ele(i).text.include? id
+          @index_no = i #to click the checkbox base on the element
+        end
+      end
+      @index_no.to_s
+    end
+
 
     #-> working
     # -All the listed Buyers Worksheet contained within the Buyers Worksheet Group are exported into Excel
@@ -356,8 +353,48 @@ module Pages
       export_to_excel_button.wait_until(&:present?).click!
     end
 
+    element(:_add_swing_button) { a(id: /rOptDets:styleView:addSwingTags/) }
+    #-> 14/01/2020
+    # Swing tab
+    def add_swing_tag
+      ## click on add button
+      wait_for_db_activity_bws
+      _add_swing_button.click
+      wait_for_db_activity_bws
+      TE.browser.a(id: /ticketTypeDescId::lovIconId/).click
+      wait_for_db_activity_bws
+      TE.browser.span(:text, 'Apply').click
+      wait_for_db_activity_bws
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+    end
+
+    #-> working
+    #BWS-create-02
+    element(:_category_search) { a(id: /styleView:class1Id::lovIconId/) }
+    element(:_category_lov) {|range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
+
+    def verify_category_list_against_sub_dept(sub_dept)
+      #extract all the values displays in the table
+      # store in to an array
+      # cross verify with data base table
+      wait_for_db_activity_bws
+      sub_department.send_keys sub_dept
+      wait_for_db_activity_bws
+      TE.browser.h2(text: /Item Information/).click
+      wait_for_db_activity_bws
+      _category_search.click
+      wait_for_db_activity_bws
+
+      database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+
+      #below method extract text of the first 10 category display in the list and verifying in database
+      (1..10).each do|i|
+        @category_values =  _category_lov(i).text.split("-").first.to_i
+        database.verify_subdept_category(sub_dept.split.first.to_i, _category_lov(i).text.split("-").first.to_i)
+      end
+
+    end
 
   end
 end
-
-#bws_shared

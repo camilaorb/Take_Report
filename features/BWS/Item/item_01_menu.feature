@@ -3,46 +3,47 @@ Feature: BWS Item Menu
   ## table after create ITEM =  OAO_BWS_ITEM
   # This scenario verification of 1. Merge Delivery Drops 2. Reject Item Remains because the Functionality not
   # developed yet
-  @BWS-MENU-01
+  @BWS-MENU-01 @bws_tests
   Scenario: review a list of Items
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When 'Item & Ordering Worklist' task open
     Then the assistant buyer has the option to review a list of Items or either create new, copy or open an exiting item or merge, delete or reject an item
 
 
-  @BWS-MENU-02
+  @BWS-MENU-02 @bws_tests
   Scenario: Add new ITEM
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When  the 'Item sub-tab' displays within the Item Information section
     Then the assistant Buyer is able add specific details including Item’s merchandise hierarchy, Supplier Site, Country of Sources and Country of Manufacturing, Base Cost and Differentiators
 
 
-  @BWS-MENU-03
+  @BWS-MENU-03 @bws_tests
   Scenario: Add ITEM - Add Existing Item
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Add Existing Item
     Then the buyer will be presented with a pop-up to search from approved Items from RMS
 
 
-  @BWS-MENU-04
+  @BWS-MENU-04 @bws_tests
   Scenario: Add ITEM - Copy From Existing Item(1/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Copy From Existing Item
     Then  the user will be presented with a pop-up to search from approved Items from RMS to Copy From
 
 
-  @BWS-MENU-05
+  @BWS-MENU-05 @bws_tests
   Scenario: Add Item - Copy From Existing Item(2/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the assistant buyer selects the Copy From Existing Item
     Then Item ID will be copied form the existing item and Item ID will be automatically generated using ORIN Type
 
 
-  @BWS-MENU-06
+  @BWS-MENU-06 @bws_tests
   Scenario: Delete ITEM (1/2)
     Given a buyer selects the 'Item & Ordering Worklist' option from task menu
     When the buyer selects the Item & Ordering Line using the checkbox and Delete Item (red cross logo) from the menu
     Then the Item & Ordering Line from the worklist will be deleted
+
 
     #-> Creating PO has an issue at the moment and defect has raised for "ADF - error"
    # To verify "the Item is on a repeating Purchase Order" - First PO needs to create

@@ -30,8 +30,8 @@ module Pages
     element(:copy_from_existing) { td(text: 'Copy From Existing') }
     # -------------------------------#
     #/Item Upload
-    element(:item_upload) { span(text: 'Item Upload') }
-    element(:export_invalid_items) { span(text: 'Export Invalid Items') }
+    element(:item_upload) { span(text: 'Item & Ordering Upload') }
+    # element(:export_invalid_items) { span(text: 'Export Invalid Items') }
     element(:item_download) { span(text: 'Item Download') }
     element(:delete_symbol) { img(id: /pc1:actb4::icon/) }
     element(:delete_selected) { span(text: 'Delete Selected') }
@@ -98,7 +98,7 @@ module Pages
     def verify_list_of_top_bar_items
       sleep 2
       list_of_item = [actions_icon, view_icon, format_icon, add_item_icon,
-                      item_upload, export_invalid_items,
+                      item_upload, export_to_excel,
                       item_download, delete_symbol, delete_selected, export_to_excel]
       list_of_item.each do |item|
         raise "#{item.inspect} is not Present in the ITEM LIST" if item.present? == false
@@ -125,8 +125,18 @@ module Pages
       submit_the_buy.present?
     end
 
+    def verify_add_item_popup
+      wait_for_db_activity_bws
+      raise "The PopUp To Search From Approved Not Present" if _add_item_popup.present? == false
+      wait_for_db_activity_bws
+      sleep 2
+      wait_for_db_activity_bws
+      TE.browser.div(id: /pt_pt1:pt_region1:0:b8/).click
+      wait_for_db_activity_bws
+    end
+
     def add_item_select_options(option)
-      2.times do
+      4.times do
         sleep 1
         add_item_arrow.click
       end

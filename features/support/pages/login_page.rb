@@ -94,6 +94,9 @@ module Pages
       _logout.click
     end
 
+    def verify_logout
+      raise "ADF_FACES-60097:For more information, please see the server's error log for an entry beginning with: ADF_FACES-60096:Server Exception during PPR, #7" if TE.browser.url != "http://opomomapp01:15102/olr-fusion-retail-express/faces/login.jsf"
+    end
 
   end
 end

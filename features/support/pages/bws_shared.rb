@@ -7,6 +7,7 @@ module Pages
 
   class BwsShare < TestEvolve::Core::PageObject
 
+    include Pages
     ############################################### Objects ##############################################################
 
     #Comuns buttons
@@ -46,8 +47,6 @@ module Pages
     element(:buyer_worksheet_button) { a(id: /pt_np2:1:pt_cni1/) }
     #buyers_worksheet
     element(:task) { |text| a(text: text) }
-
-
     element(:actions_icon) { a(text: 'Actions') }
     element(:view_icon) { a(text: 'View') }
     element(:format_icon) { a(text: 'Format') }
@@ -149,6 +148,7 @@ module Pages
         TE.browser.td(id: /pt_pt1:pt_region1:0:sdh1::_afrStr/).click
       elsif option == "bottom"
         wait_for_db_activity_bws
+        sleep 2
         TE.browser.div(id: /pt_pt1:pt_region1:0:rOptDets:0:t6/).click
       else
         "Invalid Selection"
@@ -159,9 +159,6 @@ module Pages
       buyer_worksheet_button.wait_until(&:present?).click!
       task(task).wait_until(&:present?).click!
     end
-
-
-
 
     def bws_ok
       sleep 2

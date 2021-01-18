@@ -359,7 +359,8 @@ Warehouse:
   manage_city: 'cape town 11'
   manage_country: 'ZA'
 
-  ## Manage - Add From Existing Address ##
+  ## Manage - Add From Ex`-[isting Address ##
+
   manage_existing_address: '18'
   manage_existing_city: 'cape town 18'
   manage_existing_country: 'ZA'
@@ -392,13 +393,13 @@ location_option: 'Locations'
 criteria_option: 'Criteria'
 location_list_rebuild_option: 'Location List Rebuild'
 
+  #----------------------------------------------------------------------------------------------------------#
+  ############################################################################################################
+  ################## Buyers Work Sheet - BWS #################################################################
+  ############################################################################################################
 #----------------------------------------------------------------------------------------------------------#
-############################################################################################################
-################## Buyers Work Sheet - BWS #################################################################
-############################################################################################################
-#----------------------------------------------------------------------------------------------------------#
-
-#BWS Tasks
+BWS:
+  #BWS Tasks
   bws_group: 'Buyer Worksheet Group'
   po_maint: 'PO Maintenance'
 
@@ -408,7 +409,7 @@ location_list_rebuild_option: 'Location List Rebuild'
     Sub_Category: '1 - Change Sub Category'
     Main_Desc: 'test team'
     Marketing_Desc: 'test'
-    Differentiator_1: 'COFFEE'
+    Differentiator_1: 'Cream'
     Differentiator_2: '927 - Sport Sizes'
     Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
     Country_of_Sourcing: 'ZA - South Africa'
@@ -418,7 +419,7 @@ location_list_rebuild_option: 'Location List Rebuild'
     Cost: '500.00'
     Supplier_Pack_Size: '1'
     Inner_Pack_Size: '20'
-#   Inner_Pack_Size: '20'
+    #   Inner_Pack_Size: '20'
     Packing_Method: 'Flat'
 
   copy_from_existing:
@@ -429,7 +430,7 @@ location_list_rebuild_option: 'Location List Rebuild'
     marketing_desc: 'test team'
     detail_desc: 'Test Team'
     supplier_site: '100424 - HOM  NEW WECHSLER PTY LTD'
-    country_of_sourcing:  'ZA - South Africa'
+    country_of_sourcing: 'ZA - South Africa'
     Country_of_Manufacture: 'ZA - South Africa'
     cost_zone_group_id: '1000 - MRP Cost Group'
     cost: '500.00'
@@ -446,8 +447,9 @@ location_list_rebuild_option: 'Location List Rebuild'
   sku_01: 'By Group'
   sku_02: 'From List'
   sku_range: '1'
+
 #Add Item
-input_Sub_Department: '44 - Test Sub-Department'
+input_Sub_Department: '1010 - Lds Jewels'
 input_Category: '1 - Test Category'
 input_Sub_Category: '1 - Change Sub Category'
 input_Main_Desc: 'test team'
@@ -467,4 +469,11 @@ input_Packing_Method: 'Flat'
 #elements_names
 
 item_element_subdepartment: 'Sub-Department'
-item_element_category:
+#item_element_category:
+
+
+#category values
+# The category values to check it's associaltes with the selected sub-department
+category_01: '240 - Lds BM Accs Novelty NS'
+category_02: '214 - Lds Jewels Hair NS'
+category_03: '8715 - Lds Cosm Bath and Body NS'
