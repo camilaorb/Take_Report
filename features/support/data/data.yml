@@ -450,8 +450,8 @@ BWS:
 
 #Add Item
 input_Sub_Department: '1010 - Lds Jewels'
-input_Category: '1 - Test Category'
-input_Sub_Category: '1 - Change Sub Category'
+input_Category: '214 - Lds Jewels Hair NS'
+input_Sub_Category: '2 - Core Elastics Lds BM Accs Hair NS'
 input_Main_Desc: 'test team'
 input_Marketing_Desc: 'test'
 input_Differentiator_1: 'COFFEE'
@@ -472,8 +472,3 @@ item_element_subdepartment: 'Sub-Department'
 #item_element_category:
 
 
-#category values
-# The category values to check it's associaltes with the selected sub-department
-category_01: '240 - Lds BM Accs Novelty NS'
-category_02: '214 - Lds Jewels Hair NS'
-category_03: '8715 - Lds Cosm Bath and Body NS'

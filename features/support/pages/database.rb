@@ -1034,12 +1034,6 @@ module Pages
       raise "Location is not delete." unless loc_list_detail.nil?
     end
 
-    ##BWS##
-    def verify_subdept_category(sub_dept, category)
-      category_details = @connection.select_one("select  * from class where dept = '#{sub_dept}' and class = #{category} ")
-      raise "The Category #{category} doesnot match with the sub depertment #{sub_dept}." if category_details.nil?
-    end
-
 
   end
 end

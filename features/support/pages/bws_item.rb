@@ -108,6 +108,14 @@ module Pages
     element(:_uda_val_1) { input(id: /pcUdaWorksheet:tUdaWorksheet:0:udaValueWsId::content/).to_subtype }
     element(:_uda_val_2) { input(id: /pcUdaWorksheet:tUdaWorksheet:1:udaValueWsId::content/).to_subtype }
 
+    ## category verification ##
+
+    element(:_category_search) { a(id: /styleView:class1Id::lovIconId/) }
+    element(:_category_lov) { |range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
+
+    ## sub category verification ##
+    element(:_sub_category_search) { a(id: /styleView:subclassId1::lovIconId/) }
+    element(:_sub_category_lov){|range| element(xpath: "//div[contains(@id,'rOptDets:styleView:subclassId1_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span")}
 
     ## Create ITEM ##
     ## Item ##
@@ -369,12 +377,7 @@ module Pages
       wait_for_db_activity_bws
     end
 
-    #-> working
-    #BWS-create-02
-    element(:_category_search) { a(id: /styleView:class1Id::lovIconId/) }
-    element(:_category_lov) {|range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
-
-    def verify_category_list_against_sub_dept(sub_dept)
+    def get_category_list(sub_dept)
       #extract all the values displays in the table
       # store in to an array
       # cross verify with data base table
@@ -383,17 +386,53 @@ module Pages
       wait_for_db_activity_bws
       TE.browser.h2(text: /Item Information/).click
       wait_for_db_activity_bws
+      @item_id_auto_generated = auto_generated_item_id.text #independency purpose
+      wait_for_db_activity_bws
       _category_search.click
       wait_for_db_activity_bws
-
-      database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-
+      sleep 2
       #below method extract text of the first 10 category display in the list and verifying in database
-      (1..10).each do|i|
-        @category_values =  _category_lov(i).text.split("-").first.to_i
-        database.verify_subdept_category(sub_dept.split.first.to_i, _category_lov(i).text.split("-").first.to_i)
+      @category_values = []
+      (1..10).each do |i|
+        sleep 0.50
+        @category_values = @category_values.push (_category_lov(i).text.split("-").first.to_i)
       end
+      @category_values
+    end
 
+    def get_sub_category_list(sub_dept,category)
+      #extract all the values displays in the table
+      # store in to an array
+      # cross verify with data base table
+      wait_for_db_activity_bws
+      sub_department.send_keys sub_dept
+      wait_for_db_activity_bws
+      TE.browser.h2(text: /Item Information/).click
+      wait_for_db_activity_bws
+      _category.send_keys category
+      wait_for_db_activity_bws
+      TE.browser.h2(text: /Item Information/).click
+      wait_for_db_activity_bws
+      @item_id_auto_generated = auto_generated_item_id.text #independency purpose
+      wait_for_db_activity_bws
+      _sub_category_search.click
+      wait_for_db_activity_bws
+      sleep 2
+      #below method extract text of the first 10 category display in the list and verifying in database
+      @sub_category_values = []
+      (1..10).each do |i|
+        sleep 0.50
+        @sub_category_values = @sub_category_values.push (_sub_category_lov(i).text.split("-").first.to_i)
+      end
+      @sub_category_values
+    end
+
+    def after_lov_verification
+      bws_shared.bws_ok
+      bws_shared.scroll_bws "bottom"
+      bws_shared.bws_cancel
+      bws_shared.bws_confrim_cancel
+      bws_shared.bws_ok
     end
 
   end

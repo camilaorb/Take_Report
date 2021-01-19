@@ -169,8 +169,11 @@ module Pages
       elsif TE.browser.div(id: /d9_ok/).present?
         TE.browser.div(id: /d9_ok/).click
 
-      elsif TE.browser.div(id: /pc1:ctb1/).present?
-        TE.browser.div(id: /pc1:ctb1/).click
+      elsif TE.browser.div(id: /class1Id_afrLovDialogId_ok/).present?
+        TE.browser.div(id: /class1Id_afrLovDialogId_ok/).click
+
+      elsif TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).present?
+        TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).click
 
       elsif TE.browser.span(text: 'OK').present?
         TE.browser.span(text: 'OK').click
@@ -186,6 +189,8 @@ module Pages
     def bws_cancel
       if TE.browser.span(text: 'Cancel').present?
         TE.browser.span(text: 'Cancel').click
+      elsif TE.browser.div(id: /rOptDets:0:ctb7/).present?
+        TE.browser.div(id: /rOptDets:0:ctb7/).click
       end
     end
 
@@ -199,6 +204,10 @@ module Pages
       if TE.browser.span(text: 'Save And Close').present?
         TE.browser.span(text: 'Save And Close').click
       end
+    end
+
+    def bws_confrim_cancel
+      TE.browser.span(text: 'Yes').click
     end
 
   end

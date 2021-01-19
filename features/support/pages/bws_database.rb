@@ -1036,11 +1036,23 @@ module Pages
     ###########################BWS - Verifications###############################
     #############################################################################
 
+    ## Below Method works for individual and multi record verification
+
     def verify_subdept_category(sub_dept, category)
-      category_details = @connection.select_one("select  * from class where dept = '#{sub_dept}' and class = #{category} ")
-      raise "The Category #{category} doesnot match with the sub depertment #{sub_dept}." if category_details.nil?
+      category.each {| cat |
+          category_details = @connection.select_one("select  * from class where dept = '#{sub_dept}' and class = #{cat} ")
+          raise "The Category #{cat} doesnot match with the sub depertment #{sub_dept}." if category_details.nil?
+      }
+    end
+
+    def verify_sub_category(category,sub_categories)
+      sub_categories.each {| sub_cat |
+        category_details = @connection.select_one("select  * from Subclass where class = '#{category}' and Subclass = #{sub_cat} ")
+        raise "The Sub Category #{sub_cat} doesnot match with the Category #{category}." if category_details.nil?
+      }
     end
 
   end
+
 end
 

@@ -1,25 +1,24 @@
 Feature: BWS Create Item
 
 
-  #Item Tab
-
-  @BWS-CREATEITEM-01 @wip #[SP]
+  @BWS-CREATEITEM-01
   Scenario: Add New Item - Item Tab
     Given the Assistant Buyer on 'Item & Ordering Worklist' page
     When the assistant Buyer manually adds an Add New Item to the Buyers Worklist
     Then the assistant Buyer is able add specific details
     #Item ID is pre-populated and non-editable
 
-  @BWS-CREATEITEM-02 @wip #[SP]
+  @BWS-CREATEITEM-02
   Scenario: Item Tab - Sub-Department
-    Given an Assistant Buyer on Item tab
+    Given an Assistant Buyer on item create tab
     When an assistant buyer enters the Sub-Department
     Then  the values listed for the Category are specific for the selected sub-department
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
-  @BWS-CREATEITEM-03 @wip #[SP]
+
+  @BWS-CREATEITEM-03
   Scenario: Item Tab - Category
-    Given an Assistant Buyer on Item tab
+    Given an Assistant Buyer on item create tab
     When an assistant buyer enters a the Category
     Then  the values listed for the sub-category are specific to the selected sub-department and category
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
@@ -109,7 +108,7 @@ Feature: BWS Create Item
     #  - Optional, Alphanumeric
     #  - The special instructions defined will be defaulted at the delivery drop level
 
-  @BWS-CREATEITEM-12 @bws_tests
+  @BWS-CREATEITEM-12 @wip #[sp]
   Scenario: Item Tab - Swing Tag
     Given an Assistant Buyer on Item tab
     When the assistant buyer selects the Swing Tag button
@@ -119,7 +118,7 @@ Feature: BWS Create Item
     #  - The maximum number of Swing Tags must be defined in a Merch Workbench System Option
     #  - Will be a CFA at Purchase Order Level (ORDHEAD and ORDSKU)
 
-  @BWS-CREATEITEM-13 @bws_tests
+  @BWS-CREATEITEM-13 @wip #[sp]
   Scenario: Item Tab - Swing Tag - Add Button
     Given an assistant buyer enters the details for the Swing Tag
     When the assistant buyer attempts to create more than 3 swing tags by the Add button
