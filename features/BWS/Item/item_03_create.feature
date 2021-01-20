@@ -109,25 +109,22 @@ Feature: BWS Create Item
     #  - Optional, Alphanumeric
     #  - The special instructions defined will be defaulted at the delivery drop level
 
-  @BWS-CREATEITEM-12 @wip #[sp]
+  @BWS-CREATEITEM-12
   Scenario: Item Tab - Swing Tag
     Given an Assistant Buyer on Item tab
     When the assistant buyer selects the Swing Tag button
     Then the user is able to add new swing tab
-    #  - Maximum of 3 Swing Tags per Item, all default to Purchase Order level
-    #  - Optional, Alphanumeric
-    #  - The maximum number of Swing Tags must be defined in a Merch Workbench System Option
-    #  - Will be a CFA at Purchase Order Level (ORDHEAD and ORDSKU)
 
-  @BWS-CREATEITEM-13 @wip #[sp]
+  @BWS-CREATEITEM-13
   Scenario: Item Tab - Swing Tag - Add Button
     Given an assistant buyer enters the details for the Swing Tag
     When the assistant buyer attempts to create more than 3 swing tags by the Add button
     Then the Add button will not be displayed
 
+
   @BWS-CREATEITEM-14
   Scenario: Item Tab - Swing Tag - System Options
-    Given an admin updates System Options 'Swing Tag' column to 5
+    Given an admin updates System Options 'Swing Tag' column to 2
     When the user accesses the swing tag placeholder in Item tab
     Then the number of tags allowed in the placeholder does not exceed the value set at the System Options
     #- Need to confirm the name of the Swing Tag field at System options

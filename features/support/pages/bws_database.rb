@@ -1039,17 +1039,33 @@ module Pages
     ## Below Method works for individual and multi record verification
 
     def verify_subdept_category(sub_dept, category)
-      category.each {| cat |
-          category_details = @connection.select_one("select  * from class where dept = '#{sub_dept}' and class = #{cat} ")
-          raise "The Category #{cat} doesnot match with the sub depertment #{sub_dept}." if category_details.nil?
+      category.each { |cat|
+        category_details = @connection.select_one("select  * from class where dept = '#{sub_dept}' and class = #{cat} ")
+        raise "The Category #{cat} doesnot match with the sub depertment #{sub_dept}." if category_details.nil?
       }
     end
 
-    def verify_sub_category(category,sub_categories)
-      sub_categories.each {| sub_cat |
+    def verify_sub_category(category, sub_categories)
+      sub_categories.each { |sub_cat|
         category_details = @connection.select_one("select  * from Subclass where class = '#{category}' and Subclass = #{sub_cat} ")
         raise "The Sub Category #{sub_cat} doesnot match with the Category #{category}." if category_details.nil?
       }
+    end
+
+    def set_swing_tag_column expected_column_no
+      @connection.execute("UPDATE OAO.OAO_PARAMETERS SET PARM_VALUE = '#{expected_column_no}' WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
+      @connection.commit
+      oao_table = @connection.select_one("select parm_value from oao.OAO_PARAMETERS WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
+      actual_column = oao_table[0].to_i
+      raise "The Expected Column Value #{expected_column_no} is different from Actual column value #{actual_column} " if actual_column != expected_column_no
+    end
+
+    def reset_swing_tag_column
+      @connection.execute("UPDATE OAO.OAO_PARAMETERS SET PARM_VALUE = '3' WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
+      @connection.commit
+
+      actual_column = @connection.select_one("select parm_value from oao.OAO_PARAMETERS WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
+      raise "The Column Value is not reset to default value" if actual_column != "3"
     end
 
   end

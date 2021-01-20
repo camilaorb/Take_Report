@@ -110,13 +110,14 @@ module Pages
     element(:_uda_val_2) { input(id: /pcUdaWorksheet:tUdaWorksheet:1:udaValueWsId::content/).to_subtype }
 
     ## category verification ##
-
     element(:_category_search) { a(id: /styleView:class1Id::lovIconId/) }
     element(:_category_lov) { |range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
+    element(:_total_category) { elements(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td/span") }
 
     ## sub category verification ##
     element(:_sub_category_search) { a(id: /styleView:subclassId1::lovIconId/) }
-    element(:_sub_category_lov){|range| element(xpath: "//div[contains(@id,'rOptDets:styleView:subclassId1_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span")}
+    element(:_sub_category_lov) { |range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:subclassId1_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
+    element(:_total_sub_category) { elements(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:subclassId1_afrLovInternalTableId::db']/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td/span") }
 
 
     ############################################# Methods ##############################################################
@@ -367,22 +368,6 @@ module Pages
       export_to_excel_button.wait_until(&:present?).click!
     end
 
-    element(:_add_swing_button) { a(id: /rOptDets:styleView:addSwingTags/) }
-    #-> 14/01/2020
-    # Swing tab
-    def add_swing_tag
-      ## click on add button
-      wait_for_db_activity_bws
-      _add_swing_button.click
-      wait_for_db_activity_bws
-      TE.browser.a(id: /ticketTypeDescId::lovIconId/).click
-      wait_for_db_activity_bws
-      TE.browser.span(:text, 'Apply').click
-      wait_for_db_activity_bws
-      bws_shared.bws_save_and_close
-      wait_for_db_activity_bws
-    end
-
     def get_category_list(sub_dept)
       #extract all the values displays in the table
       # store in to an array
@@ -398,15 +383,19 @@ module Pages
       wait_for_db_activity_bws
       sleep 2
       #below method extract text of the first 10 category display in the list and verifying in database
+      total_category = _total_category.count
       @category_values = []
-      (1..10).each do |i|
+      (1..total_category).each do |i|
         sleep 0.50
-        @category_values = @category_values.push (_category_lov(i).text.split("-").first.to_i)
+        # This condition will not take any blank value in LOV , because some 'tr' is present but not shows any values
+        if _category_lov(i).text.empty? == false
+          @category_values = @category_values.push (_category_lov(i).text.split("-").first.to_i)
+        end
       end
       @category_values
     end
 
-    def get_sub_category_list(sub_dept,category)
+    def get_sub_category_list(sub_dept, category)
       #extract all the values displays in the table
       # store in to an array
       # cross verify with data base table
@@ -426,9 +415,13 @@ module Pages
       sleep 2
       #below method extract text of the first 10 category display in the list and verifying in database
       @sub_category_values = []
-      (1..10).each do |i|
+
+      (1.._total_sub_category.count).each do |i|
         sleep 0.50
-        @sub_category_values = @sub_category_values.push (_sub_category_lov(i).text.split("-").first.to_i)
+        # This condition will not take any blank value in LOV , because some 'tr' is present but not shows any values
+        if _sub_category_lov(i).text.empty? == false
+          @sub_category_values = @sub_category_values.push (_sub_category_lov(i).text.split("-").first.to_i)
+        end
       end
       @sub_category_values
     end
@@ -462,6 +455,71 @@ module Pages
 
 
 
+
+
+    ##[CB]-working
+    def bws_item_check_fields(val1, val2) end
+
+    ## Swing Tags Methods ##
+    element(:_add_swing_button) { a(id: /rOptDets:styleView:addSwingTags/) }
+    element(:_swing_tag_field) { input(id: /rOptDets:styleView:t3:0:ticketTypeDescId::content/).to_subtype }
+    element(:_swing_tag_multi_field) { |field| input(id: /rOptDets:styleView:t3:#{field}:ticketTypeDescId::content/).to_subtype }
+    #rOptDets:styleView:t3:3:ticketTypeDescId::content
+    #rOptDets:styleView:t3:4:ticketTypeDescId::content
+    # Swing tab
+    def add_swing_tag swing_tag_01
+      wait_for_db_activity_bws
+      bws_shared.scroll_bws "bottom"
+      wait_for_db_activity_bws
+      @item_id_auto_generated = auto_generated_item_id.text #independency purpose
+      wait_for_db_activity_bws
+      _add_swing_button.click
+      wait_for_db_activity_bws
+      _swing_tag_field.clear
+      wait_for_db_activity_bws
+      _swing_tag_field.send_keys swing_tag_01
+      wait_for_db_activity_bws
+      # due to defect we will click somewhere else
+      #_swing_tag_field.send_keys :enter
+      TE.browser.h2(text: /Item Information/).click
+
+      wait_for_db_activity_bws
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_ok
+      wait_for_db_activity_bws
+    end
+
+    def verify_swing_tag_add_button_disappears(swing_tags)
+      wait_for_db_activity_bws
+      bws_shared.scroll_bws "bottom"
+      wait_for_db_activity_bws
+      @item_id_auto_generated = auto_generated_item_id.text #independency purpose
+      wait_for_db_activity_bws
+
+      swing_tags.each do |swing_tag|
+        _add_swing_button.click
+        wait_for_db_activity_bws
+        _swing_tag_multi_field(swing_tags.index(swing_tag)).clear
+        wait_for_db_activity_bws
+        _swing_tag_multi_field(swing_tags.index(swing_tag)).send_keys swing_tag
+        wait_for_db_activity_bws
+        # due to defect we will click somewhere else
+        #_swing_tag_multi_field(@swing_tags.index(swing_tag)).send_keys :enter
+        TE.browser.h2(text: /Item Information/).click
+        wait_for_db_activity_bws
+      end
+      #verify the Add Swing Tag Button Disapeear
+      raise "The Add Swing Tag Button Does Not Disappear" if _add_swing_button.present? == true
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_ok
+      wait_for_db_activity_bws
+    end
 
   end
 end

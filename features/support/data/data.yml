@@ -449,8 +449,8 @@ BWS:
   sku_range: '1'
 
 #Add Item
-input_Sub_Department: '1010 - Lds Jewels'
-input_Category: '214 - Lds Jewels Hair NS'
+input_Sub_Department: '44 - Test Sub-Department' #'1010 - Lds Jewels' #
+input_Category: '1 - Test Category' #'214 - Lds Jewels Hair NS' #
 input_Sub_Category: '2 - Core Elastics Lds BM Accs Hair NS'
 input_Main_Desc: 'test team'
 input_Marketing_Desc: 'test'
@@ -475,6 +475,11 @@ item_element_detail_desc: 'Detailed Desc'
 item_element_supp_colour: 'Supplier Colour'
 item_element_special_instc: 'Special Instructions'
 
+swing_tag_01: 'ST01 - Shelf Labels'
+swing_tag_02: 'ST02 - Clothing Labels'
+swing_tag_03: 'ST03 - Ticket Sub-Dept 1086 Only'
+swing_tag_04: 'ST01 - Shelf Labels'
+swing_tag_05: 'ST02 - Clothing Labels'
 
 
 
