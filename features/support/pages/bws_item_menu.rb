@@ -151,16 +151,11 @@ module Pages
       end
     end
 
-    def access_create_new_item
-      add_item_select_options "add_new_item"
-      scroll_bws "bottom"
-    end
 
-    def access_create_new_item_button
-      add_item_icon.wait_until(&:present?).click
-      wait_for_db_activity_bws
-      scroll_to sub_department
-    end
+
+
+
+
 
 
   end

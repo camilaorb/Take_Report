@@ -466,9 +466,15 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
-#elements_names
 
-item_element_subdepartment: 'Sub-Department'
-#item_element_category:
+#Elements Name
+item_element_supp_stile_no: 'Supplier Style No.'
+item_element_item_desc: 'Main Desc'
+item_element_markting_desc: 'Marketing Desc'
+item_element_detail_desc: 'Detailed Desc'
+item_element_supp_colour: 'Supplier Colour'
+item_element_special_instc: 'Special Instructions'
+
+
 
 

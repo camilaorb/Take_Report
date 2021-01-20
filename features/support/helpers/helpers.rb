@@ -60,9 +60,24 @@ def delete_browser_cookies
   TE.browser.cookies.clear
 end
 
+# RMS
 def scroll_to(object)
   wait_for_db_activity
   execute_script('arguments[0].scrollIntoView();', object)
+end
+
+# BWS
+def scroll_bws option
+  if option == "top"
+    wait_for_db_activity_bws
+    TE.browser.td(id: /pt_pt1:pt_region1:0:sdh1::_afrStr/).click
+  elsif option == "bottom"
+    wait_for_db_activity_bws
+    sleep 2
+    TE.browser.div(id: /pt_pt1:pt_region1:0:rOptDets:0:t6/).click
+  else
+    "Invalid Selection"
+  end
 end
 
 def upload_file(tag, element, path)
@@ -138,7 +153,7 @@ def select_list(element_list, element_dropdown, option)
   end
 end
 
-# Filter
+# RMS - Filter
 def filter_activity(filter_element, filter_data)
   ## Filter ##
   if (filter_element.present? == true)

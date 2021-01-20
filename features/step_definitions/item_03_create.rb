@@ -5,11 +5,10 @@ Given(/^the Assistant Buyer on 'Item & Ordering Worklist' page$/) do
 end
 
 When(/^the assistant Buyer manually adds an Add New Item to the Buyers Worklist$/) do
-
+  bws_item_menu.add_item_select_options("add_new_item")
 end
 
 Then(/^the assistant Buyer is able add specific details$/) do
-  bws_item_menu.add_item_select_options("add_new_item")
   bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
                          YML_DATA['BWS']['add_item']['Category'],
                          YML_DATA['BWS']['add_item']['Sub_Category'],
@@ -32,26 +31,23 @@ Then(/^the assistant Buyer is able add specific details$/) do
 end
 
 #Comun Step
-Given(/^an Assistant Buyer on item create tab$/) do
+Given(/^an Assistant Buyer on Item tab$/) do
   visit(TE.environment['bws_url'])
   login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
 end
 
 When(/^an assistant buyer enters the Sub-Department$/) do
-
+  #extract values from LOV
+  @category_values = bws_item.get_category_list(YML_DATA['input_Sub_Department'])
 end
 
 Then(/^the values listed for the Category are specific for the selected sub-department$/) do
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-
-  bws_item_menu.add_item_select_options("add_new_item")
-
-  #extract values from LOV
-  @category_values = bws_item.get_category_list(YML_DATA['input_Sub_Department'])
-
   #data-base verification
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   bws_database.verify_subdept_category(YML_DATA['input_Sub_Department'].split.first.to_i, @category_values)
+  bws_database.disconnect_db
 
   #after verification
   bws_item.after_lov_verification
@@ -64,19 +60,16 @@ end
 #
 
 When(/^an assistant buyer enters a the Category$/) do
-
+  #extract values from LOV
+  @sub_categories = bws_item.get_sub_category_list(YML_DATA['Sub_Department'],YML_DATA['category'])
 end
 
 Then(/^the values listed for the sub-category are specific to the selected sub-department and category$/) do
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-
-  bws_item_menu.add_item_select_options("add_new_item")
-
-  #extract values from LOV
-  @sub_categories = bws_item.get_sub_category_list(YML_DATA['input_Sub_Department'],YML_DATA['input_Category'])
 
   #data-base verification
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   bws_database.verify_sub_category(YML_DATA['input_Category'].split.first.to_i, @sub_categories)
+  bws_database.disconnect_db
 
   #after verification
   bws_item.after_lov_verification
@@ -88,23 +81,39 @@ Then(/^the values listed for the sub-category are specific to the selected sub-d
 end
 
 #Check Characters limit
-When(/^the assistant buyer enters the Main Description for the Item$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+When(/^the assistant buyer enters the Description for the Item$/) do
+  @item_tab_element = YML_DATA['item_element_markting_desc']
+  bws_item.character_limit_insert(YML_DATA['item_element_item_desc'], '31')
 end
 
 When(/^the assistant buyer enters the Marketing Description for the Item$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+  @item_tab_element = YML_DATA['item_element_markting_desc']
+  bws_item.character_limit_insert(YML_DATA['item_element_markting_desc'], '121')
 end
 
 When(/^the assistant buyer enters the Detailed Description for the Item$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+  @item_tab_element = YML_DATA['item_element_detail_desc']
+  bws_item.character_limit_insert(YML_DATA['item_element_detail_desc'], '251')
 end
 
 When(/an assistant buyer enters the Supplier Style No$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+  @item_tab_element = YML_DATA['item_element_supp_stile_no']
+  bws_item.character_limit_insert(YML_DATA['item_element_supp_stile_no'], '31')
+end
+
+Then(/^the assistant buyer is able to enter the supplier colour$/) do
+  @item_tab_element = YML_DATA['item_element_supp_colour']
+  bws_item.character_limit_insert(YML_DATA['item_element_supp_colour'], '121')
+end
+
+When(/^an assistant buyer enters the special instructions$/) do
+  @item_tab_element = YML_DATA['item_element_special_instc']
+  bws_item.character_limit_insert(YML_DATA['item_element_special_instc'], '2001' )
 end
 
 Then(/^the field is limited to '([^"]*)' Characters$/) do |_arg|
+  bws_item.character_limit_cont(@item_tab_element, _arg)
+  bws_item.item_id
   bws_item.delete_created
   login_page.log_out_from_bws
 end
@@ -112,7 +121,7 @@ end
 #
 
 When(/^the assistant buyer enters the Colour ID$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+
 end
 
 Then(/^the colour Diff is created$/) do
@@ -123,7 +132,7 @@ end
 #
 
 When(/^the assistant buyer enters the Size ID$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
+
 end
 
 Then(/^the Size Diffs are created$/) do
@@ -134,22 +143,7 @@ end
 #
 
 When(/^the assistant buyer enters the colour differentiator on Supplier Diff 1 field$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
-end
 
-Then(/^the assistant buyer is able to enter the supplier colour$/) do
-  bws_item.delete_created
-  login_page.log_out_from_bws
-end
-
-When(/^the  assistant buyer selects the Swing Tag button$/) do
-
-end
-
-Then(/^a message must appear prompting user to remove the additional swing tags$/) do
-  bws_item.add_swing_tag
-  login_page.log_out_from_bws
-  login_page.verify_logout
 end
 
 
@@ -158,13 +152,6 @@ And(/^Only available if colour is defined using Differentiator Colour otherwise 
   login_page.log_out_from_bws
 end
 
-#
-
-When(/^an assistant buyer enters the special instructions$/) do
-  bws_item.bws_item_check_fields(YML_DATA['item_element_subdepartment'], YML_DATA['input_Sub_Department'] )
-end
-
-#
 
 When(/^the assistant buyer selects the Swing Tag button$/) do
 
@@ -187,7 +174,7 @@ When(/^the assistant buyer attempts to create more than 3 swing tags by the Add 
 
 end
 
-Then(/^a message appears prompting user to remove the additional swing tags$/) do
+Then(/^the Add button will not be displayed$/) do
   bws_item.delete_created
   login_page.log_out_from_bws
 end

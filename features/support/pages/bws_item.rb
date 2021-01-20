@@ -65,6 +65,7 @@ module Pages
     element(:_case_pack_qty) { text_field(label: 'Case Pack Qty') }
     element(:save_and_close_02) { span(:text, 'Save And Close') }
     element(:_apply) { span(:text, 'Apply') }
+    element(:item_element) { |text| text_field(label: text) }
 
 
     ## PopUp Error
@@ -116,6 +117,9 @@ module Pages
     ## sub category verification ##
     element(:_sub_category_search) { a(id: /styleView:subclassId1::lovIconId/) }
     element(:_sub_category_lov){|range| element(xpath: "//div[contains(@id,'rOptDets:styleView:subclassId1_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span")}
+
+
+    ############################################# Methods ##############################################################
 
     ## Create ITEM ##
     ## Item ##
@@ -352,6 +356,8 @@ module Pages
     end
 
 
+
+
     #-> working
     # -All the listed Buyers Worksheet contained within the Buyers Worksheet Group are exported into Excel
     element(:export_to_excel_button) { div(id: /pt_region1:0:pc1:actb8/) }
@@ -434,6 +440,28 @@ module Pages
       bws_shared.bws_confrim_cancel
       bws_shared.bws_ok
     end
+
+    def character_limit_insert(element, no)
+      wait_for_db_activity_bws
+      item_element(element).send_keys SecureRandom.alphanumeric(no.to_i)
+      wait_for_db_activity_bws
+      TE.browser.h2(text: /Item Information/).click
+    end
+
+    def character_limit_cont(element, no)
+      wait_for_db_activity_bws
+      no_character = item_element(element).value.size
+      raise "Invalid numbers of characters. Expected:'#{no}' Actual:'#{no_character}'" unless no_character == no.to_i
+    end
+
+    def item_id
+      @item_id_auto_generated = auto_generated_item_id.text
+    end
+
+
+
+
+
 
   end
 end

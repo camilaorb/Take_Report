@@ -19,12 +19,12 @@ Then(/^the new Division is add on the Division table$/) do
   merchandise_hierarchy.reopen_merchandise_hierarchy
   merchandise_hierarchy.access_division
   merchandise_hierarchy.select_division(@new_id)
-  merchandise_hierarchy.verify_actions(expected_values:'New Division 5674 AbigailGlover 7100 AadeelaBux 100,000.00')
+  merchandise_hierarchy.verify_actions(expected_values:'New Division 5674 AbigailGlover 7100 AadeelaBux 100.000,00')
 end
 
 And(/^the Division will be created RMS DB$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_division_table(@new_id, 'New Division', YML_DATA['buyer_no'], YML_DATA['merchandiser_no'])
+  database.verify_mh_division_table(@new_id, 'New Division', YML_DATA['buyer_no'], YML_DATA['merchandiser_no'])
   database.disconnect_db
   merchandise_hierarchy.delete_item
   login_page.logout_to_rms

@@ -1,6 +1,7 @@
 Feature: BWS Create Item
 
 
+#Item Tab
   @BWS-CREATEITEM-01
   Scenario: Add New Item - Item Tab
     Given the Assistant Buyer on 'Item & Ordering Worklist' page
@@ -10,7 +11,7 @@ Feature: BWS Create Item
 
   @BWS-CREATEITEM-02
   Scenario: Item Tab - Sub-Department
-    Given an Assistant Buyer on item create tab
+    Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Sub-Department
     Then  the values listed for the Category are specific for the selected sub-department
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
@@ -18,43 +19,43 @@ Feature: BWS Create Item
 
   @BWS-CREATEITEM-03
   Scenario: Item Tab - Category
-    Given an Assistant Buyer on item create tab
+    Given an Assistant Buyer on Item tab
     When an assistant buyer enters a the Category
     Then  the values listed for the sub-category are specific to the selected sub-department and category
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
-  @BWS-CREATEITEM-04 @wip #[CB]
+  @BWS-CREATEITEM-04 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Supplier Style No
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Supplier Style No
-    Then the field is limited to '15' Characters
+    Then the field is limited to '30' Characters
     #Optional field
     #Alphanumeric
     #Maps to SUPP_LABEL of ITEM_SUPPLIER table in RMS schema
 
-  @BWS-CREATEITEM-05
-  Scenario: Item Tab - Main Description
+  @BWS-CREATEITEM-05 @bws_tests #@wip #[CB]
+  Scenario: Item Tab - Item Description
     Given an Assistant Buyer on Item tab
-    When the assistant buyer enters the Main Description for the Item
-    Then the field is limited to '250' Characters
+    When the assistant buyer enters the Description for the Item
+    Then the field is limited to '30' Characters
     #When user attempts to enter >250 characters, the marketing description will not allow
     #Defaulted from Main Description
     #Mandatory field
     #Alphanumeric
     #Maps to ITEM_DESC of ITEM_MASTER table in RMS schema
 
-  @BWS-CREATEITEM-06
+  @BWS-CREATEITEM-06 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Marketing Description
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Marketing Description for the Item
-    Then the field is limited to '250' Characters
+    Then the field is limited to '120' Characters
     #When user attempts to enter >250 characters, the marketing description will not allow
     #Defaulted from Main Description
     #Mandatory field
     #Alphanumeric
     #Maps to ITEM_DESC of ITEM_MASTER table in RMS schema
 
-  @BWS-CREATEITEM-07
+  @BWS-CREATEITEM-07 @bws_tests #@wip #[CB]
   Scenario: Detailed Description
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Detailed Description for the Item
@@ -87,19 +88,19 @@ Feature: BWS Create Item
     #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
     #If 1 Colour and Multiple Sizes are selected then the Item is referred as "Fashion Item"
 
-  @BWS-CREATEITEM-10
+  @BWS-CREATEITEM-10 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Supplier Colour
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the colour differentiator on Supplier Diff 1 field
     Then the assistant buyer is able to enter the supplier colour
-    And the field is limited to '120' Characters
     And Only available if colour is defined using Differentiator Colour otherwise it is disabled
-    #If the Colour Differentiator is not defined then this field is disabled
+    And the field is limited to '120' Characters
+        #If the Colour Differentiator is not defined then this field is disabled
     #Maps to SUPP_DIFF_1 of ITEM_SUPPLIER table in RMS schema
     #Optional
     #Alphanumeric
 
-  @BWS-CREATEITEM-11
+  @BWS-CREATEITEM-11 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Special Instructions
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the special instructions
@@ -122,7 +123,7 @@ Feature: BWS Create Item
   Scenario: Item Tab - Swing Tag - Add Button
     Given an assistant buyer enters the details for the Swing Tag
     When the assistant buyer attempts to create more than 3 swing tags by the Add button
-    Then a message appears prompting user to remove the additional swing tags
+    Then the Add button will not be displayed
 
   @BWS-CREATEITEM-14
   Scenario: Item Tab - Swing Tag - System Options
@@ -256,6 +257,8 @@ Feature: BWS Create Item
     #  - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
     # - Verify that the correct PMO % value is displayed
 
+
+  #UDA Tab
   @BWS-CREATEITEM-28
   Scenario: Add New Item - UDA tab
     Given an assistant buyer create a new Item
@@ -274,6 +277,7 @@ Feature: BWS Create Item
     #   - One or more UDAs must appear to carry out the task for deletion
     #  - Create a UDA (that is not required and attempt to Delete)
 
+  #SKU Tab
   @BWS-CREATEITEM-30
   Scenario: SKU tab - Add SKU(1/2)
     Given an assistant buyer accesses the SKU tab

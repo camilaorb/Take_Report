@@ -7,7 +7,7 @@ implicit_wait: 1
 page_load_timeout: 20
 
 same_browser: true
-close_browser: false
+close_browser: true
 clear_cookies: true
 
 local:
