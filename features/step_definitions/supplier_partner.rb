@@ -1,7 +1,7 @@
 ## Supplier ##
 Given(/^a buyer access Manage Supplier screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
 end
@@ -41,8 +41,8 @@ end
 
 ## Supplier ##
 Given(/^a buyer access the Address page for a supplier$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   supplier_partner.search_supplier(YML_DATA['supplier_id'])
@@ -54,8 +54,8 @@ end
 
 ## Supplier Site ##
 Given(/^a buyer access the Address page for a supplier site$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
@@ -67,8 +67,8 @@ end
 
 ## Partner ##
 Given(/^a buyer access the Address page for a partner$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   supplier_partner.search_supplier_site(YML_DATA['supplier_site_id'])
@@ -129,8 +129,8 @@ end
 
 ## Supplier ##
 Given(/^a buyer access a existing Address page for a supplier$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_existing_supplier_address
@@ -138,8 +138,8 @@ end
 
 ## Supplier Site ##
 Given(/^a buyer access a existing Address page for a supplier site$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_existing_supp_site_address
@@ -147,8 +147,8 @@ end
 
 ## Partner ##
 Given(/^a buyer access a existing Address page for a partner$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_existing_partner_address
@@ -267,8 +267,8 @@ end
 ## Supplier Primary ##
 
 Given(/^a buyer access a existing Primary Address for a supplier$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_primary_supp_address
@@ -308,8 +308,8 @@ end
 ## Supplier Site Primary ##
 
 Given(/^a buyer access a existing Primary Address for a supplier site$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_primary_supp_site_address
@@ -349,8 +349,8 @@ end
 ## Partner Primary ##
 
 Given(/^a buyer access a existing Primary Address for a partner$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_supplier
   super_supp_part.access_primary_supp_site_address
@@ -478,8 +478,8 @@ end
 ### Partner ###
 
 Given(/^a buyer access Manage Partners page$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_manage_partners
 end
@@ -494,8 +494,8 @@ end
 
 
 Given(/^a buyer access Create Partners page$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   supplier_partner.open_supplier_and_partner
   supplier_partner.open_create_partners
 end

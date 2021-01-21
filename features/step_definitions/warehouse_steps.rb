@@ -48,8 +48,8 @@ Then(/^the new Warehouse is add on top of Warehouse table and created RMS$/) do
 end
 
 Given(/^a buyer completes the fields and descriptions for a new WH$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   organizational_hierarchy.open_org_hierarchy
 end
 

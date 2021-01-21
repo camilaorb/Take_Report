@@ -2,8 +2,8 @@
 
 
 Given(/^a buyer is in Foundation Download screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_download
 end
@@ -22,8 +22,8 @@ end
 
 
 Given(/^a buyer is in Foundation Upload screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
 end
@@ -46,8 +46,8 @@ end
 ####################### Creat, Edit and Delete ############################
 
 Given(/^a buyer opts to create a new "([^"]*)"$/) do |_arg|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
 end
@@ -62,8 +62,8 @@ When(/^a buyer upload the source file with the information$/) do |table|
 end
 
 Given(/^a buyer opts to edit a existing "([^"]*)"$/) do |_arg|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
   #super_foundation_data.update_file_to_edit(_arg)
@@ -71,8 +71,8 @@ end
 
 
 Given(/^a buyer opts to remove a "([^"]*)"$/) do |_arg|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
 end
@@ -163,8 +163,8 @@ end
 ###################################### Review Status ################################################
 
 Given(/^a buyer has uploaded "([^"]*)" file successfully$/) do |_arg, table|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
   table.hashes.each do |value|
@@ -187,8 +187,8 @@ end
 
 
 Given(/^a buyer has failed to upload a "([^"]*)" file$/) do |_arg, table|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
   table.hashes.each do |value|
@@ -209,8 +209,8 @@ end
 ## Re-Upload ##
 
 Given(/^a buyer has a Diff Template file that has failed to upload$/) do |_arg, table|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
   table.hashes.each do |value|
@@ -287,8 +287,8 @@ end
 
 #reupload File 1 failed to upload
 Given(/^a buyer has a "([^"]*)" file that has failed to upload$/) do |_arg, table|
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
   table.hashes.each do |value|
@@ -305,8 +305,8 @@ end
 #reupload file 2 recreate and succeed to upload
 Then(/^the buyer is able to re-upload the template file and re-assess the latest status of the upload$/) do |table|
 
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
 

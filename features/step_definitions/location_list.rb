@@ -1,7 +1,7 @@
 
 Given("a buyer accesses Create Location Lists page") do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   location_list.access_create_location_list
 end
 
@@ -28,8 +28,8 @@ Then("the buyer can either opt to save the interim details or select more action
 end
 
 Given("a buyer completes the Location Lists page") do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   location_list.access_create_location_list
   @location_list_id = new_location_list_id
   location_list.add_location_list_head('Test Location list', 'Test comments', YML_DATA['division_chain'])
@@ -57,8 +57,8 @@ Then("the buyer can add the details of the Location") do
 end
 
 Given("a buyer have added a location to the list") do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   super_loc_list.add_location_list_with_location
 end
 

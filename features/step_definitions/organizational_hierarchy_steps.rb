@@ -1,8 +1,8 @@
 #org_hierarchy#
 # create
 Given(/^buyer is on the organizations hierarchy screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   organizational_hierarchy.open_org_hierarchy
 end
 

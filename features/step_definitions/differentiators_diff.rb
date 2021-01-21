@@ -2,8 +2,8 @@
 ############### Diff Groups ######################
 
 Given(/^a user is in Differentiator Groups screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_diff_groups
 end
@@ -82,8 +82,8 @@ end
 ########## Group Details ##########
 
 Given(/^a user is in existing Differentiator Groups screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_diff_groups
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -180,8 +180,8 @@ end
 ############### Diff Range ######################
 
 Given(/^a user is in Create Diff Range Range screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_create_diff_range
 end
@@ -207,8 +207,8 @@ Then(/^the Diff Range Header record is created in RMS and RMS DB$/) do
 end
 
 Given(/^user has created the Diff Range Header$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_create_diff_range
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -235,8 +235,8 @@ Then(/^the Diff Range Detail record is created in RMS and RMS DB$/) do
 end
 
 Given(/^a user is in Manage Diff Range screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_create_diff_range
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -268,8 +268,8 @@ Then(/^the Diff Range details is created in RMS and RMS DB$/) do
 end
 
 Given(/^a user retrieves the Range Header and Range Details$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_create_diff_range
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -326,8 +326,8 @@ end
 ############### Diff Ratio ######################
 
 Given(/^a user is in Create Diff Ratio screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_create_diff_ratio
 end
@@ -353,8 +353,8 @@ Then(/^the Diff Ratio is created in RMS and RMS DB$/) do
 end
 
 Given(/^a user is in Manage Diff Ratio screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   differentiators_diff.open_differentiators
   differentiators_diff.open_manage_diff_ratio
 

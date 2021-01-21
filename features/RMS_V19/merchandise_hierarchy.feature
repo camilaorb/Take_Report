@@ -5,7 +5,7 @@ Feature: Merchandise Hierarchy
     Given a user is in Merchandise Hierarchy screen
     When they create a new Division where Division ID, Name, Total Market Amounts, Buyer Name and Merchandiser name are mandatory
     Then the new Division is add on the Division table
-    And the Division will be created RMS DB
+    #And the Division will be created RMS DB
 
   @MERCH-02 @critical
   Scenario: Edit Division

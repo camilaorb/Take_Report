@@ -139,9 +139,9 @@ module Pages
       TryWith.attempts(attempts: 10, sleep: 2) do
         tasks_button.click
         wait_for_db_activity
-        tasks_foundation_data_link.click unless fd_itens_merchandise_hierarchy_link.present?
+        tasks_foundation_data_link.click
         wait_for_db_activity
-        fd_items_link.click unless fd_itens_merchandise_hierarchy_link.present?
+        fd_items_link.click
         wait_for_db_activity
         fd_itens_merchandise_hierarchy_link.click
         wait_for_db_activity
@@ -213,18 +213,7 @@ module Pages
       wait_for_db_activity
       done_button.click
       wait_for_db_activity
-      query_button.click unless division_id_filter.present?
-      wait_for_db_activity
-      division_id_filter.click
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        division_id_filter.set new_id
-        division_id_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = item_table.text
-        raise "Division id #{new_id} not found" unless list.include? new_id.to_s
-      end
+      filter_activity(division_id_filter, new_id)
     end
 
     def create_new_division(new_id, name_division, buyer, merchandiser, total_market_amount)
@@ -303,16 +292,7 @@ module Pages
       wait_for_db_activity
       done_button.click
       wait_for_db_activity
-      query_button.click unless dept_id_filter.present?
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        dept_id_filter.set new_id
-        dept_id_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = item_table.text
-        raise "Department id #{new_id} not found" unless list.include? new_id.to_s
-      end
+      filter_activity(dept_id_filter, new_id)
     end
 
     def create_new_dept(new_id, name, buyer, merchandiser, division)
@@ -395,16 +375,7 @@ module Pages
       done_button.click
       wait_for_db_activity
       ok_button.click if delete_popup.present?
-      query_button.click unless category_id_filter.present?
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        category_id_filter.set new_id
-        category_id_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = item_table.text
-        raise "Category id #{new_id} not found" unless list.include? new_id.to_s
-      end
+      filter_activity(category_id_filter, new_id)
     end
 
     def create_new_category(new_id, name)
@@ -481,16 +452,7 @@ module Pages
       done_button.click
       wait_for_db_activity
       ok_button.click if delete_popup.present?
-      query_button.click unless subcategory_id_filter.present?
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        subcategory_id_filter.set new_id
-        subcategory_id_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = item_table.text
-        raise "Sub Category id #{new_id} not found" unless list.include? new_id.to_s
-      end
+      filter_activity(subcategory_id_filter, new_id)
     end
 
     def create_new_subcategory(new_id, name)
@@ -546,16 +508,7 @@ module Pages
     end
 
     def select_subdpt(new_id)
-      query_button.click unless department_id_filter.present?
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        department_id_filter.set new_id
-        department_id_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = item_table.text
-        raise "Sub Department id #{new_id} not found" unless list.include? new_id.to_s
-      end
+      filter_activity(department_id_filter, new_id)
     end
 
     def access_select_subdpt
@@ -685,28 +638,11 @@ module Pages
     end
 
     def select_vat(vat_region, vat_code, vat_type)
-      query_button.click unless vat_region_filter.present?
+      filter_activity(vat_region_filter, vat_region)
       wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        vat_region_filter.set vat_region
-      vat_region_filter.click
-      send_keys :enter
-      end
+      filter_activity(vat_code_filter, vat_code)
       wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        vat_code_filter.set vat_code
-      vat_code_filter.click
-      send_keys :enter
-      end
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        vat_type_filter.set vat_type
-        vat_type_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = vat_table.text
-        raise "Vat '#{vat_region} #{vat_code} #{vat_type}' not found" unless list.include? vat_region, vat_code, vat_type
-      end
+      filter_activity(vat_type_filter, vat_type)
     end
 
 
@@ -815,16 +751,7 @@ module Pages
     end
 
     def select_merch_hier_defaults(information)
-      query_button.click unless information_filter.present?
-      wait_for_db_activity
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        information_filter.set information
-        information_filter.click
-        send_keys :enter
-        wait_for_db_activity
-        list = merch_hier_defaults_table.text
-        raise "Merchandise Hierarchy Default id #{information} not found" unless list.include? information.to_s
-      end
+      filter_activity(information_filter, information)
     end
 
     def create_merch_hier_defaults(information, merch_hier_category, subcategory)

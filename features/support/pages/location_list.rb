@@ -146,7 +146,7 @@ module Pages
     end
 
     def add_location_detail(type, location)
-      add_button.click
+      create_button.click
       wait_for_db_activity
       select_list(location_type_list(type), location_type_field, type)
       wait_for_db_activity

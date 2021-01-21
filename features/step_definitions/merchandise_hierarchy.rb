@@ -1,8 +1,8 @@
 
 
 Given(/^a user is in Merchandise Hierarchy screen$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   merchandise_hierarchy.open_merchandise_hierarchy
 end
 
@@ -421,8 +421,8 @@ end
 ############### VAT ######################
 
 Given(/^a user access a Sub-Department$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   merchandise_hierarchy.open_merchandise_hierarchy
   merchandise_hierarchy.access_subdpt
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
@@ -509,8 +509,8 @@ end
 ############### Merch Hier Defaults ######################
 
 Given(/^a user access a existent Sub-Department$/) do
-  visit(TE.environment['url'])
-  login_page.login_to_rms(TE.environment['user'], TE.environment['pw'])
+  visit(TE.environment['rms_url'])
+  login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   merchandise_hierarchy.open_merchandise_hierarchy
   merchandise_hierarchy.access_subdpt
   merchandise_hierarchy.select_subdpt(YML_DATA['subdpt'])
