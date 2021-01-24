@@ -18,7 +18,7 @@ RMS_sandbox:
   db_port: 1521
   db_servicename: pdbmom
   db_username: rms
-  db_bws_username: oao
+
   db_bws_username: oao #swingtag
   db_password: Welcome123 #swingtag
   env_timeout: 30

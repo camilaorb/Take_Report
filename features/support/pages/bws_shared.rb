@@ -139,7 +139,7 @@ module Pages
       }
     end
 
-    element(:confrimation_popup){div(id: /pt_region2:0:m3/)}
+    element(:confrimation_popup) { div(id: /pt_region2:0:m3/) }
 
 
     def scroll_bws option
@@ -174,6 +174,9 @@ module Pages
 
       elsif TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).present?
         TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).click
+
+      elsif TE.browser.div(id: /rOptDets:styleView:supplierSiteDesc1Id_afrLovDialogId_ok/).present?
+        TE.browser.div(id: /rOptDets:styleView:supplierSiteDesc1Id_afrLovDialogId_ok/).click
 
       elsif TE.browser.span(text: 'OK').present?
         TE.browser.span(text: 'OK').click

@@ -109,6 +109,7 @@ module Pages
     element(:_uda_val_1) { input(id: /pcUdaWorksheet:tUdaWorksheet:0:udaValueWsId::content/).to_subtype }
     element(:_uda_val_2) { input(id: /pcUdaWorksheet:tUdaWorksheet:1:udaValueWsId::content/).to_subtype }
 
+
     ## category verification ##
     element(:_category_search) { a(id: /styleView:class1Id::lovIconId/) }
     element(:_category_lov) { |range| element(xpath: "//div[@id = 'pt1:pt_pt1:pt_region1:0:rOptDets:styleView:class1Id_afrLovInternalTableId::db']/table[1]/tbody/tr[#{range}]/td[2]/div/table/tbody/tr/td/span") }
@@ -171,8 +172,9 @@ module Pages
       @item_id_auto_generated
       #Due to defect some field needs to refill
       bws_shared.re_fill_the_empty_field @elements_with_data
+    end
 
-      # There are some issue with the diff field and description field which auto blank
+    def to_be_complete_steps
       _apply.click
       wait_for_db_activity_bws
       bws_shared.bws_save_and_close
@@ -230,34 +232,61 @@ module Pages
       bws_shared.bws_save_and_close
     end
 
+    element(:_uda_id_description_text) { |id| span(id: /udasView:pcUdaWorksheet:tUdaWorksheet:#{id}:itUdaIdDescWs::content/) }
+    element(:_uda_id_search_button) { |id| a(id: /udasView:pcUdaWorksheet:tUdaWorksheet:#{id}:udaIdWsId::lovIconId/) }
+    element(:_uda_id_search_field) { |id| input(id: /tUdaWorksheet:#{id}:udaIdWsId_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_uda_id_ok) {|id| div(id: /pcUdaWorksheet:tUdaWorksheet:#{id}:udaIdWsId_afrLovDialogId_ok/) }
+    element(:_uda_value_search_button) { |id| a(id: /udasView:pcUdaWorksheet:tUdaWorksheet:#{id}:udaValueWsId::lovIconId/) }
+    element(:_uda_value_search_field) { |id| input(id: /tUdaWorksheet:#{id}:udaValueWsId_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_uda_value_ok) {|val| div(id: /pcUdaWorksheet:tUdaWorksheet:#{val}:udaValueWsId_afrLovDialogId_ok/) }
+    element(:_select_from_lov){|text| element(text: text)}
     #UDAs#
-    def add_udas(uda_id_1, uda_id_2, uda_val_1, uda_val_2)
-      wait_for_db_activity_bws
-      _udas.click
-      wait_for_db_activity_bws
-      _add.click
-      wait_for_db_activity_bws
+    def add_udas(uda_id_0, uda_id_1, uda_val_0, uda_val_1)
+      no_of_uda = BwsItem.new.method(:add_udas).arity - 3
 
-      _uda_id_1.send_keys uda_id_1
-      wait_for_db_activity_bws
-      _uda_id_1.send_keys :enter
-      wait_for_db_activity_bws
+      (0..no_of_uda).each do |i|
 
-      _uda_val_1.send_keys uda_val_1
-      wait_for_db_activity_bws
+        if i==0
+          uda_id  = uda_id_0
+          uda_value = uda_val_0
+        elsif i == 1
+          uda_id  = uda_id_1
+          uda_value = uda_val_1
+        end
 
-      _add.click
-      wait_for_db_activity_bws
+        wait_for_db_activity_bws
+        _udas.click
+        wait_for_db_activity_bws
+        _add.click
+        wait_for_db_activity_bws
 
-      _uda_id_2.send_keys uda_id_2
-      wait_for_db_activity_bws
-      _uda_id_2.send_keys :enter
-      wait_for_db_activity_bws
+        # UDA ID LOV verification
+        _uda_id_search_button(i).click
+        wait_for_db_activity_bws
+        _uda_id_search_field(i).send_keys uda_id
+        wait_for_db_activity_bws
+        _uda_id_search_field(i).send_keys :enter
+        wait_for_db_activity_bws
+        _select_from_lov(uda_id).click
+        wait_for_db_activity_bws
+        _uda_id_ok(i).click
+        wait_for_db_activity_bws
 
-      _uda_val_2.send_keys uda_val_2
-      wait_for_db_activity_bws
-      _uda_val_2.send_keys :enter
-      wait_for_db_activity_bws
+        # Description verification
+        raise "The UDA #{uda_id} Description Not Displayed " if _uda_id_description_text(i).present? == false
+
+        # UDA value LOV verification
+        _uda_value_search_button(i).click
+        wait_for_db_activity_bws
+        _uda_value_search_field(i).send_keys uda_value
+        wait_for_db_activity_bws
+        _uda_value_search_field(i).send_keys :enter
+        wait_for_db_activity_bws
+        _select_from_lov(uda_value).click
+        wait_for_db_activity_bws
+        _uda_value_ok(i).click
+        wait_for_db_activity_bws
+      end
 
       _apply.click
       wait_for_db_activity_bws
@@ -357,8 +386,6 @@ module Pages
     end
 
 
-
-
     #-> working
     # -All the listed Buyers Worksheet contained within the Buyers Worksheet Group are exported into Excel
     element(:export_to_excel_button) { div(id: /pt_region1:0:pc1:actb8/) }
@@ -452,11 +479,6 @@ module Pages
     end
 
 
-
-
-
-
-
     ##[CB]-working
     def bws_item_check_fields(val1, val2) end
 
@@ -519,6 +541,329 @@ module Pages
       wait_for_db_activity_bws
       bws_shared.bws_ok
       wait_for_db_activity_bws
+    end
+
+    element(:_supplier_site_search) { a(id: /rOptDets:styleView:supplierSiteDesc1Id::lovIconId/) }
+    element(:_select_supplier_site_from_lov) { |supplier_site| element(xpath: "//span[text()='#{supplier_site}']") }
+    element(:_supplier_site_lov_search_field) { input(id: /styleView:supplierSiteDesc1Id_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_supplier_site_total_lov) { elements(xpath: "//div[contains(@id,'rOptDets:styleView:supplierSiteDesc1Id_afrLovInternalTableId::db')]/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td/span") }
+    element(:_supplier_site_lov) { |index_no| element(xpath: "//div[contains(@id,'rOptDets:styleView:supplierSiteDesc1Id_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{index_no}]/td[2]/div/table/tbody/tr/td/span") }
+    element(:_error_message_popup) { |text| div(text: 'Messages for this page are listed below.').parent.table.tbody.tr.td.a(text: text) }
+    element(:_error_message_popup_ok) { div(id: 'd1_msgDlg_cancel') }
+    #-> @WIP
+    def verify_supplier_site(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                             differentiator_2, supplier_Site, predictive_suggestion)
+
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details ##
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order"
+      }
+
+      @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #bws_shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+
+      #verification -1 : error message with mandatory field
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+      _error_message_popup("Supplier Site").present?
+      wait_for_db_activity_bws
+      _error_message_popup_ok.click
+
+      #verification -2 : to select from the lov
+      _supplier_site_search.click
+      wait_for_db_activity_bws
+      _select_supplier_site_from_lov(supplier_Site).click
+      wait_for_db_activity_bws
+
+      #verification -3 : Predictive suggestion available
+      _supplier_site_lov_search_field.clear
+      wait_for_db_activity_bws
+      _supplier_site_lov_search_field.send_keys predictive_suggestion
+      wait_for_db_activity_bws
+      _supplier_site_lov_search_field.send_keys :enter
+      wait_for_db_activity_bws
+
+      ## Below  method will verify the Predictive Text match with the LOV displays
+      (1.._supplier_site_total_lov.count).each do |i|
+        sleep 0.50
+        # This condition will not take any blank value in LOV
+        if _supplier_site_lov(i).text.empty? == false
+          raise "predictive suggestion does not match" unless _supplier_site_lov(i).text.include? predictive_suggestion
+        end
+      end
+
+      #.click
+      bws_shared.bws_ok
+      wait_for_db_activity_bws
+
+      #delete the ID
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+    end
+
+    element(:_country_of_sourcing_search) { a(id: /rOptDets:styleView:countrySourcingDescId::lovIconId/) }
+    element(:_select_country_of_sourcing_from_lov) { |cos| element(xpath: "//span[text()='#{cos}']") }
+    element(:_country_of_source_search_field) { input(id: /styleView:countrySourcingDescId_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_country_of_source_total_lov) { elements(xpath: "//div[contains(@id,'rOptDets:styleView:countrySourcingDescId_afrLovInternalTableId::db')]/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td/span") }
+    element(:_country_of_source_lov) { |index_no| element(xpath: "//div[contains(@id,'rOptDets:styleView:countrySourcingDescId_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{index_no}]/td[2]/div/table/tbody/tr/td/span") }
+    element(:_cos_lov_ok) { div(id: /countrySourcingDescId_afrLovDialogId_ok/) }
+
+    def verify_source_country(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                              differentiator_2, supplier_Site, source_country, predictive_suggestion)
+
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details ##
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order",
+                             _supplier_site => supplier_Site
+      }
+
+      @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #bws_shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+
+      #verification -1 : error message with mandatory field
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+      _error_message_popup("Country of Sourcing").present?
+      wait_for_db_activity_bws
+      _error_message_popup_ok.click
+
+      #verification -2 : to select from the lov
+      _country_of_sourcing_search.click
+      wait_for_db_activity_bws
+      _select_country_of_sourcing_from_lov(source_country).click
+      wait_for_db_activity_bws
+
+      #verification -3 : Predictive suggestion available
+      _country_of_source_search_field.clear
+      wait_for_db_activity_bws
+      _country_of_source_search_field.send_keys predictive_suggestion
+      wait_for_db_activity_bws
+      _country_of_source_search_field.send_keys :enter
+      wait_for_db_activity_bws
+
+      ## Below  method will verify the Predictive Text match with the LOV displays
+      (1.._country_of_source_total_lov.count).each do |i|
+        sleep 0.50
+        # This condition will not take any blank value in LOV
+        if _country_of_source_lov(i).text.empty? == false
+          raise "predictive suggestion does not match" unless _country_of_source_lov(i).text.include? predictive_suggestion
+        end
+      end
+
+      #.click
+      _cos_lov_ok.click
+      wait_for_db_activity_bws
+
+      #delete the ID
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+    end
+
+    element(:_country_of_manufacture_search) { a(id: /rOptDets:styleView:countryManufactureDesc1Id::lovIconId/) }
+    element(:_select__country_of_manufacture_from_lov) { |cos| element(xpath: "//span[text()='#{cos}']") }
+    element(:_country_of_manufacture_search_field) { input(id: /styleView:countryManufactureDesc1Id_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_country_of_manufacture_total_lov) { elements(xpath: "//div[contains(@id,'rOptDets:styleView:countryManufactureDesc1Id_afrLovInternalTableId::db')]/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td/span") }
+    element(:_country_of_manufacture_lov) { |index_no| element(xpath: "//div[contains(@id,'rOptDets:styleView:countryManufactureDesc1Id_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{index_no}]/td[2]/div/table/tbody/tr/td/span") }
+    element(:_com_lov_ok) { div(id: /countryManufactureDesc1Id_afrLovDialogId_ok/) }
+
+    def verify_country_of_manufacture(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                                      differentiator_2, supplier_Site, source_country, manufacture_country, predictive_country_of_manufacture)
+
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details ##
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order",
+                             _supplier_site => supplier_Site,
+                             _country_of_sourcing => source_country
+      }
+
+      @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #bws_shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+      #verification -1 : error message with mandatory field
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+      _error_message_popup("Country of Manufacture").present?
+      wait_for_db_activity_bws
+      _error_message_popup_ok.click
+
+      #verification -2 : to select from the lov
+      _country_of_sourcing_search.click
+      wait_for_db_activity_bws
+      _select_country_of_sourcing_from_lov(manufacture_country).click
+      wait_for_db_activity_bws
+
+      #verification -3 : Predictive suggestion available
+      _country_of_source_search_field.clear
+      wait_for_db_activity_bws
+      _country_of_source_search_field.send_keys predictive_country_of_manufacture
+      wait_for_db_activity_bws
+      _country_of_source_search_field.send_keys :enter
+      wait_for_db_activity_bws
+
+      ## Below  method will verify the Predictive Text match with the LOV displays
+      (1.._country_of_source_total_lov.count).each do |i|
+        sleep 0.50
+        # This condition will not take any blank value in LOV
+        if _country_of_source_lov(i).text.empty? == false
+          raise "predictive suggestion does not match" unless _country_of_source_lov(i).text.include? predictive_country_of_manufacture
+        end
+      end
+
+      #.click
+      _com_lov_ok.click
+      wait_for_db_activity_bws
+
+      #delete the ID
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+    end
+
+
+    element(:_port_of_landing_search) { a(id: /rOptDets:styleView:ladingPortDescId::lovIconId/) }
+    element(:_select_port_of_landing_from_lov) { |cos| element(xpath: "//span[text()='#{cos}']") }
+    element(:_port_of_landing_search_field) { input(id: /styleView:ladingPortDescId_afrLovInternalQueryId:val00::content/).to_subtype }
+    element(:_port_of_landing_total_lov) { elements(xpath: "//div[contains(@id,'rOptDets:styleView:ladingPortDescId_afrLovInternalTableId::db')]/table[1]/tbody/tr/td[2]/div/table/tbody/tr/td[2]/span") }
+    element(:_port_of_landing_lov) { |index_no| element(xpath: "//div[contains(@id,'rOptDets:styleView:ladingPortDescId_afrLovInternalTableId::db')]/table[1]/tbody/tr[#{index_no}]/td[2]/div/table/tbody/tr/td[2]/span") }
+    element(:_pol_lov_ok) { div(id: /ladingPortDescId_afrLovDialogId_ok/) }
+    ## port of landing ##
+    def verify_port_of_landing(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                               differentiator_2, supplier_Site, source_country, manufacture_country, port_of_lading, predictive_port_of_landing)
+
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details ##
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order",
+                             _supplier_site => supplier_Site,
+                             _country_of_sourcing => source_country,
+                             _country_of_manufacture => manufacture_country
+      }
+
+      @elements_with_data.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #bws_shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).click
+      }
+
+      #verification -1 : error message with mandatory field
+      bws_shared.bws_save_and_close
+      wait_for_db_activity_bws
+      _error_message_popup("Port Of Lading").present?
+      wait_for_db_activity_bws
+      _error_message_popup_ok.click
+
+      #verification -2 : to select from the lov
+      _port_of_landing_search.click
+      wait_for_db_activity_bws
+      _select_port_of_landing_from_lov(port_of_lading).click
+      wait_for_db_activity_bws
+
+      #verification -3 : Predictive suggestion available
+      _port_of_landing_search_field.clear
+      wait_for_db_activity_bws
+      _port_of_landing_search_field.send_keys predictive_port_of_landing
+      wait_for_db_activity_bws
+      _port_of_landing_search_field.send_keys :enter
+      wait_for_db_activity_bws
+
+      ## Below  method will verify the Predictive Text match with the LOV displays
+      (1.._port_of_landing_total_lov.count).each do |i|
+        sleep 0.50
+        # This condition will not take any blank value in LOV
+        if _port_of_landing_lov(i).text.empty? == false
+          raise "predictive suggestion does not match" unless _port_of_landing_lov(i).text.include? predictive_port_of_landing
+        end
+      end
+
+      #.click
+      _pol_lov_ok.click
+      wait_for_db_activity_bws
+
+      #delete the ID
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      bws_shared.bws_cancel
+      wait_for_db_activity_bws
+      bws_shared.bws_confrim_cancel
+      wait_for_db_activity_bws
+
     end
 
   end

@@ -12,9 +12,9 @@ module Pages
     ################################ Objects #############################
     #######  Location List  #######
 
-# "create_an_item" - Method created for the purpose to create an item completley with all ITEM-TAB
-# Attributes.
-     def create_an_item
+    # "create_an_item" - Method created for the purpose to create an item completley with all ITEM-TAB
+    # Attributes.
+    def create_an_item
       bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
                              YML_DATA['BWS']['add_item']['Category'],
                              YML_DATA['BWS']['add_item']['Sub_Category'],
@@ -34,10 +34,10 @@ module Pages
                              YML_DATA['BWS']['add_item']['Packing_Method'])
 
 
-      bws_item.add_udas(YML_DATA['BWS']['add_item']['uda_id_1'],
-                        YML_DATA['BWS']['add_item']['uda_id_2'],
-                        YML_DATA['BWS']['add_item']['uda_val_1'],
-                        YML_DATA['BWS']['add_item']['uda_val_2'])
+      bws_item.add_udas(YML_DATA['uda_id_1'],
+                        YML_DATA['uda_id_2'],
+                        YML_DATA['uda_val_1'],
+                        YML_DATA['uda_val_2'])
 
       bws_item.add_skus(YML_DATA['BWS']['sku_01'], YML_DATA['BWS']['sku_range'])
       # bws_item.add_dimension

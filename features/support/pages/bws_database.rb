@@ -1056,7 +1056,7 @@ module Pages
       @connection.execute("UPDATE OAO.OAO_PARAMETERS SET PARM_VALUE = '#{expected_column_no}' WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
       @connection.commit
       oao_table = @connection.select_one("select parm_value from oao.OAO_PARAMETERS WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
-      actual_column = oao_table[0].to_i
+      actual_column = oao_table[0]
       raise "The Expected Column Value #{expected_column_no} is different from Actual column value #{actual_column} " if actual_column != expected_column_no
     end
 
@@ -1065,7 +1065,25 @@ module Pages
       @connection.commit
 
       actual_column = @connection.select_one("select parm_value from oao.OAO_PARAMETERS WHERE PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS'")
-      raise "The Column Value is not reset to default value" if actual_column != "3"
+      raise "The Column Value is not reset to default value" if actual_column[0] != "3"
+    end
+
+    ## supplier table verification ##
+    def verify_supplier_table supplier_id
+      supplier_table = @connection.select_one("select * from SUPS RMS where supplier  = '#{supplier_id}'")
+      raise "The #{supplier_id} supplier id does not exist in the database" if supplier_table.nil? == true
+    end
+
+    ## country table verification ##
+    def verify_country_table bws_country_id
+      country_table = @connection.select_one("select * from COUNTRY where COUNTRY_ID  = '#{bws_country_id}'")
+      raise "The #{bws_country_id} country id does not exist in the database" if country_table.nil? == true
+    end
+
+    ## port of lading ##
+    def verify_port_of_lading_table lading_port_id
+      outloc_table = @connection.select_one("select * from OUTLOC where OUTLOC_ID = '#{lading_port_id}'")
+      raise "The #{lading_port_id} lading port does not exist in the database" if outloc_table.nil? == true
     end
 
   end
