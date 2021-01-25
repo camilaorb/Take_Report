@@ -412,8 +412,8 @@ BWS:
     Differentiator_1: 'Cream'
     Differentiator_2: '927 - Sport Sizes'
     Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
-    Country_of_Sourcing: 'ZA - South Africa'
-    Country_of_Manufacture: 'ZA - South Africa'
+    Country_of_Sourcing: 'CN - China'
+    Country_of_Manufacture: 'CN - China'
     Port_Of_Lading: '1001 - Shanghai, China'
     Cost_Zone_Group_ID: '1000 - MRP Cost Group'
     Cost: '500.00'
@@ -430,18 +430,14 @@ BWS:
     marketing_desc: 'test team'
     detail_desc: 'Test Team'
     supplier_site: '100424 - HOM  NEW WECHSLER PTY LTD'
-    country_of_sourcing: 'ZA - South Africa'
-    Country_of_Manufacture: 'ZA - South Africa'
+    country_of_sourcing: 'CN - China'
+    Country_of_Manufacture: 'CN - China'
     cost_zone_group_id: '1000 - MRP Cost Group'
     cost: '500.00'
     packing_method: 'Flat'
     inner_pack_size: '1'
     case_pack_qty: '10'
-    ## uda ##
-  uda_id_1: '1006' #colour
-  uda_id_2: '1350' #shape
-  uda_val_1: '1527' #lovendor
-  uda_val_2: '2685' #gift box
+
 
   ## skus ##
   sku_01: 'By Group'
@@ -481,5 +477,31 @@ swing_tag_03: 'ST03 - Ticket Sub-Dept 1086 Only'
 swing_tag_04: 'ST01 - Shelf Labels'
 swing_tag_05: 'ST02 - Clothing Labels'
 
+## Supplier Site - Verifications #Please Do not amend OR change . Thanks
+supplier_site: '100480 - MIL  WORLD FOCUS 912 PTY LTD'
+predictive_supplier_site_text: 'WORLD' #'LTD'
+bws_supplier_id: '100480'
 
 
+## Supplier Site - Verifications #Please Do not amend OR change . Thanks
+country_of_sourcing: 'AQ - Antarctica'
+predictive_country_of_sourcing_text: 'A' #
+bws_country_of_sourcing_id: 'AQ'
+
+## Country of Manufacture
+country_of_manufracture: 'AQ - Antarctica'
+predictive_country_of_manufracture: 'A'
+bws_country_of_Manufacture_id: 'AQ'
+
+## Port Of Landing ##
+pol_country_of_sourcing: 'CN - China'
+pol_country_of_manufracture: 'CN - China'
+port_of_lading: '1005'
+predictive_port_of_lading: 'China'
+lading_port_id: '1005'
+
+## UDAS ##
+uda_id_1: '1002' #colour
+uda_id_2: '1008' #shape
+uda_val_1: '606' #Fruit Bowl
+uda_val_2: '1766' #gift box

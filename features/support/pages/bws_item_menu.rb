@@ -142,10 +142,13 @@ module Pages
       end
       if option == "add_new_item"
         add_new_item.double_click
+        wait_for_db_activity_bws
       elsif option == "add_existing_item"
         add_existing_item.double_click
+        wait_for_db_activity_bws
       elsif option == "copy_from_existing"
         copy_from_existing.double_click
+        wait_for_db_activity_bws
       else
         "Invalid Selection"
       end

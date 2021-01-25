@@ -1,15 +1,14 @@
 Feature: BWS Create Item
 
-
 #Item Tab
-  @BWS-CREATEITEM-01
+  @BWS-CREATEITEM-01 @bws_tests
   Scenario: Add New Item - Item Tab
     Given the Assistant Buyer on 'Item & Ordering Worklist' page
     When the assistant Buyer manually adds an Add New Item to the Buyers Worklist
     Then the assistant Buyer is able add specific details
     #Item ID is pre-populated and non-editable
 
-  @BWS-CREATEITEM-02
+  @BWS-CREATEITEM-02 @bws_tests
   Scenario: Item Tab - Sub-Department
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Sub-Department
@@ -17,14 +16,14 @@ Feature: BWS Create Item
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
 
-  @BWS-CREATEITEM-03
+  @BWS-CREATEITEM-03 @bws_tests
   Scenario: Item Tab - Category
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters a the Category
     Then  the values listed for the sub-category are specific to the selected sub-department and category
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
-  @BWS-CREATEITEM-04 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-04 @bws_tests
   Scenario: Item Tab - Supplier Style No
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Supplier Style No
@@ -33,7 +32,7 @@ Feature: BWS Create Item
     #Alphanumeric
     #Maps to SUPP_LABEL of ITEM_SUPPLIER table in RMS schema
 
-  @BWS-CREATEITEM-05 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-05 @bws_tests
   Scenario: Item Tab - Item Description
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Description for the Item
@@ -44,7 +43,7 @@ Feature: BWS Create Item
     #Alphanumeric
     #Maps to ITEM_DESC of ITEM_MASTER table in RMS schema
 
-  @BWS-CREATEITEM-06 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-06 @bws_tests
   Scenario: Item Tab - Marketing Description
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Marketing Description for the Item
@@ -55,7 +54,7 @@ Feature: BWS Create Item
     #Alphanumeric
     #Maps to ITEM_DESC of ITEM_MASTER table in RMS schema
 
-  @BWS-CREATEITEM-07 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-07 @bws_tests
   Scenario: Detailed Description
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Detailed Description for the Item
@@ -88,7 +87,7 @@ Feature: BWS Create Item
     #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
     #If 1 Colour and Multiple Sizes are selected then the Item is referred as "Fashion Item"
 
-  @BWS-CREATEITEM-10 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-10  #@wip #[CB]
   Scenario: Item Tab - Supplier Colour
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the colour differentiator on Supplier Diff 1 field
@@ -100,7 +99,7 @@ Feature: BWS Create Item
     #Optional
     #Alphanumeric
 
-  @BWS-CREATEITEM-11 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-11  #@wip #[CB]
   Scenario: Item Tab - Special Instructions
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the special instructions
@@ -109,40 +108,34 @@ Feature: BWS Create Item
     #  - Optional, Alphanumeric
     #  - The special instructions defined will be defaulted at the delivery drop level
 
-  @BWS-CREATEITEM-12
+  @BWS-CREATEITEM-12 @bws_tests
   Scenario: Item Tab - Swing Tag
     Given an Assistant Buyer on Item tab
     When the assistant buyer selects the Swing Tag button
     Then the user is able to add new swing tab
 
-  @BWS-CREATEITEM-13
+  @BWS-CREATEITEM-13 @bws_tests
   Scenario: Item Tab - Swing Tag - Add Button
     Given an assistant buyer enters the details for the Swing Tag
     When the assistant buyer attempts to create more than 3 swing tags by the Add button
     Then the Add button will not be displayed
 
 
-  @BWS-CREATEITEM-14
+  @BWS-CREATEITEM-14 @bws_tests
   Scenario: Item Tab - Swing Tag - System Options
-    Given an admin updates System Options 'Swing Tag' column to 2
+    Given an admin updates System Options 'Swing Tag' column to "2"
     When the user accesses the swing tag placeholder in Item tab
     Then the number of tags allowed in the placeholder does not exceed the value set at the System Options
-    #- Need to confirm the name of the Swing Tag field at System options
-  #UPDATE OAO_PARAMETERS
-  #SET PARM_VALUE = 2
-  #WHERE  PARM_NAME = 'BWS_MAX_TICKET_PER_ITEMS';
-  #COMMIT;
 
-  @BWS-CREATEITEM-15
+
+  @BWS-CREATEITEM-15 @bws_tests
   Scenario: Item Tab - Supplier Site
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Supplier Site for the Style
     Then the field must display the supplier site ID and name
-    #  - Verify - Field is mandatory
-    #  - Predictive suggestion available
-    #  - Supplier Sites are available in SUPS RMS table
 
-  @BWS-CREATEITEM-16
+
+  @BWS-CREATEITEM-16 @bws_tests
   Scenario: Item Tab - Country of Sourcing
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Country of Sourcing
@@ -152,7 +145,7 @@ Feature: BWS Create Item
     #  - Defaults from a combination of Item / Supplier Site
     #  - Predictive suggestion available
 
-  @BWS-CREATEITEM-17
+  @BWS-CREATEITEM-17 @bws_tests
   Scenario: Item Tab - Country of Manufacture
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Country of Manufacture
@@ -167,11 +160,7 @@ Feature: BWS Create Item
     Given an Assistant Buyer on Item tab
     When an assistant buyer opts to enter the Port of Lading
     Then the assistant buyer is able view the ID and Port Description in the field
-    #  - Options must be filtered by Country of Sourcing
-    #  - List of Countries available on OUTLOC table from RMS
-    #  - defaulted to all Delivery Drops in the Order information tab
-    #  - Predictive suggestion available
-    #  - Optional
+
 
   @BWS-CREATEITEM-19
   Scenario: Item Tab - Cost Zone Group ID
@@ -256,7 +245,7 @@ Feature: BWS Create Item
 
 
   #UDA Tab
-  @BWS-CREATEITEM-28
+  @BWS-CREATEITEM-28 @wip @bws_tests
   Scenario: Add New Item - UDA tab
     Given an assistant buyer create a new Item
     When the assistant buyer navigates to the 'UDA' sub-tab contained within  the ""Buy Details"" section of the screen and selects 'Add'
@@ -266,7 +255,7 @@ Feature: BWS Create Item
     #  - Mandatory - UDAs mandatory and default rules setup in RMS
     #  - 'Apply To' - the UDA cab applied to Style and SKU (Default) or alternatively the user can either select Style Only or SKU Only
 
-  @BWS-CREATEITEM-29
+  @BWS-CREATEITEM-29 @wip[sp] @bws_tests
   Scenario: UDA tab - Delete UDA
     Given an Assistant Buyer on UDA tab
     When an assistant buyer selects one or more UDAs
