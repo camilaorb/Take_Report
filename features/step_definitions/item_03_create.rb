@@ -26,7 +26,8 @@ Then(/^the assistant Buyer is able add specific details$/) do
                          YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
                          YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                          YML_DATA['BWS']['add_item']['Packing_Method'])
-
+  #ADF Verification
+  bws_item.check_adf_error
   bws_item.to_be_complete_steps
 
   bws_item.delete_created
@@ -105,7 +106,8 @@ end
 
 When(/an assistant buyer enters the Supplier Style No$/) do
   @item_tab_element = YML_DATA['item_element_supp_stile_no']
-  bws_item.character_limit_insert(YML_DATA['item_element_supp_stile_no'], '31')
+  bws_item.character_limit_insert(YML_DATA['item_element_supp_stile_no'], '31',
+                                  YML_DATA['input_Sub_Department'], YML_DATA['input_Category'], YML_DATA['input_Sub_Category'])
 end
 
 Then(/^the assistant buyer is able to enter the supplier colour$/) do
@@ -368,7 +370,32 @@ When(/^the assistant buyer enters the Cost Zone Group ID$/) do
 end
 
 Then(/^the Cost Zone Groups are displayed$/) do
+  #database
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
 
+  #bws verification
+  bws_item.verify_cost_zone_group_id(YML_DATA['BWS']['add_item']['Sub_Department'],
+                                     YML_DATA['BWS']['add_item']['Category'],
+                                     YML_DATA['BWS']['add_item']['Sub_Category'],
+                                     YML_DATA['BWS']['add_item']['Main_Desc'],
+                                     YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                                     YML_DATA['BWS']['add_item']['Differentiator_1'],
+                                     YML_DATA['BWS']['add_item']['Differentiator_2'],
+                                     YML_DATA['BWS']['add_item']['Supplier_Site'],
+                                     YML_DATA['pol_country_of_sourcing'],
+                                     YML_DATA['pol_country_of_manufracture'],
+                                     YML_DATA['pol'],
+                                     YML_DATA['Cost_Zone_Group_ID'])
+
+  #data-base verification
+  bws_database.verify_cost_zone_group_table(YML_DATA['Cost_Zone_Group_ID'])
+
+  #independent
+  bws_item.delete_created
+  login_page.log_out_from_bws
+
+  #Disconnect - DB
+  bws_database.disconnect_db
 end
 
 #
@@ -378,16 +405,95 @@ When(/^the user enters the Base Cost$/) do
 end
 
 Then(/^the Base Cost value will default to Supplier Currency$/) do
+  #database
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+
+  #bws verification
+  bws_item.verify_base_cost(YML_DATA['BWS']['add_item']['Sub_Department'],
+                            YML_DATA['BWS']['add_item']['Category'],
+                            YML_DATA['BWS']['add_item']['Sub_Category'],
+                            YML_DATA['BWS']['add_item']['Main_Desc'],
+                            YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                            YML_DATA['BWS']['add_item']['Differentiator_1'],
+                            YML_DATA['BWS']['add_item']['Differentiator_2'],
+                            YML_DATA['BWS']['add_item']['Supplier_Site'],
+                            YML_DATA['pol_country_of_sourcing'],
+                            YML_DATA['pol_country_of_manufracture'],
+                            YML_DATA['pol'],
+                            YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                            YML_DATA['base_cost'],
+                            YML_DATA['non_numeric_val'])
+
+  #To Check Any ADF Error
+  bws_item.check_adf_error
+
+  #Extract the Supplier Currency from the UI
+  @currency = bws_item.extract_supplier_currency
+
+  # To be Completed Steps#
+  bws_item.to_be_complete_steps
+
+  #db verification for supplier along with the currency
+  bws_database.verify_base_cost_default_to_supplier_currency(YML_DATA['BWS']['add_item']['Supplier_Site'].split("-").first, @currency)
+
+
+  #independent
+  bws_item.delete_created
+  login_page.log_out_from_bws
 
 end
 
 #
 
 Given(/^an assistant buyer accesses the Base Cost displayed in Supplier Currency$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
 
 end
 
 Then(/^the field alongside the Base Cost will display the Base Cost converted to the System Currency which is ZAR$/) do
+  #database
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+
+  #bws verification
+  bws_item.verify_converted_system_currency(YML_DATA['BWS']['add_item']['Sub_Department'],
+                                            YML_DATA['BWS']['add_item']['Category'],
+                                            YML_DATA['BWS']['add_item']['Sub_Category'],
+                                            YML_DATA['BWS']['add_item']['Main_Desc'],
+                                            YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                                            YML_DATA['BWS']['add_item']['Differentiator_1'],
+                                            YML_DATA['BWS']['add_item']['Differentiator_2'],
+                                            YML_DATA['BWS']['add_item']['Supplier_Site'],
+                                            YML_DATA['pol_country_of_sourcing'],
+                                            YML_DATA['pol_country_of_manufracture'],
+                                            YML_DATA['pol'],
+                                            YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                                            YML_DATA['base_cost'],
+                                            YML_DATA['amendable_base_cost'],
+                                            YML_DATA['non_numeric_val'])
+
+  #To Check Any ADF Error
+  bws_item.check_adf_error
+
+  # Base Cost is always defaulted to Supplier’s currency
+  @supplier_currency = bws_item.supplier_currency
+
+  # To be Completed Steps#
+  bws_item.to_be_complete_steps
+
+  #Data base verification - 04
+  bws_database.verify_base_cost_default_to_supplier_currency(YML_DATA['BWS']['add_item']['Supplier_Site'].split("-").first,@supplier_currency)
+
+  #independent
+  bws_item.delete_created
+
+  #Logout
+  login_page.log_out_from_bws
+
+  #Disconnect - DB
+  bws_database.disconnect_db
 
 end
 
@@ -439,7 +545,10 @@ Then(/^this will be used to automatically assign the Selling Retail for the Sout
 end
 
 Given(/^the assistant buyer accesses the PMO field$/) do
-
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
 end
 
 When(/^the assistant buyer enter the Cost and Initial Retail Value$/) do
@@ -447,7 +556,25 @@ When(/^the assistant buyer enter the Cost and Initial Retail Value$/) do
 end
 
 Then(/^the PMO is calculated, correct value is displayed and is non-editable$/) do
-
+  bws_item.adds_item_bws(YML_DATA['PMO_Sub_Department'],
+                         YML_DATA['PMO_Category'],
+                         YML_DATA['PMO_Sub_Category'],
+                         YML_DATA['PMO_Main_Desc'],
+                         YML_DATA['PMO_Marketing_Desc'],
+                         YML_DATA['PMO_Differentiator_1'],
+                         YML_DATA['PMO_Differentiator_2'],
+                         YML_DATA['PMO_Supplier_Site'],
+                         YML_DATA['PMO_Country_of_Sourcing'],
+                         YML_DATA['PMO_Country_of_Manufacture'],
+                         YML_DATA['PMO_Port_Of_Lading'],
+                         YML_DATA['PMO_Cost_Zone_Group_ID'],
+                         YML_DATA['PMO_Cost'],
+                         YML_DATA['PMO_Supplier_Pack_Size'],
+                         YML_DATA['PMO_Inner_Pack_Size'],
+                         YML_DATA['PMO_Case_Pack_Qty'],
+                         YML_DATA['PMO_Packing_Method'])
+  #ADF Verification
+  bws_item.check_adf_error
 end
 
 #
@@ -472,27 +599,35 @@ end
 
 Then(/^a blank UDA screen opens and the assistant buyer is able to enter the following UDA details, UDA, UDA Value, Mandatory, Apply To$/) do
   bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
-                               YML_DATA['BWS']['add_item']['Category'],
-                               YML_DATA['BWS']['add_item']['Sub_Category'],
-                               YML_DATA['BWS']['add_item']['Main_Desc'],
-                               YML_DATA['BWS']['add_item']['Marketing_Desc'],
-                               YML_DATA['BWS']['add_item']['Differentiator_1'],
-                               YML_DATA['BWS']['add_item']['Differentiator_2'],
-                               YML_DATA['BWS']['add_item']['Supplier_Site'],
-                               YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
-                               YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
-                               YML_DATA['BWS']['add_item']['Port_Of_Lading'],
-                               YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
-                               YML_DATA['BWS']['add_item']['Cost'],
-                               YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
-                               YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
-                               YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
-                               YML_DATA['BWS']['add_item']['Packing_Method'])
-  bws_item.add_udas(YML_DATA['uda_id_1'],YML_DATA['uda_id_2'],YML_DATA['uda_val_1'],YML_DATA['uda_val_2'])
+                         YML_DATA['BWS']['add_item']['Category'],
+                         YML_DATA['BWS']['add_item']['Sub_Category'],
+                         YML_DATA['BWS']['add_item']['Main_Desc'],
+                         YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                         YML_DATA['BWS']['add_item']['Differentiator_1'],
+                         YML_DATA['BWS']['add_item']['Differentiator_2'],
+                         YML_DATA['BWS']['add_item']['Supplier_Site'],
+                         YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                         YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                         YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                         YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                         YML_DATA['BWS']['add_item']['Cost'],
+                         YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                         YML_DATA['BWS']['add_item']['Packing_Method'])
+  bws_item.add_udas(YML_DATA['uda_id_1'], YML_DATA['uda_id_2'], YML_DATA['uda_val_1'], YML_DATA['uda_val_2'])
+  bws_item.to_be_complete_steps
+  bws_item.delete_created
+  login_page.log_out_from_bws
 end
 
 
 Given(/^an Assistant Buyer on UDA tab$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+
 
 end
 
@@ -501,5 +636,124 @@ When(/^an assistant buyer selects one or more UDAs$/) do
 end
 
 Then(/^an assistant buyer is able to remove the UDA$/) do
+  #Independent Create ITEM
+  bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+                         YML_DATA['BWS']['add_item']['Category'],
+                         YML_DATA['BWS']['add_item']['Sub_Category'],
+                         YML_DATA['BWS']['add_item']['Main_Desc'],
+                         YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                         YML_DATA['BWS']['add_item']['Differentiator_1'],
+                         YML_DATA['BWS']['add_item']['Differentiator_2'],
+                         YML_DATA['BWS']['add_item']['Supplier_Site'],
+                         YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                         YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                         YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                         YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                         YML_DATA['BWS']['add_item']['Cost'],
+                         YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                         YML_DATA['BWS']['add_item']['Packing_Method'])
+  ##Independent Create UDAs
+  bws_item.add_udas(YML_DATA['uda_id_1'], YML_DATA['uda_id_2'], YML_DATA['uda_val_1'], YML_DATA['uda_val_2'])
+  bws_item.to_be_complete_steps
+
+  ## Edit Item
+  bws_item.edit_created
+
+  # Delete UDA
+  bws_item.delete_udas(YML_DATA['uda_id_1'])
+
+  # Independent Methods
+  bws_item.to_be_complete_steps
+  bws_item.delete_created
+  login_page.log_out_from_bws
 
 end
+
+
+Given(/^a user opts to add packing method$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+end
+
+When(/^the user clicks on the Packing Method field$/) do
+
+end
+
+Then(/^the possible options are "([^"]*)" and "([^"]*)"$/) do |opt_1, opt_2|
+  @possible_options = [opt_1, opt_2]
+  bws_item.verify_packing_method_options(@possible_options)
+end
+
+When(/^the assistant buyer enters the Ti\/Hi$/) do
+
+end
+
+Then(/^the user is able to amend the value$/) do
+  bws_item.adds_item_bws(YML_DATA['input_Sub_Department'],
+                         YML_DATA['input_Category'],
+                         YML_DATA['input_Sub_Category'],
+                         YML_DATA['input_Main_Desc'],
+                         YML_DATA['input_Marketing_Desc'],
+                         YML_DATA['input_Differentiator_1'],
+                         YML_DATA['input_Differentiator_2'],
+                         YML_DATA['input_Supplier_Site'],
+                         YML_DATA['input_Country_of_Sourcing'],
+                         YML_DATA['input_Country_of_Manufacture'],
+                         YML_DATA['input_Port_Of_Lading'],
+                         YML_DATA['input_Cost_Zone_Group_ID'],
+                         YML_DATA['input_Cost'],
+                         YML_DATA['input_Supplier_Pack_Size'],
+                         YML_DATA['input_Inner_Pack_Size'],
+                         YML_DATA['input_Case_Pack_Qty'],
+                         YML_DATA['input_Packing_Method'])
+  #ADF Verification
+  bws_item.check_adf_error
+
+  ##verification ##
+  bws_item.verify_Ti_Hi(YML_DATA['Ti'],YML_DATA['Hi'],YML_DATA['Ti_val'],YML_DATA['Hi_val'])
+
+  #Delete created
+  bws_item.delete_created
+
+  #log_out
+  login_page.log_out_from_bws
+end
+
+Given(/^an assistant buyer lands on the Inner Pack Size field$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+end
+
+When(/^the assistant buyer enters a number$/) do
+
+end
+
+Then(/^the number must be (\d+) digits in length with (\d+) decimal places$/) do |arg1, arg2|
+  bws_item.adds_item_bws(YML_DATA['input_Sub_Department'],
+                         YML_DATA['input_Category'],
+                         YML_DATA['input_Sub_Category'],
+                         YML_DATA['input_Main_Desc'],
+                         YML_DATA['input_Marketing_Desc'],
+                         YML_DATA['input_Differentiator_1'],
+                         YML_DATA['input_Differentiator_2'],
+                         YML_DATA['input_Supplier_Site'],
+                         YML_DATA['input_Country_of_Sourcing'],
+                         YML_DATA['input_Country_of_Manufacture'],
+                         YML_DATA['input_Port_Of_Lading'],
+                         YML_DATA['input_Cost_Zone_Group_ID'],
+                         YML_DATA['input_Cost'],
+                         YML_DATA['input_Supplier_Pack_Size'],
+                         YML_DATA['Inner_pack_size_Expected'],
+                         YML_DATA['input_Case_Pack_Qty'],
+                         YML_DATA['input_Packing_Method'])
+  #ADF Verification
+  bws_item.check_adf_error
+
+end
+

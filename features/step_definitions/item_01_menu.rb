@@ -103,6 +103,8 @@ Then(/^the assistant Buyer is able add specific details including Item’s merch
                          YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                          YML_DATA['BWS']['add_item']['Packing_Method'])
 
+  #ADF Verification
+  bws_item.check_adf_error
   bws_item.to_be_complete_steps
 
   bws_item.delete_created
@@ -174,6 +176,8 @@ Then(/^the Item & Ordering Line from the worklist will be deleted$/) do
                          YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
                          YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                          YML_DATA['BWS']['add_item']['Packing_Method'])
+  #ADF Verification
+  bws_item.check_adf_error
   bws_item.to_be_complete_steps
   # Verify Delete
   bws_item.delete_created

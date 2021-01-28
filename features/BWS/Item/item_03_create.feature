@@ -23,6 +23,7 @@ Feature: BWS Create Item
     Then  the values listed for the sub-category are specific to the selected sub-department and category
     #Merch Hierarchy defaults are set up in RMS that determines the values for the sub-category when a category is selected
 
+
   @BWS-CREATEITEM-04 @bws_tests
   Scenario: Item Tab - Supplier Style No
     Given an Assistant Buyer on Item tab
@@ -95,9 +96,9 @@ Feature: BWS Create Item
     And Only available if colour is defined using Differentiator Colour otherwise it is disabled
     And the field is limited to '120' Characters
         #If the Colour Differentiator is not defined then this field is disabled
-    #Maps to SUPP_DIFF_1 of ITEM_SUPPLIER table in RMS schema
-    #Optional
-    #Alphanumeric
+        #Maps to SUPP_DIFF_1 of ITEM_SUPPLIER table in RMS schema
+        #Optional
+        #Alphanumeric
 
   @BWS-CREATEITEM-11  #@wip #[CB]
   Scenario: Item Tab - Special Instructions
@@ -150,45 +151,35 @@ Feature: BWS Create Item
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the Country of Manufacture
     Then the field must display the ID-Country Description
-    #  - List of Countries available on COUNTRY table
-    #  - Mandatory
-    #  - Defaults from a combination of Item / Supplier Site
-    #  - Predictive suggestion available
 
-  @BWS-CREATEITEM-18
+
+  @BWS-CREATEITEM-18 @bws_tests
   Scenario: Item Tab - Port of Lading
     Given an Assistant Buyer on Item tab
     When an assistant buyer opts to enter the Port of Lading
     Then the assistant buyer is able view the ID and Port Description in the field
 
 
-  @BWS-CREATEITEM-19
+  @BWS-CREATEITEM-19 @bws_tests
   Scenario: Item Tab - Cost Zone Group ID
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Cost Zone Group ID
     Then the Cost Zone Groups are displayed
 
-  @BWS-CREATEITEM-20
+  @BWS-CREATEITEM-20 @bws_tests
   Scenario: Item Tab - Base Cost - Supplier Currency
     Given an Assistant Buyer on Item tab
     When the user enters the Base Cost
     Then the Base Cost value will default to Supplier Currency
-    #  - All calculations around Base Cost will be done using the default supplier currency
-    #  - Mandatory
-    #  - Numeric
 
-  @BWS-CREATEITEM-21
+
+  @BWS-CREATEITEM-21 @bws_tests
   Scenario: Item Tab - Base Cost - System Currency
     Given an assistant buyer accesses the Base Cost displayed in Supplier Currency
     When the user enters the Base Cost
     Then the field alongside the Base Cost will display the Base Cost converted to the System Currency which is ZAR
     And the converted System Currency field is not editable
-    #  - The Value displayed in System Currency is ZAR - This is not amendable
-    #  - The Value of the System Currency is non-editable and updates if the Base Cost at Supplier Currency is amended
-    #  - Base Cost is always defaulted to Supplier’s currency
-    #  - Consolidated Exchange Rate to be used when converting from Supplier Currency to System Currency
-    #  - The converted Base Cost to be calculated online and not stored
-    #  - Mandatory, Numeric
+
 
   @BWS-CREATEITEM-22
   Scenario: Item Tab - Expenses
@@ -227,7 +218,7 @@ Feature: BWS Create Item
     #  - The value defined in this field will be used as the  Selling Price for the South Africa Price Zone in the Price By Zone Tab
     #  - In Price by Zone tab - Foreign Zones will be automatically fulfilled using the Initial Selling Price value and the Price Points structure
 
-  @BWS-CREATEITEM-26
+  @BWS-CREATEITEM-26 @WIP @bws_tests
   Scenario: Item Tab - PMO
     Given the assistant buyer accesses the PMO field
     When the assistant buyer enter the Cost and Initial Retail Value
@@ -235,33 +226,26 @@ Feature: BWS Create Item
     #  - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
     # - Verify that the correct PMO % value is displayed
 
-  @BWS-CREATEITEM-27
+  @BWS-CREATEITEM-27 @bws_tests
   Scenario: Item Tab -  Ti/Hi - Inner/Case Pack Quantity
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Ti/Hi
-    Then the assistant buyer is able to set-up the style with the Ti/Hi, Inner and Case Pack Quantity
-    #  - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
-    # - Verify that the correct PMO % value is displayed
+    Then the user is able to amend the value
 
 
   #UDA Tab
-  @BWS-CREATEITEM-28 @wip @bws_tests
+  @BWS-CREATEITEM-28 @bws_tests
   Scenario: Add New Item - UDA tab
     Given an assistant buyer create a new Item
     When the assistant buyer navigates to the 'UDA' sub-tab contained within  the ""Buy Details"" section of the screen and selects 'Add'
     Then a blank UDA screen opens and the assistant buyer is able to enter the following UDA details, UDA, UDA Value, Mandatory, Apply To
-    #  - UDA - This is selected by using the LOV - Once UDA ID is selected the UDA Description is populated and the relevant UDA Display Type (LOV or FF) is defaulted based on the UDA ID
-    #  - UDA Value - User can select the UDA Value using the LOV and the appropriate description setup for the Value is displayed
-    #  - Mandatory - UDAs mandatory and default rules setup in RMS
-    #  - 'Apply To' - the UDA cab applied to Style and SKU (Default) or alternatively the user can either select Style Only or SKU Only
 
-  @BWS-CREATEITEM-29 @wip[sp] @bws_tests
+  @BWS-CREATEITEM-29 @bws_tests
   Scenario: UDA tab - Delete UDA
     Given an Assistant Buyer on UDA tab
     When an assistant buyer selects one or more UDAs
     Then an assistant buyer is able to remove the UDA
-    #   - One or more UDAs must appear to carry out the task for deletion
-    #  - Create a UDA (that is not required and attempt to Delete)
+
 
   #SKU Tab
   @BWS-CREATEITEM-30
@@ -281,4 +265,19 @@ Feature: BWS Create Item
     # - If for example 2 Sizes and 2 Colour are selected then 4 lines are created in the SKU tab
     #  - Diff Range are set-up in RMS
     #  - The list of size and colour contained within a Range are setup in RMS
+
+
+  @BWS-CREATEITEM-40 @bws_tests
+  Scenario: Item & Ordering Worklist - Packing Method
+    Given a user opts to add packing method
+    When the user clicks on the Packing Method field
+    Then the possible options are "Flat" and "Hanger"
+
+
+
+  @BWS-CREATEITEM-62 @bws_tests
+  Scenario: Item & Ordering Worklist - Inner Pack Size
+    Given an assistant buyer lands on the Inner Pack Size field
+    When the assistant buyer enters a number
+    Then the number must be 8 digits in length with 4 decimal places
 

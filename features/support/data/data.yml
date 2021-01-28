@@ -404,14 +404,14 @@ BWS:
   po_maint: 'PO Maintenance'
 
   add_item:
-    Sub_Department: '44 - Test Sub-Department'
-    Category: '1 - Test Category'
-    Sub_Category: '1 - Change Sub Category'
+    Sub_Department: '1010 - Lds Jewels'
+    Category: '214 - Lds Jewels Hair NS'
+    Sub_Category: '4 - 17237 Headbands'
     Main_Desc: 'test team'
     Marketing_Desc: 'test'
     Differentiator_1: 'Cream'
     Differentiator_2: '927 - Sport Sizes'
-    Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
+    Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
     Country_of_Sourcing: 'CN - China'
     Country_of_Manufacture: 'CN - China'
     Port_Of_Lading: '1001 - Shanghai, China'
@@ -419,7 +419,7 @@ BWS:
     Cost: '500.00'
     Supplier_Pack_Size: '1'
     Inner_Pack_Size: '20'
-    #   Inner_Pack_Size: '20'
+    Case_Pack_Qty: '4'   #Inner_Pack_Size: '20'
     Packing_Method: 'Flat'
 
   copy_from_existing:
@@ -450,7 +450,7 @@ input_Category: '1 - Test Category' #'214 - Lds Jewels Hair NS' #
 input_Sub_Category: '2 - Core Elastics Lds BM Accs Hair NS'
 input_Main_Desc: 'test team'
 input_Marketing_Desc: 'test'
-input_Differentiator_1: 'COFFEE'
+input_Differentiator_1: 'Copper'
 input_Differentiator_2: '927 - Sport Sizes'
 input_Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
 input_Country_of_Sourcing: 'ZA - South Africa'
@@ -500,8 +500,45 @@ port_of_lading: '1005'
 predictive_port_of_lading: 'China'
 lading_port_id: '1005'
 
+## Cost Zone ID ##
+pol: '1005 - Hong Kong, China'
+Cost_Zone_Group_ID: '1000'
+
 ## UDAS ##
 uda_id_1: '1002' #colour
 uda_id_2: '1008' #shape
 uda_val_1: '606' #Fruit Bowl
 uda_val_2: '1766' #gift box
+
+## Base Cost ##
+base_cost: '800.00'
+amendable_base_cost: '888.00'
+non_numeric_val: 'ABC'
+
+## PMO ##
+PMO_Sub_Department: '1209 - Crockery'
+PMO_Category: '8256 - Outdoor Dining'
+PMO_Sub_Category: '1 - Outdoor Dining Drinkware'
+PMO_Main_Desc: 'Test Team'
+PMO_Marketing_Desc: 'Test Team'
+PMO_Differentiator_1: 'Red'
+PMO_Differentiator_2: '66'
+PMO_Supplier_Site: '100480 - MIL WORLD FOCUS 912 PTY LTD'
+PMO_Country_of_Sourcing: 'CN - China'
+PMO_Country_of_Manufacture: 'CN - China'
+PMO_Port_Of_Lading: '1001 - Shanghai, China'
+PMO_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+PMO_Cost: '100.00'
+PMO_Supplier_Pack_Size: '1'
+PMO_Inner_Pack_Size: '1'
+PMO_Case_Pack_Qty: '1'
+PMO_Packing_Method: 'Flat'
+
+##Ti,Hi Default Values ##
+Ti: '1'
+Hi: '1'
+Ti_val: '2'
+Hi_val: '2'
+
+## Inner_pack size ##
+Inner_pack_size_Expected: '12345678.1111'

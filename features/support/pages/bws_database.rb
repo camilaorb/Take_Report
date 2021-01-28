@@ -1080,10 +1080,22 @@ module Pages
       raise "The #{bws_country_id} country id does not exist in the database" if country_table.nil? == true
     end
 
-    ## port of lading ##
-    def verify_port_of_lading_table lading_port_id
-      outloc_table = @connection.select_one("select * from OUTLOC where OUTLOC_ID = '#{lading_port_id}'")
-      raise "The #{lading_port_id} lading port does not exist in the database" if outloc_table.nil? == true
+    ## cost zone group ##
+    def verify_cost_zone_group_table cost_zone_group_id
+      cost_zone_table = @connection.select_one("select * from cost_zone where zone_group_id = '#{cost_zone_group_id}'")
+      raise "The #{Cost_zone_group_id} Cost Zone Group does not exist in the database" if cost_zone_table.nil? == true
+    end
+
+    ## base cost and suppliers ##
+    def verify_base_cost_default_to_supplier_currency(supplier,currency)
+      supplier_table = @connection.select_one("select SUPPLIER, CURRENCY_CODE, SUPPLIER_PARENT from SUPS where SUPPLIER = '#{supplier}'")
+      raise "The #{supplier} Supplier does not exist in the database" if supplier_table[2].nil? == true
+      raise "The #{supplier} Supplier does not match with currency" if supplier_table[1].eql? currency == true
+    end
+
+    def verify_port_of_lading_table port
+      ##Further implementation Remains
+      # Waiting for the Data base table name / Data base table implementstion it self
     end
 
   end
