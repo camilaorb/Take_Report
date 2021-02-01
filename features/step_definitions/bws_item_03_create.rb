@@ -1,6 +1,6 @@
 Given(/^the Assistant Buyer on 'Item & Ordering Worklist' page$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
 end
 
@@ -37,7 +37,7 @@ end
 #Comun Step
 Given(/^an Assistant Buyer on Item tab$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -181,7 +181,7 @@ end
 
 Given(/^an assistant buyer enters the details for the Swing Tag$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -207,7 +207,7 @@ Given(/^an admin updates System Options 'Swing Tag' column to "([^"]*)"$/) do |v
 
   #BWS
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -447,7 +447,7 @@ end
 
 Given(/^an assistant buyer accesses the Base Cost displayed in Supplier Currency$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -546,7 +546,7 @@ end
 
 Given(/^the assistant buyer accesses the PMO field$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -586,14 +586,14 @@ end
 #
 # Given(/^an Assistant Buyer on Item tab$/) do
 #   visit(TE.environment['bws_url'])
-#   login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+#   login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
 #   bws_shared.select_task YML_DATA['BWS']['bws_group']
 # end
 
 
 Given(/^an assistant buyer create a new Item$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -633,7 +633,7 @@ end
 
 Given(/^an Assistant Buyer on UDA tab$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -683,7 +683,7 @@ end
 
 Given(/^a user opts to add packing method$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -734,7 +734,7 @@ end
 
 Given(/^an assistant buyer lands on the Inner Pack Size field$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end

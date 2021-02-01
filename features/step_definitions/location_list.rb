@@ -102,10 +102,6 @@ And("build the list by selecting the Build List button") do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given("buyer selects a record in the Location List Criteria page") do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
 When("the buyer is able to commit amendments to the Location List") do
   pending # Write code here that turns the phrase above into concrete actions
 end

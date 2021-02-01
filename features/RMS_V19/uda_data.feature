@@ -68,7 +68,6 @@ Feature: UDA
       | Items         | User Defined Attributes | UDA-07 UDA - LOV - FF - Date - Delete.ods |
     Then the record marked as deleted is removed from the RMS table UDA upon successful upload of the file
 
-
   @UDA-08
   Scenario: UDA Values - Create
     Given a buyer opts to create a new "UDA Value based on a UDA ID"

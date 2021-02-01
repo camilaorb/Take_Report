@@ -1,7 +1,7 @@
 <<: *defaults_config
 
 global:
-    environment: qa1
+    environment: OPO_Sandbox
 
     test_types: [browser]
 

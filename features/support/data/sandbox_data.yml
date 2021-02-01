@@ -1,62 +1,43 @@
 #------------------------------------------------------------------------------------------------------------#
  ############################################################################################################
- ####################################### Test Environment Data ##############################################
+ ########################################### Sandbox Data ###################################################
  ############################################################################################################
 #------------------------------------------------------------------------------------------------------------#
 
 
 
-  #----------------------------------------------------------------------------------------------------------#
-  ############################################################################################################
-  ############################################### RMS  #######################################################
-  ############################################################################################################
-  #----------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
+############################################################################################################
+############################################### RMS  #######################################################
+############################################################################################################
+#----------------------------------------------------------------------------------------------------------#
 
 ########################### Merchandise Hierarchy Data ############################################
 
-# Common Fields #
+buyer: 'AbigailGlover'
+buyer_2: 'BeaujolaisKerry'
 
-mh_total_mkt_amount: '100000'
-mh_change_mkt_amount: '20000'
+buyer_no: '5674'
+buyer_no_2: '6895'
 
-mh_buyer: 'Ann Woodley'
-mh_buyer_2: 'Billy Sharp'
+merchandiser: 'AadeelaBux'
+merchandiser_2: 'BandileMbatha'
 
-mh_buyer_no: '1003'
-mh_buyer_no_2: '620'
+merchandiser_no: '7100'
+merchandiser_no_2: '7001'
 
-mh_merchandiser: 'Automotive Merchandiser'
-merchandiser_2: 'Beer, Liquor, Wine Merchandiser'
+division: '5'
+division_name: 'Test Division'
 
-mh_merchandiser_no: '845'
-mh_merchandiser_no_2: '601'
+dept: '33'
 
-mh_subdpt: '44'
-mh_subdpt_2: '33'
+subdpt: '44'
 
-mh_category: '1'
+category: '1'
 
-mh_subcategory: '1'
+subcategory: '1'
 
-# Division #
-
-mh_new_div_name: 'New Division'
-mh_change_div_name: 'Changed Division'
-
-# Department #
-
-mh_new_dept_name: 'New Department'
-mh_change_dept_name: 'Changed Department'
-
-mh_division: '5'
-mh_division_name: 'Test Division'
-
-# Sub Department #
-
-mh_new_subdept_name: 'New Department'
-mh_change_subdept_name: 'Changed Department'
-
-mh_dept: '33'
+### Sub Department ###
 
 profit_calc_type: 'Direct Cost'
 profit_calc_type_2: 'Retail Inventory'
@@ -71,22 +52,6 @@ purchase_type_3: 'Concession'
 markup_calc_type_retail: '0'
 markup_calc_type_cost: '1'
 
-markup_perct_cost: '10'
-markup_perct_retail: '10'
-
-maximum_average: '1'
-average_tolerance: '1'
-
-# Category #
-
-mh_new_catg_name: 'New Category'
-mh_change_catg_name: 'Changed Category'
-
-# sub-Category #
-
-mh_new_scatg_name: 'New Sub Category'
-mh_change_scatg_name: 'Changed Sub Category'
-
 ##### Merch Hier Defaults #####
 
 information: 'COM' #Comments
@@ -94,35 +59,9 @@ information2: 'DIFF' #Diffs
 information3: 'DIMO' #Case Dimensions
 information4: 'HTS' #HTS
 
-########################### VAT  ############################################
-
-## Type ##
-
-B: 'Both B'
-C: 'Cost C'
-R: 'Retail R'
-
-DB_B: 'B'
-DB_C: 'C'
-DB_R: 'R'
-
-## Region ##
-
-VR1: '1000' #Vat Region 1000
-
-### Code ###
-
-v_code_1: "S"    #Standard
-v_code_2: "E"	#Exempt
-v_code_3: "C"	#Composite
-v_code_4: "Z"	#Zero Vat
-
-
 ########################### Differentiators Diff  ############################################
 
 ### Diff Group ###
-
-diffgroup_name: 'New Diff Group'
 
 dg_item: '663' #Diff Group with item
 
@@ -131,8 +70,6 @@ dg_item: '663' #Diff Group with item
 type_1: 'SIZE'
 
 ### Diff Group Detail ###
-
-dgd_sequence: '1'
 
 dgd_detail_1: 'S'
 dgd_detail_2: 'M'
@@ -156,6 +93,49 @@ colour_3: 'AMBER'
 size_1: 'KNG'
 size_2: 'QN'
 size_3: 'SGL'
+
+
+########################### VAT  ############################################
+
+## Type ##
+
+B: 'Both B'
+C: 'Cost C'
+R: 'Retail R'
+
+DB_B: 'B'
+DB_C: 'C'
+DB_R: 'R'
+
+
+## Region ##
+
+SA: '1' #South Africa
+NAM: '2' #Namibia
+SWA: '3' #Swaziland
+BOT: '4' #Botswana
+LSL: '6' #Lesotho
+AUD: '71' #Australia
+GHA: '142' #Ghana
+KEN: '175' #Kenya
+MZM: '209' #Mozambique
+NIG: '220' #Nigeria
+PLN: '236' #Poland
+TZN: '272' #Tanzania
+UGA: '284' #Uganda
+ZMK: '305' #Zambia
+DRC: '316' #Democratic Republic Of Congo
+OC: '999' #Other Country
+
+### Code ###
+
+v_code_1: "AUD00"    #GST @ STD RATE SALES (OUTPUT)
+v_code_2: "AUD01"    #GST @ STD RATE-ALL PURCHASES
+v_code_3: "AUD02"    #GST@STD RATE-PETTY CASH EXP
+v_code_49: "RSA01"    #RSA Standard
+v_code_54: "RSAEX"    #RSA Exempt
+v_code_55: "RSAZE"    #RSA Zero Rated
+
 
 ########################### SUPPLIER  ############################################
 
@@ -239,8 +219,8 @@ pay_inv_2: 'Central'
 invc_db_type_1: 'S' #Store
 invc_db_type_2: 'C' #Central
 
-############################# Org-Hierarchy ##############################
 
+############################# Org-Hierarchy ##############################
 Division:
   division_create: 'test_create'
   division_edit: 'test_edit'
@@ -406,132 +386,33 @@ location_option: 'Locations'
 criteria_option: 'Criteria'
 location_list_rebuild_option: 'Location List Rebuild'
 
-################################ Cost Zones ########################################
-
-cost_level1: 'Location'
-cost_level2: 'Zone'
-
-
-################################ Upload File ########################################
-
-Differentiator Type:
-  template_type: 'Items'
-  template: 'Differentiators'
-  file: 'DIFF-18 Diff Types - Create.ods'
-
-Differentiator ID:
-  template_type: 'Items'
-  template: 'Differentiators'
-  file: 'DIFF-21 Diff IDs - Create.ods'
-
-Banner:
-  template_type: 'Foundation'
-  template: 'Banners and Channels'
-  file: 'BC-03 Create Banner.ods'
-
-Channel:
-  template_type: 'Foundation'
-  template: 'Banners and Channels'
-  file: 'BC-04 Create Channel.ods'
-
-Store Format:
-  template_type: 'Foundation'
-  template: 'Store Formats'
-  file: 'STF-03 Store Format - Create.ods'
-
-Transfer Entity:
-  template_type: 'Finance Administration'
-  template: 'Transfer Entities'
-  file: 'TFE-02 Transfer Entity - Create.ods'
-
-Supplier Trait:
-  template_type: 'Foundation'
-  template: 'Supplier Traits'
-  file: 'SPT-03 Supplier Trait - Create.ods'
-
-Transfer Zone:
-  template_type: 'Foundation'
-  template: 'Transfer Zones'
-  file: 'TFZ-03 Transfer Zone - Create.ods'
-
-Org Unit:
-  template_type: 'Administration'
-  template: 'Org Units'
-  file: 'ORGU-03 Org Unit - Create.ods'
-
-VAT Code:
-  template_type: 'Finance Administration'
-  template: 'VAT'
-  file: 'VAT-03 VAT Code - Create.ods'
-
-VAT Rate:
-  template_type: 'Finance Administration'
-  template: 'VAT'
-  file: 'VAT-09 VAT Rates - Create.ods'
-
-VAT Region:
-  template_type: 'Finance Administration'
-  template: 'VAT'
-  file: 'VAT-09 VAT Regions - Create.ods'
-
-LOV type UDA:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-03 UDA - LOV - Create.ods'
-
-FF type UDA:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-05 UDA - FF - Create.ods'
-
-UDA Value based on a UDA ID:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-08 UDA Values - Create.ods'
-
-UDA Default for a specific UDA ID:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-11 UDA Defaults - Create.ods'
-
-UDA LOV:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-03 UDA - LOV - Create.ods'
-
-Date type UDA:
-  template_type: 'Items'
-  template: 'User Defined Attributes'
-  file: 'UDA-18 UDA - Date - Create.ods'
-
   #----------------------------------------------------------------------------------------------------------#
   ############################################################################################################
-  ########################################### Buyers Work Sheet - BWS ########################################
+  ################## Buyers Work Sheet - BWS #################################################################
   ############################################################################################################
-  #----------------------------------------------------------------------------------------------------------#
-
+#----------------------------------------------------------------------------------------------------------#
 BWS:
   #BWS Tasks
   bws_group: 'Buyer Worksheet Group'
   po_maint: 'PO Maintenance'
 
   add_item:
-    Sub_Department: '1010 - Lds Jewels'
-    Category: '214 - Lds Jewels Hair NS'
-    Sub_Category: '4 - 17237 Headbands'
+    Sub_Department: '44 - Test Sub-Department'
+    Category: '1 - Test Category'
+    Sub_Category: '1 - Change Sub Category'
     Main_Desc: 'test team'
     Marketing_Desc: 'test'
     Differentiator_1: 'Cream'
     Differentiator_2: '927 - Sport Sizes'
-    Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
-    Country_of_Sourcing: 'CN - China'
-    Country_of_Manufacture: 'CN - China'
+    Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
+    Country_of_Sourcing: 'ZA - South Africa'
+    Country_of_Manufacture: 'ZA - South Africa'
     Port_Of_Lading: '1001 - Shanghai, China'
     Cost_Zone_Group_ID: '1000 - MRP Cost Group'
     Cost: '500.00'
     Supplier_Pack_Size: '1'
     Inner_Pack_Size: '20'
-    Case_Pack_Qty: '1'   #Inner_Pack_Size: '20'
+    #   Inner_Pack_Size: '20'
     Packing_Method: 'Flat'
 
   copy_from_existing:
@@ -542,14 +423,18 @@ BWS:
     marketing_desc: 'test team'
     detail_desc: 'Test Team'
     supplier_site: '100424 - HOM  NEW WECHSLER PTY LTD'
-    country_of_sourcing: 'CN - China'
-    Country_of_Manufacture: 'CN - China'
+    country_of_sourcing: 'ZA - South Africa'
+    Country_of_Manufacture: 'ZA - South Africa'
     cost_zone_group_id: '1000 - MRP Cost Group'
     cost: '500.00'
     packing_method: 'Flat'
     inner_pack_size: '1'
     case_pack_qty: '10'
-
+    ## uda ##
+  uda_id_1: '1006' #colour
+  uda_id_2: '1350' #shape
+  uda_val_1: '1527' #lovendor
+  uda_val_2: '2685' #gift box
 
   ## skus ##
   sku_01: 'By Group'
@@ -559,14 +444,14 @@ BWS:
 #Add Item
 input_Sub_Department: '44 - Test Sub-Department' #'1010 - Lds Jewels' #
 input_Category: '1 - Test Category' #'214 - Lds Jewels Hair NS' #
-input_Sub_Category: '1 - Change Sub Category'
+input_Sub_Category: '2 - Core Elastics Lds BM Accs Hair NS'
 input_Main_Desc: 'test team'
 input_Marketing_Desc: 'test'
-input_Differentiator_1: 'Copper'
+input_Differentiator_1: 'COFFEE'
 input_Differentiator_2: '927 - Sport Sizes'
 input_Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
-input_Country_of_Sourcing: 'CN - China'
-input_Country_of_Manufacture: 'CN - China'
+input_Country_of_Sourcing: 'ZA - South Africa'
+input_Country_of_Manufacture: 'ZA - South Africa'
 input_Port_Of_Lading: '1001 - Shanghai, China'
 input_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
 input_Cost: '500.00'
@@ -574,12 +459,6 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
-#Add ITEM Options
-uda: 'UDAs'
-sku: 'SKUs'
-location_ranging: 'Location Ranging'
-price_by_zone: 'Price By Zone'
-order_information: 'Order Information'
 
 #Elements Name
 item_element_supp_stile_no: 'Supplier Style No.'
@@ -595,77 +474,5 @@ swing_tag_03: 'ST03 - Ticket Sub-Dept 1086 Only'
 swing_tag_04: 'ST01 - Shelf Labels'
 swing_tag_05: 'ST02 - Clothing Labels'
 
-## Supplier Site - Verifications #Please Do not amend OR change . Thanks
-supplier_site: '100480 - MIL  WORLD FOCUS 912 PTY LTD'
-predictive_supplier_site_text: 'WORLD' #'LTD'
-bws_supplier_id: '100480'
 
 
-## Supplier Site - Verifications #Please Do not amend OR change . Thanks
-country_of_sourcing: 'AQ - Antarctica'
-predictive_country_of_sourcing_text: 'A' #
-bws_country_of_sourcing_id: 'AQ'
-
-## Country of Manufacture
-country_of_manufracture: 'AQ - Antarctica'
-predictive_country_of_manufracture: 'A'
-bws_country_of_Manufacture_id: 'AQ'
-
-## Port Of Landing ##
-pol_country_of_sourcing: 'CN - China'
-pol_country_of_manufracture: 'CN - China'
-port_of_lading: '1005'
-predictive_port_of_lading: 'China'
-lading_port_id: '1005'
-
-## Cost Zone ID ##
-pol: '1005 - Hong Kong, China'
-Cost_Zone_Group_ID: '1000'
-
-## UDAS ##
-uda_id_1: '1002' #colour
-uda_id_2: '1008' #shape
-uda_val_1: '606' #Fruit Bowl
-uda_val_2: '1766' #gift box
-
-## Base Cost ##
-base_cost: '800.00'
-amendable_base_cost: '888.00'
-non_numeric_val: 'ABC'
-
-## PMO ##
-## As Per PMO Calculation - Special Set Of Data Required ##
-PMO_Sub_Department: '1209 - Crockery'
-PMO_Category: '8256 - Outdoor Dining'
-PMO_Sub_Category: '1 - Outdoor Dining Drinkware'
-PMO_Main_Desc: 'Test Team'
-PMO_Marketing_Desc: 'Test Team'
-PMO_Differentiator_1: 'Red'
-PMO_Differentiator_2: '927 - Sport Sizes'
-PMO_Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.' #'100480 - MIL WORLD FOCUS 912 PTY LTD'
-PMO_Country_of_Sourcing: 'CN - China'
-PMO_Country_of_Manufacture: 'CN - China'
-PMO_Port_Of_Lading: '1001 - Shanghai, China'
-PMO_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
-PMO_Cost: '100.00'
-PMO_Supplier_Pack_Size: '1'
-PMO_Inner_Pack_Size: '1'
-PMO_Case_Pack_Qty: '1'
-PMO_Packing_Method: 'Flat'
-PMO_initial_selling_retail: '6.99'
-
-##Ti,Hi Default Values ##
-Ti: '1'
-Hi: '1'
-Ti_val: '2'
-Hi_val: '2'
-
-## Inner_pack size ##
-Expected_ips_size: '8-Digits 4-Decimals'
-Expected_ips_value: '12345678.0000' #8 Digit , 4 Decimals
-Actual_ips_value: '12345678912345.00000' #14-digit , 5- Decimals
-
-## Case Pack QTY ##
-Expected_cpq_size: '8-Digits 4-Decimals'
-Expected_cpq_value: '12345678.0000' #8 Digit , 4 Decimals
-Actual_cpq_value: '12345678912345.00000' #14-digit , 5- Decimals

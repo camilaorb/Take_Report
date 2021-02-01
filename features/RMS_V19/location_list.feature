@@ -43,3 +43,9 @@ Feature: Location Lists
     Given a buyer selects a record in the location list criteria page
     When the buyer opts to Rebuild the Location List
     Then the buyer is able to rebuild the list
+
+  @LCL-08
+  Scenario: Delete Location Lists
+    Given a buyer selects a record in the location list criteria page
+    When the buyer opts to Rebuild the Location List
+    Then the buyer is able to rebuild the list

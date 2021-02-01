@@ -15,7 +15,7 @@ Feature: Organizational Hierarchy
   @ORGH-03
   Scenario: Division - Delete Division
     Given buyer is on the organizations hierarchy screen
-    When a buyer delete a the Division
+    When a buyer delete a Division
     Then the record is removed from the Division table and RMS DB
 
   @ORGH-04
@@ -27,13 +27,13 @@ Feature: Organizational Hierarchy
   @ORGH-05
   Scenario: Country - Edit Country
     Given buyer is on the organizations hierarchy screen
-    When buyer update country  where country name are mandatory
+    When buyer update country where country name are mandatory
     Then the record is update to the Country table and RMS DB
 
   @ORGH-06
   Scenario: Country - Delete Country
     Given buyer is on the organizations hierarchy screen
-    When a buyer delete a the Country
+    When a buyer delete a Country
     Then the record is removed country record from the Country table and RMS DB
 
   @ORGH-07
@@ -51,7 +51,7 @@ Feature: Organizational Hierarchy
   @ORGH-09
   Scenario: Region - Delete Region
     Given buyer is on the organizations hierarchy screen
-    When a buyer delete a the Region
+    When a buyer delete a Region
     Then the record is removed from the Region table and RMS DB
 
   @ORGH-10
@@ -66,34 +66,9 @@ Feature: Organizational Hierarchy
     When buyer update where Area name are mandatory
     Then the record is update to the Area table and RMS DB
 
-#  @ORGH-12
-#  Scenario: Area - Delete Area
-#    Given a buyer selects from the Tasks menu Foundation Data > Location Foundation > Organizational Hierarchy
-#    And selects the District button
-#    When buyer clicks on the District link against the District that is marked for deletionAND opts for Action > Delete
-#    Then the buyer is able to remove the District
-#      | area |
-#      | 41   |
-#
-#
-#  @ORGH-13
-#  Scenario: Create Area - Add District
-#    Given a buyer selects from the Tasks menu Foundation Data > Location Foundation > Organizational Hierarchy
-#    And selects the District button or selects the District Create icon on the Region page
-#    When buyer selects Action > Create followed by selects Action > Add
-#    Then the buyer is able to enter details for the District
-#
-#  @ORGH-14
-#  Scenario: Create District - Edit District
-#    Given a buyer selects from the Tasks menu Foundation Data > Location Foundation > Organizational Hierarchy
-#    And selects the District button
-#    When buyer clicks on the District linkAND opts Action > Edit
-#    Then the buyer is able to amend and update details for the District
-#
-#  @ORGH-15
-#  Scenario: Create District - Delete District
-#    Given a buyer selects from the Tasks menu Foundation Data > Location Foundation > Organizational Hierarchy
-#    And selects the District button
-#    When buyer clicks on the District link against the District that is marked for deletionAND opts for Action > Delete
-#    Then the buyer is able to remove the District
+  @ORGH-12
+  Scenario: Area - Delete Area
+    Given buyer is on the organizations hierarchy screen
+    When a buyer delete a Area
+    Then the record is removed from the Area table and RMS DB
 

@@ -39,7 +39,7 @@ Then(/^user upload the source ([^"]*)$/) do |file|
   foundation_data_loading.upload_a_file file
   foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
-  login_page.logout_to_rms
+    login_page.logout_to_rms
 end
 
 
@@ -66,7 +66,7 @@ Given(/^a buyer opts to edit a existing "([^"]*)"$/) do |_arg|
   login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   foundation_data_loading.open_data_loading
   foundation_data_loading.open_data_loading_upload
-  #super_foundation_data.update_file_to_edit(_arg)
+  super_foundation_data.update_file_to_edit(_arg)
 end
 
 
@@ -87,6 +87,7 @@ Then(/^the Diff Type is created in RMS and RMS DB upon successful upload of the 
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_diff_type_table @file
   database.disconnect_db
+
   login_page.logout_to_rms
 end
 

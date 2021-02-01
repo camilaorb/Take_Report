@@ -232,13 +232,13 @@ module Pages
       send_keys :enter
       wait_for_db_activity
       buyer_text_field.set buyer
-      wait_for_db_activity
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       merchandiser_text_field.scroll.to
       wait_for_db_activity
       merchandiser_text_field.set merchandiser
-      wait_for_db_activity
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       ok_button.wait_until_present
@@ -258,13 +258,13 @@ module Pages
       #send_keys :enter
       wait_for_db_activity
       buyer_text_field.set buyer
-      wait_for_db_activity
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       merchandiser_text_field.scroll.to
       wait_for_db_activity
       merchandiser_text_field.set merchandiser
-      wait_for_db_activity
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       ok_button.click
@@ -308,16 +308,18 @@ module Pages
       dept_id_field.set new_id
       dept_name_field.set name
       division_dropdown_field.set division
-      wait_for_db_activity
+      wait_until_enabled(loading_list)
       send_keys :enter
       wait_for_db_activity
       buyer_text_field.set buyer
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       merchandiser_text_field.scroll.to
       wait_for_db_activity
       merchandiser_text_field.set merchandiser
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
@@ -333,12 +335,14 @@ module Pages
       dept_name_edit_field.set name
       wait_for_db_activity
       dept_buyer_text_field.set buyer
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
       dept_merchandiser_text_field.scroll.to
       wait_for_db_activity
       dept_merchandiser_text_field.set merchandiser
+      wait_until_enabled(loading_list)
       wait_for_db_activity
       send_keys :enter
       wait_for_db_activity
@@ -374,7 +378,7 @@ module Pages
       wait_for_db_activity
       done_button.click
       wait_for_db_activity
-      ok_button.click if delete_popup.present?
+      #ok_button.click if delete_popup.present?
       filter_activity(category_id_filter, new_id)
     end
 
@@ -451,7 +455,7 @@ module Pages
       wait_for_db_activity
       done_button.click
       wait_for_db_activity
-      ok_button.click if delete_popup.present?
+      #ok_button.click if delete_popup.present?
       filter_activity(subcategory_id_filter, new_id)
     end
 
@@ -509,6 +513,7 @@ module Pages
 
     def select_subdpt(new_id)
       filter_activity(department_id_filter, new_id)
+
     end
 
     def access_select_subdpt
@@ -551,8 +556,6 @@ module Pages
       maximum_average_counter_field.set maximum_average if maximum_average_counter_field.blank?
       wait_for_db_activity
       average_tolerance_field.set average_tolerance if average_tolerance_field.blank?
-      wait_for_db_activity
-      save_and_close_button.click
       wait_for_db_activity
     end
 
@@ -690,15 +693,30 @@ module Pages
       sleep 5
     end
 
+    def create_multiple_vat
+      #country_list = %w[VR1]
+      type_list = %w[R C]
+      number = type_list.size
+      count = 0
+      number.times do
+        create_vat(YML_DATA['VR1'], YML_DATA['v_code_1'], YML_DATA[type_list[count]])
+        count += 1
+      end
+    end
+
     def edit_vat(code)
       edit_vat_button.wait_until_present.click
       wait_for_db_activity
       vat_code_field.wait_until_present
-      vat_code_field.set code
-      wait_until_enabled(loading_list)
-      wait_for_db_activity
-      send_keys :enter
-      wait_for_db_activity
+      TryWith.attempts(attempts: 3, sleep: 1) do
+        vat_code_field.set code
+        wait_until_enabled(loading_list)
+        wait_for_db_activity
+        send_keys :enter
+        wait_for_db_activity
+        sleep 3
+        raise 'Vat Code is blank' if vat_code_field.blank?
+      end
       ok_vat_button.click
       wait_for_db_activity
     end

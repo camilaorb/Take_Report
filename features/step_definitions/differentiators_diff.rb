@@ -12,18 +12,18 @@ When(/^they create a Diff Group where Group, Group Description, Type are mandato
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
-  differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
+  differentiators_diff.create_diff_group_detail(YML_DATA['dgd_sequence'], YML_DATA['dgd_detail_1'])
   shared.save_and_close
 end
 
 Then(/^the new Diff Group is add on the top of Diff Group table and created RMS DB$/) do
   differentiators_diff.open_diff_groups
   differentiators_diff.select_diff_group(@new_id)
-  differentiators_diff.verify_diff_group(expected_values:'New Diff Group')
+  differentiators_diff.verify_diff_group(expected_values:YML_DATA['diffgroup_name'])
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_diff_group_table(@new_id, 'New Diff Group', YML_DATA['type_1'] )
+  database.verify_diff_group_table(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'])
   database.disconnect_db
   differentiators_diff.delete_diff_group
   login_page.logout_to_rms
@@ -34,7 +34,7 @@ When(/^the user is able to update Group Description, Division, Department in RMS
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
   shared.save_and_close
@@ -59,7 +59,7 @@ When(/^a user delete a the Diff Groups$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_2'])
   differentiators_diff.save
@@ -89,7 +89,7 @@ Given(/^a user is in existing Differentiator Groups screen$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
 end
 
@@ -114,7 +114,7 @@ When(/^a user update the Sequence in the Group Detail table$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_2'])
   shared.save_and_close
@@ -142,7 +142,7 @@ When(/^a user delete a Group Details$/) do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.diff_group_id
   database.disconnect_db
-  differentiators_diff.create_diff_group(@new_id, 'New Diff Group', YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
+  differentiators_diff.create_diff_group(@new_id, YML_DATA['diffgroup_name'], YML_DATA['type_1'], YML_DATA['division'], YML_DATA['dept'])
   differentiators_diff.select_diff_group(@new_id)
   differentiators_diff.create_diff_group_detail('1', YML_DATA['dgd_detail_1'])
   differentiators_diff.create_diff_group_detail('2', YML_DATA['dgd_detail_2'])

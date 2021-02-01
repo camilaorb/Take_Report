@@ -1,6 +1,6 @@
 Given(/^a buyer selects the 'Item & Ordering Worklist' option from task menu$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end

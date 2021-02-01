@@ -1,12 +1,7 @@
 When(/^buyer create Warehouse with mandatory details$/) do
-
-end
-
-Then(/^the new Warehouse is add on top of Warehouse table and created RMS$/) do
-
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.last_warehouse_id
-
+  database.disconnect_db
   warehouse.add_warehouse
   warehouse.create_warehouse(@new_id, YML_DATA['Warehouse']['warehouse_name'],
                              YML_DATA['Warehouse']['currency'],
@@ -30,38 +25,26 @@ Then(/^the new Warehouse is add on top of Warehouse table and created RMS$/) do
                     YML_DATA['Warehouse']['channel'],
                     YML_DATA['Warehouse']['pricing_location'],
                     YML_DATA['Warehouse']['primary_virtual_warehouse'])
+end
 
+Then(/^the new Warehouse is add on top of Warehouse table and created RMS$/) do
   ## Warehouse Creation Verification ##
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_warehouse_create_update(@new_id, YML_DATA['Warehouse']['name'])
-
-
-  ## Independent ##
+  database.disconnect_db
 
   ## Delete Warehouse ##
   warehouse.edit_warehouse @new_id
   warehouse.delete_warehouse
-
-  ## Delete Warehouse Creation Verification ##
-  database.verify_dlyprg_table(@new_id)
-  database.disconnect_db
-
 end
 
 Given(/^a buyer completes the fields and descriptions for a new WH$/) do
   visit(TE.environment['rms_url'])
   login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   organizational_hierarchy.open_org_hierarchy
-end
-
-When(/^buyer access the virtual wh page$/) do
-
-end
-
-
-Then(/^the buyer is able to set\-up the virtual WH for the new create physical WH$/) do
-
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   @new_id = database.last_warehouse_id
+  database.disconnect_db
 
   warehouse.add_warehouse
   warehouse.create_warehouse(@new_id, YML_DATA['Warehouse']['warehouse_name'],
@@ -72,11 +55,9 @@ Then(/^the buyer is able to set\-up the virtual WH for the new create physical W
                              YML_DATA['Warehouse']['cost_location'],
                              YML_DATA['Warehouse']['warehouse_number'])
 
-  warehouse.add_address(YML_DATA['Warehouse']['address_type_option'],
-                        YML_DATA['Warehouse']['address'],
-                        YML_DATA['Warehouse']['city'],
-                        YML_DATA['Warehouse']['country'])
+end
 
+When(/^buyer access the virtual wh page$/) do
   @vwh_id = rand(1..999)
 
   warehouse.add_vwh(@vwh_id,
@@ -87,42 +68,39 @@ Then(/^the buyer is able to set\-up the virtual WH for the new create physical W
                     YML_DATA['Warehouse']['channel'],
                     YML_DATA['Warehouse']['pricing_location'],
                     YML_DATA['Warehouse']['primary_virtual_warehouse'])
+end
 
+
+Then(/^the buyer is able to set\-up the virtual WH for the new create physical WH$/) do
   ## Virtual Warehouse Verification ##
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_virtual_warehouse_create_update(@vwh_id, YML_DATA['Warehouse']['name'], @new_id)
+  database.disconnect_db
 
   ## Independent ##
   ## Delete Warehouse ##
   warehouse.edit_warehouse @new_id
   warehouse.delete_warehouse
-
-  ## Delete Warehouse Creation Verification ##
-  database.verify_dlyprg_table(@new_id)
-  database.disconnect_db
-
 end
 
 When(/^a buyer access the Address page for a wh$/) do
-
-end
-
-Then(/^the buyer is able to add Address WH for the new create physical WH$/) do
-  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-
-  warehouse.edit_warehouse YML_DATA['Warehouse']['edit_warehouse']
-
   ## Add Address ##
   warehouse.add_address(YML_DATA['Warehouse']['address_type_option'],
                         YML_DATA['Warehouse']['manage_address'],
                         YML_DATA['Warehouse']['manage_city'],
                         YML_DATA['Warehouse']['manage_country'])
+end
+
+Then(/^the buyer is able to add Address WH for the new create physical WH$/) do
+  ## Delete Address Database Verification ##
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_warehouse_address_table(@new_id, YML_DATA['Warehouse']['manage_address'], YML_DATA['Warehouse']['manage_city'],
+                                          YML_DATA['Warehouse']['manage_country'])
+  database.disconnect_db
 
   ## Independent  - Delete - Address ##
-  warehouse.delete_address(YML_DATA['Warehouse']['edit_warehouse'], YML_DATA['Warehouse']['manage_address'])
-
-  ## Delete Address Database Verification ##
-  database.verify_delete_address(YML_DATA['Warehouse']['edit_warehouse'], YML_DATA['Warehouse']['manage_address'])
-  database.disconnect_db
+  warehouse.edit_warehouse @new_id
+  warehouse.delete_warehouse
 end
 
 When(/^buyer update warehouse with mandatory details$/) do

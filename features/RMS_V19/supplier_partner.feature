@@ -128,7 +128,7 @@ Feature: Suppliers and Partners
     When a buyer access Suppliers Site edits page
     Then the buyer is able to create expense details by entering Shipping Routes, Expenses and Rate Updates
 
-  @SUP-09
+  @SUP-19
   Scenario: Manage Partners - Search
     Given a buyer access Manage Partners page
     When buyer enters Partner information the search criteria

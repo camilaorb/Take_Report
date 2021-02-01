@@ -3,14 +3,14 @@ Feature: Cost Zone
   @CZ-01
   Scenario: Cost Zone Group - Create
     Given a user access Cost Zone page
-    When the user opts for Add a Cost Zone Groups
-    Then the user is able to add Zone Group, Description, Cost Level and Like Group and select the OK button to add the new zone group
+    When the user adds new Cost Zone Group enter Zone Group, Description, Cost Level and Like Group
+    Then the Cost Zone Group is created
 
   @CZ-02
   Scenario: Cost Zone - Create
     Given a user created a Cost Zone Group
     When a user opts to add a Cost Zone to the Cost Zone Group
-    Then the user is able to add Zone, Description and Currency for the Cost Zone and the OK button adds the Cost Zone to the already defined Cost Zone Group
+    Then the Cost Zone is created
 
   @CZ-03
   Scenario: Cost Zone - Delete

@@ -119,12 +119,21 @@ module Pages
       TryWith.attempts(attempts: 10, sleep: 2) do
         tasks_button.click
         wait_for_db_activity
-        tasks_foundation_data_link.click unless fd_itens_differentiators_link.present?
+        tasks_foundation_data_link.click
         wait_for_db_activity
-        fd_items_link.click unless fd_itens_differentiators_link.present?
+        fd_items_link.click
         wait_for_db_activity
         fd_itens_differentiators_link.click
         wait_for_db_activity
+      end
+    end
+
+    def reopen_differentiators
+      tasks_button.wait_until_present
+      TryWith.attempts(attempts: 10, sleep: 2) do
+        tasks_button.click
+        wait_for_db_activity
+        fd_itens_differentiators_link.click
       end
     end
 

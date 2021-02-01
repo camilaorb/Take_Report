@@ -5,7 +5,7 @@ Feature: Merchandise Hierarchy
     Given a user is in Merchandise Hierarchy screen
     When they create a new Division where Division ID, Name, Total Market Amounts, Buyer Name and Merchandiser name are mandatory
     Then the new Division is add on the Division table
-    #And the Division will be created RMS DB
+    And the Division will be created RMS DB
 
   @MERCH-02 @critical
   Scenario: Edit Division
@@ -107,15 +107,15 @@ Feature: Merchandise Hierarchy
 
   @MERCH-10
   Scenario: Add VAT Details
-    Given a user access a Sub-Department
+    Given a user create a Sub-Department
     When user adds VAT region
     Then VAT regions and VAT codes that are entered at the Sub-Department level become default for items within the Sub-Department
 
   @MERCH-11 @critical
   Scenario: Edit VAT Details
     Given a user access a Sub-Department
-    When user updates VAT region
-    Then updates VAT regions and VAT codes that are entered at the Sub-Department level become default for items within the Sub-Department
+    When user updates VAT Details
+    Then The Vat Details are update for the Sub-department and RMS DB
 
   @MERCH-12
   Scenario: Delete VAT Details
@@ -127,12 +127,12 @@ Feature: Merchandise Hierarchy
   Scenario: Add Merch Hier Defaults
     Given a user access a existent Sub-Department
     When a user adds Default with Information, Category and Sub Category by the Merchandise Hierarchy Default window
-    Then the default information for the Sub-Department is created in RMS RMS database only for the Categoryes and Subcategoryes within that Sub-Department
+    Then the default information for the Sub-Department is created in RMS RMS database only for the Categories and Subcategories within that Sub-Department
 
   @MERCH-14 @critical
   Scenario: Edit Merch Hier Defaults
     Given a user access a existent Sub-Department
-    When a user update the 'Required' checkbox by setting it to 'Y' by the Merch Hier Default windown
+    When a user update the 'Required' checkbox by setting it to 'Y' by the Merch Hier Default window
     Then All Items that are set up with the Sub-Department that has the 'Required' set to 'Y' for an Item Information
 
 
@@ -142,32 +142,32 @@ Feature: Merchandise Hierarchy
     When a user deletes a Merch Hier Default
     Then record is deleted successfully
 
-  @MERCH-22
-  Scenario: Add Location
-    Given a user has created a Sub-Department
-    When a user access Up Charges page
-    Then the user is able to add the upcharges to the new location
-
-  @MERCH-23
-  Scenario: Add Upcharges
-    Given a user has set up a Sub-Department and assigned a from/to combination location
-    When a user access Up Charges page
-    And user enters the component details , component, Up Charge Group, Component Rate, Per Count, Per Count UOM, Component Currency
-    Then the upcharges are associated with the defined location for the new sub-department
-
-  @MERCH-24
-  Scenario: Edit Upcharges
-    Given a user has set up a Sub-Department and assigned a from/to combination location
-    When a user access Up Charges page
-    And user updates the component details namely Up Charge Group, Component Rate, Component Currency
-    Then the upcharges are updated for the selected location defined for the sub-department
-
-  @MERCH-25
-  Scenario: Delete Upcharges
-    Given a user has set up a Sub-Department and assigned a from/to combination location
-    When a user access Up Charges page
-    And opts to Delete the upcharge
-    Then the upcharge record are removed for the selected location defined for the sub-department
+#@MERCH-22 @cancel
+#  Scenario: Add Location
+#    Given a user create a Sub-Department
+#    When a user access Up Charges page
+#    Then the user is able to add the upcharges to the new location
+#
+#@MERCH-23 @cancel
+# Scenario: Add Upcharges
+#	Given a user has set up a Sub-Department and assigned a from/to combination location
+#	When a user access Up Charges page
+#	And user enters the component details , component, Up Charge Group, Component Rate, Per Count, Per Count UOM, Component Currency
+#	Then the upcharges are associated with the defined location for the new sub-department
+#
+#@MERCH-24 @cancel
+# Scenario: Edit Upcharges
+#   Given a user has set up a Sub-Department and assigned a from/to combination location
+#   When a user access Up Charges page
+#   And user updates the component details namely Up Charge Group, Component Rate, Component Currency
+#   Then the upcharges are updated for the selected location defined for the sub-department
+#
+#@MERCH-25 @cancel
+# Scenario: Delete Upcharges
+#  Given a user has set up a Sub-Department and assigned a from/to combination location
+#  When a user access Up Charges page
+#  And opts to Delete the upcharge
+#  Then the upcharge record are removed for the selected location defined for the sub-department
 
 
   @DLYPRG

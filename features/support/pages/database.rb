@@ -194,7 +194,7 @@ module Pages
     end
 
     def verify_merch_hier_table(subdept_id, info, category, subcategory, required)
-      new_merch_hier = @connection.select_one("Select DEPT, INFO, CLASS, SUBCLASS, REQUIRED_IND from MERCH_HIER_DEFAULT where DEPT = (#{subdept_id})")
+      new_merch_hier = @connection.select_one("Select DEPT, INFO, CLASS, SUBCLASS, REQUIRED_IND from MERCH_HIER_DEFAULT where DEPT = (#{subdept_id}) and INFO = '(#{info})'")
       raise "Merchandise Hierarchy Default info '#{info}' related to sub-department no '#{subdept_id}' was not created" if new_merch_hier.nil?
       raise "Info is wrong. Expected:'#{info}' Actual:'#{new_merch_hier[1]}'" unless new_merch_hier[1] == info
       raise "Category is wrong. Expected:'#{category}' Actual:'#{new_merch_hier[2]}'" unless new_merch_hier[2] == category.to_i
