@@ -88,7 +88,7 @@ Feature: BWS Create Item
     #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
     #If 1 Colour and Multiple Sizes are selected then the Item is referred as "Fashion Item"
 
-  @BWS-CREATEITEM-10  #@wip #[CB]
+  @BWS-CREATEITEM-10 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Supplier Colour
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the colour differentiator on Supplier Diff 1 field
@@ -100,7 +100,7 @@ Feature: BWS Create Item
         #Optional
         #Alphanumeric
 
-  @BWS-CREATEITEM-11  #@wip #[CB]
+  @BWS-CREATEITEM-11 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Special Instructions
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the special instructions
@@ -192,39 +192,46 @@ Feature: BWS Create Item
     #  - The Component panel comprises of Comp ID, CVB code, Component Rate, Currency & Estimated Expense Value
     #  - The expenses are displayed to 2 d.p
 
-  @BWS-CREATEITEM-23
+  #->working
+  @BWS-CREATEITEM-23 @WIP @bws-tests
   Scenario: Item Tab - HTS
     Given an Assistant Buyer on Item tab
     When an Assistant Buyer opts to add HTS Cod
     Then the user is only able to add a code from a list of HTS codes
 
-  @BWS-CREATEITEM-24
+    #->working
+  @BWS-CREATEITEM-24 @WIP @bws-tests
   Scenario: Item Tab - Unit ELC
     Given an Assistant Buyer on Item tab
     When an Assistant Buyer opts to add HTS Cod
     Then the Unit ELC is calculated and the value is displayed and is non-editable
     #  - Unit ELC can be amended by changing the HTS Code
 
-  @BWS-CREATEITEM-25
-  Scenario: Item Tab - Unit ELC
+
+
+  #->working
+  @BWS-CREATEITEM-25 @WIP @bws-tests
+  Scenario: Item Tab - Initial Selling Price
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Initial Selling Price -ISP- with currency defaulted to ZAR
     Then this will be used to automatically assign the Selling Retail for the South Africa Price Zone in the Price by Zone Tab and calculated the foreign prices
-    #  - Selling Price is always in ZAR
-    #  - Price Point Matrix as source for South Africa
-    #  - The field is an LOV (identified by the magnifying glass) and displays the Prices that a user can select
-    #  - When user sets up the Initial Selling Price in the Item tab then the user can click on Price by Zone tab and the value will be displayed
-    #  - Numeric and Mandatory
-    #  - The value defined in this field will be used as the  Selling Price for the South Africa Price Zone in the Price By Zone Tab
-    #  - In Price by Zone tab - Foreign Zones will be automatically fulfilled using the Initial Selling Price value and the Price Points structure
 
-  @BWS-CREATEITEM-26 @WIP @bws_tests
+#    Business Acceptance
+#- Selling Price is always in ZAR
+#- Price Point Matrix as source for South Africa
+#- The field is an LOV (identified by the magnifying glass) and displays the Prices that a user can select
+#- When user sets up the Initial Selling Price in the Item tab then the user can click on Price by Zone tab and the value will be displayed
+#- Numeric and Mandatory
+#- The value defined in this field will be used as the  Selling Price for the South Africa Price Zone in the Price By Zone Tab
+#- In Price by Zone tab - Foreign Zones will be automatically fulfilled using the Initial Selling Price value and the Price Points structure
+
+
+  @BWS-CREATEITEM-26 @bws_tests @furthe_implementation ##Further Implementation Required after PMO calculation ##
   Scenario: Item Tab - PMO
     Given the assistant buyer accesses the PMO field
     When the assistant buyer enter the Cost and Initial Retail Value
     Then the PMO is calculated, correct value is displayed and is non-editable
-    #  - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
-    # - Verify that the correct PMO % value is displayed
+
 
   @BWS-CREATEITEM-27 @bws_tests
   Scenario: Item Tab -  Ti/Hi - Inner/Case Pack Quantity
@@ -267,17 +274,23 @@ Feature: BWS Create Item
     #  - The list of size and colour contained within a Range are setup in RMS
 
 
+
   @BWS-CREATEITEM-40 @bws_tests
   Scenario: Item & Ordering Worklist - Packing Method
     Given a user opts to add packing method
     When the user clicks on the Packing Method field
     Then the possible options are "Flat" and "Hanger"
 
-
-
   @BWS-CREATEITEM-62 @bws_tests
   Scenario: Item & Ordering Worklist - Inner Pack Size
     Given an assistant buyer lands on the Inner Pack Size field
     When the assistant buyer enters a number
     Then the number must be 8 digits in length with 4 decimal places
+
+
+  @BWS-CREATEITEM-63 @bws_tests
+  Scenario: Item & Ordering Worklist - Case Pack Qty
+    Given an assistant buyer lands on the Case Pack Qty field
+    When the assistant buyer enters a number
+    Then the Case Pack Qty number must be 8 digits in length with 4 decimal places
 

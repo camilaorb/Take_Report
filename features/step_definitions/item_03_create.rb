@@ -484,7 +484,7 @@ Then(/^the field alongside the Base Cost will display the Base Cost converted to
   bws_item.to_be_complete_steps
 
   #Data base verification - 04
-  bws_database.verify_base_cost_default_to_supplier_currency(YML_DATA['BWS']['add_item']['Supplier_Site'].split("-").first,@supplier_currency)
+  bws_database.verify_base_cost_default_to_supplier_currency(YML_DATA['BWS']['add_item']['Supplier_Site'].split("-").first, @supplier_currency)
 
   #independent
   bws_item.delete_created
@@ -556,25 +556,30 @@ When(/^the assistant buyer enter the Cost and Initial Retail Value$/) do
 end
 
 Then(/^the PMO is calculated, correct value is displayed and is non-editable$/) do
-  bws_item.adds_item_bws(YML_DATA['PMO_Sub_Department'],
-                         YML_DATA['PMO_Category'],
-                         YML_DATA['PMO_Sub_Category'],
-                         YML_DATA['PMO_Main_Desc'],
-                         YML_DATA['PMO_Marketing_Desc'],
-                         YML_DATA['PMO_Differentiator_1'],
-                         YML_DATA['PMO_Differentiator_2'],
-                         YML_DATA['PMO_Supplier_Site'],
-                         YML_DATA['PMO_Country_of_Sourcing'],
-                         YML_DATA['PMO_Country_of_Manufacture'],
-                         YML_DATA['PMO_Port_Of_Lading'],
-                         YML_DATA['PMO_Cost_Zone_Group_ID'],
-                         YML_DATA['PMO_Cost'],
-                         YML_DATA['PMO_Supplier_Pack_Size'],
-                         YML_DATA['PMO_Inner_Pack_Size'],
-                         YML_DATA['PMO_Case_Pack_Qty'],
-                         YML_DATA['PMO_Packing_Method'])
+  bws_item.verify_pmo(YML_DATA['PMO_Sub_Department'],
+                      YML_DATA['PMO_Category'],
+                      YML_DATA['PMO_Sub_Category'],
+                      YML_DATA['PMO_Main_Desc'],
+                      YML_DATA['PMO_Marketing_Desc'],
+                      YML_DATA['PMO_Differentiator_1'],
+                      YML_DATA['PMO_Differentiator_2'],
+                      YML_DATA['PMO_Supplier_Site'],
+                      YML_DATA['PMO_Country_of_Sourcing'],
+                      YML_DATA['PMO_Country_of_Manufacture'],
+                      YML_DATA['PMO_Port_Of_Lading'],
+                      YML_DATA['PMO_Cost_Zone_Group_ID'],
+                      YML_DATA['PMO_Cost'],
+                      YML_DATA['PMO_Supplier_Pack_Size'],
+                      YML_DATA['PMO_Inner_Pack_Size'],
+                      YML_DATA['PMO_Case_Pack_Qty'],
+                      YML_DATA['PMO_Packing_Method'],
+                      YML_DATA['PMO_initial_selling_retail'])
+
   #ADF Verification
   bws_item.check_adf_error
+
+  #independent
+  bws_item.delete_created
 end
 
 #
@@ -615,7 +620,11 @@ Then(/^a blank UDA screen opens and the assistant buyer is able to enter the fol
                          YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
                          YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                          YML_DATA['BWS']['add_item']['Packing_Method'])
+
+  #uda#
+  bws_item.go_to(YML_DATA['uda'])
   bws_item.add_udas(YML_DATA['uda_id_1'], YML_DATA['uda_id_2'], YML_DATA['uda_val_1'], YML_DATA['uda_val_2'])
+
   bws_item.to_be_complete_steps
   bws_item.delete_created
   login_page.log_out_from_bws
@@ -714,7 +723,7 @@ Then(/^the user is able to amend the value$/) do
   bws_item.check_adf_error
 
   ##verification ##
-  bws_item.verify_Ti_Hi(YML_DATA['Ti'],YML_DATA['Hi'],YML_DATA['Ti_val'],YML_DATA['Hi_val'])
+  bws_item.verify_Ti_Hi(YML_DATA['Ti'], YML_DATA['Hi'], YML_DATA['Ti_val'], YML_DATA['Hi_val'])
 
   #Delete created
   bws_item.delete_created
@@ -735,25 +744,61 @@ When(/^the assistant buyer enters a number$/) do
 end
 
 Then(/^the number must be (\d+) digits in length with (\d+) decimal places$/) do |arg1, arg2|
-  bws_item.adds_item_bws(YML_DATA['input_Sub_Department'],
-                         YML_DATA['input_Category'],
-                         YML_DATA['input_Sub_Category'],
-                         YML_DATA['input_Main_Desc'],
-                         YML_DATA['input_Marketing_Desc'],
-                         YML_DATA['input_Differentiator_1'],
-                         YML_DATA['input_Differentiator_2'],
-                         YML_DATA['input_Supplier_Site'],
-                         YML_DATA['input_Country_of_Sourcing'],
-                         YML_DATA['input_Country_of_Manufacture'],
-                         YML_DATA['input_Port_Of_Lading'],
-                         YML_DATA['input_Cost_Zone_Group_ID'],
-                         YML_DATA['input_Cost'],
-                         YML_DATA['input_Supplier_Pack_Size'],
-                         YML_DATA['Inner_pack_size_Expected'],
-                         YML_DATA['input_Case_Pack_Qty'],
-                         YML_DATA['input_Packing_Method'])
+  bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+                         YML_DATA['BWS']['add_item']['Category'],
+                         YML_DATA['BWS']['add_item']['Sub_Category'],
+                         YML_DATA['BWS']['add_item']['Main_Desc'],
+                         YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                         YML_DATA['BWS']['add_item']['Differentiator_1'],
+                         YML_DATA['BWS']['add_item']['Differentiator_2'],
+                         YML_DATA['BWS']['add_item']['Supplier_Site'],
+                         YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                         YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                         YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                         YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                         YML_DATA['BWS']['add_item']['Cost'],
+                         YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                         YML_DATA['BWS']['add_item']['Packing_Method'])
+
+  bws_item.verify_inner_pack_size(YML_DATA['Expected_ips_size'], YML_DATA['Expected_ips_value'], YML_DATA['Actual_ips_value'])
+
   #ADF Verification
   bws_item.check_adf_error
 
+end
+
+
+Given(/^an assistant buyer lands on the Case Pack Qty field$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+end
+
+Then(/^the Case Pack Qty number must be (\d+) digits in length with (\d+) decimal places$/) do |digits, decimals|
+  bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
+                         YML_DATA['BWS']['add_item']['Category'],
+                         YML_DATA['BWS']['add_item']['Sub_Category'],
+                         YML_DATA['BWS']['add_item']['Main_Desc'],
+                         YML_DATA['BWS']['add_item']['Marketing_Desc'],
+                         YML_DATA['BWS']['add_item']['Differentiator_1'],
+                         YML_DATA['BWS']['add_item']['Differentiator_2'],
+                         YML_DATA['BWS']['add_item']['Supplier_Site'],
+                         YML_DATA['BWS']['add_item']['Country_of_Sourcing'],
+                         YML_DATA['BWS']['add_item']['Country_of_Manufacture'],
+                         YML_DATA['BWS']['add_item']['Port_Of_Lading'],
+                         YML_DATA['BWS']['add_item']['Cost_Zone_Group_ID'],
+                         YML_DATA['BWS']['add_item']['Cost'],
+                         YML_DATA['BWS']['add_item']['Supplier_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
+                         YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
+                         YML_DATA['BWS']['add_item']['Packing_Method'])
+
+  bws_item.verify_case_pack_qty(YML_DATA['Expected_ips_size'], YML_DATA['Expected_ips_value'], YML_DATA['Actual_ips_value'])
+
+  #ADF Verification
+  bws_item.check_adf_error
 end
 

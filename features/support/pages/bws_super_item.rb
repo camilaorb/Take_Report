@@ -33,7 +33,8 @@ module Pages
                              YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                              YML_DATA['BWS']['add_item']['Packing_Method'])
 
-
+      #UDAS#
+      bws_item.go_to(YML_DATA['uda'])
       bws_item.add_udas(YML_DATA['uda_id_1'],
                         YML_DATA['uda_id_2'],
                         YML_DATA['uda_val_1'],

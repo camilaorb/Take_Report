@@ -102,9 +102,17 @@ module Pages
     element(:_supplier) { text_field(label: /Supplier #/) }
     element(:_country_source) { text_field(label: 'Country of Sourcing Code') }
 
+    ####################ITEM Options###########################
+    # element(:_udas) { element(text: '') }
+    # element(:_skus) { element(text: '') }
+    # element(:_location_ranging) { element(text: '') }
+    # element(:_price_by_zone) { element(text: '') }
+    # element(:_order_information) { element(text: '') }
+    #
+    element(:_item_tab) { |item_tab_option| element(text: item_tab_option) }
+
     ## UDAs ##
     # Add UDAs #
-    element(:_udas) { element(text: 'UDAs') }
     element(:_add) { element(text: 'Add') }
     element(:_uda_id_description_text) { |id| span(id: /udasView:pcUdaWorksheet:tUdaWorksheet:#{id}:itUdaIdDescWs::content/) }
     element(:_uda_id_search_button) { |id| a(id: /udasView:pcUdaWorksheet:tUdaWorksheet:#{id}:udaIdWsId::lovIconId/) }
@@ -238,6 +246,7 @@ module Pages
       #Due to defect some field needs to refill
       bws_shared.re_fill_the_empty_field @elements_with_data
       _apply.click
+      wait_for_db_activity_bws
     end
 
     ## @CopyFromExisting - To Add An ITEM Based On Existing ITEM ##
@@ -292,6 +301,14 @@ module Pages
 
 
     #UDAs#
+
+
+    def go_to(item_tab_option)
+      wait_for_db_activity_bws
+      _item_tab(item_tab_option).click
+      wait_for_db_activity_bws
+    end
+
     # Add UDAs #
     def add_udas(uda_id_0, uda_id_1, uda_val_0, uda_val_1)
       no_of_uda = BwsItem.new.method(:add_udas).arity - 3
@@ -307,11 +324,8 @@ module Pages
         end
 
         wait_for_db_activity_bws
-        _udas.click
-        wait_for_db_activity_bws
         _add.click
         wait_for_db_activity_bws
-
         # UDA ID LOV verification
         _uda_id_search_button(i).click
         wait_for_db_activity_bws
@@ -824,13 +838,12 @@ module Pages
       wait_for_db_activity_bws
       bws_shared.bws_confrim_cancel
       wait_for_db_activity_bws
-
     end
 
     ## port of landing --
 
-
-    ## port of landing ##
+    ## cost zone group id  ##
+    # At the Moment - BWS has got just "one" Cost Zone Group ID , which is  - 1000 - MRP Cost Group.
     def verify_cost_zone_group_id(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
                                   differentiator_2, supplier_Site, source_country, manufacture_country, port_of_lading, cost_zone_group_id)
 
@@ -869,7 +882,7 @@ module Pages
       _select_czg_from_lov(cost_zone_group_id).click
       wait_for_db_activity_bws
 
-      #.click
+      #click
       _czg_lov_ok.click
       wait_for_db_activity_bws
 
@@ -1068,7 +1081,7 @@ module Pages
     element(:_ti_field) { input(id: /rOptDets:styleView:it18::content/).to_subtype }
     element(:_hi_field) { input(id: /rOptDets:styleView:it17::content/).to_subtype }
 
-    def verify_Ti_Hi(default_ti, default_hi,ti,hi)
+    def verify_Ti_Hi(default_ti, default_hi, ti, hi)
       # Auto Generated ID #Independency Purpose
       @item_id_auto_generated = auto_generated_item_id.text
 
@@ -1087,8 +1100,145 @@ module Pages
 
       bws_shared.bws_cancel
       bws_shared.bws_confrim_cancel
+    end
+
+    element(:_ips_mandatory_field_error_popup) { td(text: 'Error: A value is required.') }
+    element(:_ips_limit_of_value_error_popup) { td(text: 'Error: The format is incorrect.') }
+
+    def verify_inner_pack_size(expected_size, expected_value, actual_value)
+      wait_for_db_activity_bws
+      #Mandatory Field - 01
+      _inner_pack_size.clear
+      wait_for_db_activity_bws
+      _apply.click
+      wait_for_db_activity_bws
+      raise "The Field - Case Pack QTY Should be Mandatory" if _ips_mandatory_field_error_popup.present? == false
+
+      #Remains From Here ##
+      #value must be 8 digits in length with 4 decimal places - 02
+      _inner_pack_size.clear
+      wait_for_db_activity_bws
+      _inner_pack_size.send_keys actual_value
+      wait_for_db_activity_bws
+      _apply.click
+      wait_for_db_activity_bws
+      actual_digits = actual_value.split(".").first.length
+      actual_decimals = actual_value.split(".").last.length
+
+      raise "The Inner Pack Size Value Is Exceeding Limit.  Expected Size - #{expected_size}:, Actual Size -  #{actual_digits} - Digit #{actual_decimals} - Decimals" if _ips_limit_of_value_error_popup.present? == false
+
+      #Default - To check whether decided value is works fine or not - 03
+      _inner_pack_size.clear
+      wait_for_db_activity_bws
+      _inner_pack_size.send_keys expected_value
+      wait_for_db_activity_bws
+      _apply.click
+      raise "The Expected Value Doesn't allowed in the Field" if _ips_limit_of_value_error_popup.present? == true
+    end
+
+    def verify_case_pack_qty(expected_size, expected_value, actual_value)
+      wait_for_db_activity_bws
+      #Mandatory Field - 01
+      _case_pack_qty.clear
+      wait_for_db_activity_bws
+      _apply.click
+      wait_for_db_activity_bws
+      raise "The Field - Case Pack QTY Should be Mandatory" if _ips_mandatory_field_error_popup.present? == false
+
+      #value must be 8 digits in length with 4 decimal places - 02
+      _case_pack_qty.clear
+      wait_for_db_activity_bws
+      _case_pack_qty.send_keys actual_value
+      wait_for_db_activity_bws
+      _apply.click
+      wait_for_db_activity_bws
+      actual_digits = actual_value.split(".").first.length
+      actual_decimals = actual_value.split(".").last.length
+
+      raise "The Inner Pack Size Value Is Exceeding Limit.  Expected Size - #{expected_size}:, Actual Size -  #{actual_digits} - Digit #{actual_decimals} - Decimals" if _ips_limit_of_value_error_popup.present? == false
+
+      #Default - To check whether decided value is works fine or not - 03
+      _case_pack_qty.clear
+      wait_for_db_activity_bws
+      _case_pack_qty.send_keys expected_value
+      wait_for_db_activity_bws
+      _apply.click
+      raise "The Expected Value Doesn't allowed in the Field" if _ips_limit_of_value_error_popup.present? == true
+    end
 
 
+    element(:_initial_selling_retail) { input(id: /rOptDets:styleView:pricePointId1Id::content/).to_subtype }
+    #pricePointId1Id
+    # To Calculate PMO : Cost and Initial Selling Retail Required
+    # Equation : PMO  = ISP - Cost / ISP
+    # "Add - Item" method Didn't use for this scenario Because that wasn't incluse "initial selling Retail"
+    def verify_pmo(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                   differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
+                   cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail)
+
+      #  bws_shared.add_item_select_options "add_new_item"
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details ##
+      @elements_with_data = {sub_department => sub_Department,
+                             _category => category,
+                             _sub_category => sub_category,
+                             _main_desc => main_Desc,
+                             _detailed_desc => "test",
+                             _diff1 => differentiator_1,
+                             _diff_group_2_description => differentiator_2,
+                             _special_instructions => "Test Order",
+                             _supplier_site => supplier_Site,
+                             _country_of_sourcing => country_of_Sourcing,
+                             _country_of_manufacture => country_of_Manufacture,
+                             _port_of_lading => port_Of_Lading,
+                             _cost_zone_groupID => cost_Zone_Group_ID,
+                             _cost => cost,
+                             _case_pack_qty => case_pack_qty,
+                             _initial_selling_retail => initial_selling_retail
+      }
+
+      @elements_with_data.each { |k, v|
+
+        if k.enabled? == false
+          field = k.parent(index: 6).td(index: 0).text
+          sleep 0.50
+          raise "The -- #{field} -- Field  Is not Enable To Enter Any Value"
+        end
+
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).double_click
+        wait_for_db_activity_bws
+      }
+
+      _packing_method.click
+      wait_for_db_activity_bws
+      _packing_method_opt(packing_method).click
+      wait_for_db_activity_bws
+
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+      #Due to defect some field needs to refill
+      bws_shared.re_fill_the_empty_field @elements_with_data
+
+      _apply.click
+      wait_for_db_activity_bws
+
+      ## "Further Implementation Required After PMO - Calculation understand" ##
+      # Business Acceptance #
+
+      #  THEN the PMO is calculated, correct value is displayed and is non-editable
+      #
+      # Business Acceptance
+      # - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
+      # - Verify that the correct PMO % value is displayed
     end
 
 

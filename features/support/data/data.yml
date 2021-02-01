@@ -396,7 +396,7 @@ location_list_rebuild_option: 'Location List Rebuild'
   #----------------------------------------------------------------------------------------------------------#
   ############################################################################################################
   ################## Buyers Work Sheet - BWS #################################################################
-  ############################################################################################################
+############################################################################################################
 #----------------------------------------------------------------------------------------------------------#
 BWS:
   #BWS Tasks
@@ -419,7 +419,7 @@ BWS:
     Cost: '500.00'
     Supplier_Pack_Size: '1'
     Inner_Pack_Size: '20'
-    Case_Pack_Qty: '4'   #Inner_Pack_Size: '20'
+    Case_Pack_Qty: '1'   #Inner_Pack_Size: '20'
     Packing_Method: 'Flat'
 
   copy_from_existing:
@@ -447,14 +447,14 @@ BWS:
 #Add Item
 input_Sub_Department: '44 - Test Sub-Department' #'1010 - Lds Jewels' #
 input_Category: '1 - Test Category' #'214 - Lds Jewels Hair NS' #
-input_Sub_Category: '2 - Core Elastics Lds BM Accs Hair NS'
+input_Sub_Category: '1 - Change Sub Category'
 input_Main_Desc: 'test team'
 input_Marketing_Desc: 'test'
 input_Differentiator_1: 'Copper'
 input_Differentiator_2: '927 - Sport Sizes'
 input_Supplier_Site: '100424 - HOM  NEW WECHSLER PTY LTD'
-input_Country_of_Sourcing: 'ZA - South Africa'
-input_Country_of_Manufacture: 'ZA - South Africa'
+input_Country_of_Sourcing: 'CN - China'
+input_Country_of_Manufacture: 'CN - China'
 input_Port_Of_Lading: '1001 - Shanghai, China'
 input_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
 input_Cost: '500.00'
@@ -462,6 +462,12 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
+#Add ITEM Options
+uda: 'UDAs'
+sku: 'SKUs'
+location_ranging: 'Location Ranging'
+price_by_zone: 'Price By Zone'
+order_information: 'Order Information'
 
 #Elements Name
 item_element_supp_stile_no: 'Supplier Style No.'
@@ -516,14 +522,15 @@ amendable_base_cost: '888.00'
 non_numeric_val: 'ABC'
 
 ## PMO ##
+## As Per PMO Calculation - Special Set Of Data Required ##
 PMO_Sub_Department: '1209 - Crockery'
 PMO_Category: '8256 - Outdoor Dining'
 PMO_Sub_Category: '1 - Outdoor Dining Drinkware'
 PMO_Main_Desc: 'Test Team'
 PMO_Marketing_Desc: 'Test Team'
 PMO_Differentiator_1: 'Red'
-PMO_Differentiator_2: '66'
-PMO_Supplier_Site: '100480 - MIL WORLD FOCUS 912 PTY LTD'
+PMO_Differentiator_2: '927 - Sport Sizes'
+PMO_Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.' #'100480 - MIL WORLD FOCUS 912 PTY LTD'
 PMO_Country_of_Sourcing: 'CN - China'
 PMO_Country_of_Manufacture: 'CN - China'
 PMO_Port_Of_Lading: '1001 - Shanghai, China'
@@ -533,6 +540,7 @@ PMO_Supplier_Pack_Size: '1'
 PMO_Inner_Pack_Size: '1'
 PMO_Case_Pack_Qty: '1'
 PMO_Packing_Method: 'Flat'
+PMO_initial_selling_retail: '6.99'
 
 ##Ti,Hi Default Values ##
 Ti: '1'
@@ -541,4 +549,11 @@ Ti_val: '2'
 Hi_val: '2'
 
 ## Inner_pack size ##
-Inner_pack_size_Expected: '12345678.1111'
+Expected_ips_size: '8-Digits 4-Decimals'
+Expected_ips_value: '12345678.0000' #8 Digit , 4 Decimals
+Actual_ips_value: '12345678912345.00000' #14-digit , 5- Decimals
+
+## Case Pack QTY ##
+Expected_cpq_size: '8-Digits 4-Decimals'
+Expected_cpq_value: '12345678.0000' #8 Digit , 4 Decimals
+Actual_cpq_value: '12345678912345.00000' #14-digit , 5- Decimals
