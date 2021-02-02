@@ -669,3 +669,21 @@ Actual_ips_value: '12345678912345.00000' #14-digit , 5- Decimals
 Expected_cpq_size: '8-Digits 4-Decimals'
 Expected_cpq_value: '12345678.0000' #8 Digit , 4 Decimals
 Actual_cpq_value: '12345678912345.00000' #14-digit , 5- Decimals
+
+## Expenses ##
+
+Exp_Zone:
+  Type: 'Zone'
+  Zone: '1000'
+  Discharge_Port: '2001'
+
+Exp_Country:
+  Type: 'Country'
+  Lading_port: '1001'
+  Discharge_port: '2001'
+
+CompID: 'INSINT'
+CompID_01: 'ORDCST'
+
+Expens_Fields: ['Expense Type','Zone','Lading Port','Discharge Port']
+Component_Fields: ['Comp ID','Cvb Code','Component Rate','Comp Currency','Estimated Expense Value']

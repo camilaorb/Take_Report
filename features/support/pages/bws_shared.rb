@@ -161,31 +161,45 @@ module Pages
     end
 
     def bws_ok
-      sleep 2
+      sleep 1
+      wait_for_db_activity_bws
       if TE.browser.div(id: /d4_ok/).present?
         2.times do
           TE.browser.div(id: /d4_ok/).click
+          wait_for_db_activity_bws
         end
+
+      elsif TE.browser.div(id: /pt_region1:0:pc1:ctb1/).present?
+        TE.browser.div(id: /pt_region1:0:pc1:ctb1/).click
+        wait_for_db_activity_bws
+
       elsif TE.browser.div(id: /d9_ok/).present?
         TE.browser.div(id: /d9_ok/).click
+        wait_for_db_activity_bws
 
       elsif TE.browser.div(id: /class1Id_afrLovDialogId_ok/).present?
         TE.browser.div(id: /class1Id_afrLovDialogId_ok/).click
+        wait_for_db_activity_bws
 
       elsif TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).present?
         TE.browser.div(id: /subclassId1_afrLovDialogId_ok/).click
+        wait_for_db_activity_bws
 
       elsif TE.browser.div(id: /rOptDets:styleView:supplierSiteDesc1Id_afrLovDialogId_ok/).present?
         TE.browser.div(id: /rOptDets:styleView:supplierSiteDesc1Id_afrLovDialogId_ok/).click
+        wait_for_db_activity_bws
 
       elsif TE.browser.span(text: 'OK').present?
         TE.browser.span(text: 'OK').click
+        wait_for_db_activity_bws
 
       elsif TE.browser.div(id: /pt_region1:0:b7/).present?
         TE.browser.div(id: /pt_region1:0:b7/).click
+        wait_for_db_activity_bws
       else
         raise "Element not Present"
       end
+
     end
 
 

@@ -1,6 +1,6 @@
 Given(/^a buyer selects the 'Item & Ordering Worklist' option from task menu$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -63,7 +63,16 @@ When(/^an Assistant Buyer opts to add Expenses$/) do
 end
 
 Then(/^the Expense Type and Component details calculates the expenses which is published in the Expenses field$/) do
-
+  bws_super_item.fill_item_tab
+  bws_item.go_to_expense
+  bws_item.check_expense_component_fields(YML_DATA['Expens_Fields'],YML_DATA['Component_Fields'])
+  bws_item.add_expenses(YML_DATA['Exp_Zone'])
+  bws_item.add_expenses(YML_DATA['Exp_Country'])
+  bws_item.add_component_verify_expense(YML_DATA['CompID'])
+  @item_id_auto_generated = bws_item.item_id
+  bws_item.to_be_complete_steps
+  bws_item.delete_bws_item(@item_id_auto_generated)
+  login_page.log_out_from_bws
 end
 
 When(/^an Assistant Buyer opts to add HTS Code$/) do

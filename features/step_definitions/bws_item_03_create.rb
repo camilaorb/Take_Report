@@ -1,6 +1,6 @@
 Given(/^the Assistant Buyer on 'Item & Ordering Worklist' page$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
 end
 
@@ -37,10 +37,9 @@ end
 #Comun Step
 Given(/^an Assistant Buyer on Item tab$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
-
 end
 
 When(/^an assistant buyer enters the Sub-Department$/) do
@@ -181,7 +180,7 @@ end
 
 Given(/^an assistant buyer enters the details for the Swing Tag$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -207,7 +206,7 @@ Given(/^an admin updates System Options 'Swing Tag' column to "([^"]*)"$/) do |v
 
   #BWS
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -447,7 +446,7 @@ end
 
 Given(/^an assistant buyer accesses the Base Cost displayed in Supplier Currency$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -546,7 +545,7 @@ end
 
 Given(/^the assistant buyer accesses the PMO field$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -593,7 +592,7 @@ end
 
 Given(/^an assistant buyer create a new Item$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -633,7 +632,7 @@ end
 
 Given(/^an Assistant Buyer on UDA tab$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -683,7 +682,7 @@ end
 
 Given(/^a user opts to add packing method$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -734,7 +733,7 @@ end
 
 Given(/^an assistant buyer lands on the Inner Pack Size field$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_ba_user'], TE.environment['bws_ba_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_ba_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -802,3 +801,16 @@ Then(/^the Case Pack Qty number must be (\d+) digits in length with (\d+) decima
   bws_item.check_adf_error
 end
 
+
+Then(/^the Expense Type and Component details calculates the expenses which is published in the Expenses field with Estimated Expense Value'>0$/) do
+  bws_super_item.fill_item_tab
+  bws_item.go_to_expense
+  bws_item.check_expense_component_fields(YML_DATA['Expens_Fields'],YML_DATA['Component_Fields'])
+  bws_item.add_expenses(YML_DATA['Exp_Zone'])
+  bws_item.add_expenses(YML_DATA['Exp_Country'])
+  bws_item.add_component_verify_expense(YML_DATA['CompID_01'])
+  @item_id_auto_generated = bws_item.item_id
+  bws_item.to_be_complete_steps
+  bws_item.delete_bws_item(@item_id_auto_generated)
+  login_page.log_out_from_bws
+end

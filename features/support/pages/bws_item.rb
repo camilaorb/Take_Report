@@ -242,7 +242,7 @@ module Pages
 
       # Auto Generated ID #Independency Purpose
       @item_id_auto_generated = auto_generated_item_id.text
-      @item_id_auto_generated
+
       #Due to defect some field needs to refill
       bws_shared.re_fill_the_empty_field @elements_with_data
       _apply.click
@@ -301,8 +301,6 @@ module Pages
 
 
     #UDAs#
-
-
     def go_to(item_tab_option)
       wait_for_db_activity_bws
       _item_tab(item_tab_option).click
@@ -528,11 +526,6 @@ module Pages
       end
 
     end
-
-    def item_id
-      @item_id_auto_generated = auto_generated_item_id.text
-    end
-
 
     ##[CB]-working
     def bws_item_check_fields(val1, val2) end
@@ -1241,8 +1234,124 @@ module Pages
       # - Verify that the correct PMO % value is displayed
     end
 
+    #-> Working
+    # Expense had Three Seperate Method For Reusability
+    element(:_enter_expenses) { span(text: 'Enter Expenses') }
+    element(:_add_icon_expense) { img(id: /styleView:pcExpHead:bNewExpense::icon/) }
+    element(:_select_expense_type) { select(id: /socExpType::content/) }
+    element(:_expense_type) { |option| option(text: option) }
+    element(:_discharge_port) { input(id: /ilovDischargePort/) }
 
-    ##Under Developed Functionalities and Reusables ##
+
+    element(:_expense_zone) { input(id: /ilovZoneId::content/) }
+    element(:_exp_Country_lading_port) { input(id: /ilovLadingPort::content/) }
+    element(:_exp_country_discharge_port) { input(id: /ilovDischargePort::content/) }
+
+    element(:_comp_id) { input(id: /ilovCompId::content/) }
+    element(:_estimated_exp_value) { div(id: /rOptDets:styleView:pcExpDetail:t2::db/).table.tr.td(index: 5) }
+    element(:_exp_ok) { div(id: /rOptDets:styleView:d1_ok/) }
+    element(:_calculated_exp_type) { input(id: /styleView:otCalculatedExpenses::content/) }
+
+    element(:_add_icon_comp) { img(id: /styleView:pcExpDetail:bExpDetail::icon/) }
+
+    def go_to_expense
+      wait_for_db_activity_bws
+      _enter_expenses.click
+      wait_for_db_activity_bws
+    end
+
+    element(:_expense_table) { |count| div(id: /rOptDets:styleView:pcExpHead:t1::ch/).table.tbody.tr(index: 1).th(index: count).div }
+    element(:_expense_table_field_count) { div(id: /rOptDets:styleView:pcExpHead:t1::ch/).table.tbody.tr(index: 1).ths }
+    element(:_component_table) { |count| div(id: /rOptDets:styleView:pcExpDetail:t2::ch/).table.tbody.tr(index: 1).th(index: count).div }
+    element(:_component_table_field_count) { div(id: /rOptDets:styleView:pcExpDetail:t2::ch/).table.tbody.tr(index: 1).ths }
+
+    def check_expense_component_fields(expense_fields, component_fields)
+
+      @item_id_auto_generated.present?
+      # Business Acceptance - 01
+      # The expense Type comprises of Type(Zone Level/Country), Zone, Lading Port & Discharge Port
+      (0.._expense_table_field_count.count - 2).each do |i|
+        raise "The Expense Table Filed Is Not As Expected." if _expense_table(i + 1).text != expense_fields[i]
+      end
+
+      # Business Acceptance - 02
+      # The Component panel comprises of Comp ID, CVB code, Component Rate, Currency & Estimated Expense Value
+      (0.._component_table_field_count.count - 2).each do |i|
+        raise "The Component Table Filed Is Not As Expected." if _component_table(i + 1).text != component_fields[i]
+      end
+
+    end
+
+
+    def add_expenses(exp_values)
+
+      @expense_values = exp_values
+      expense_type = @expense_values['Type']
+
+      _add_icon_expense.click
+      wait_for_db_activity_bws
+      _select_expense_type.click
+      wait_for_db_activity_bws
+
+      if expense_type == "Zone"
+        _expense_type(expense_type).click
+        wait_for_db_activity_bws
+        _expense_zone.send_keys @expense_values['Zone']
+        wait_for_db_activity_bws
+        _discharge_port.send_keys @expense_values['Discharge_Port']
+        wait_for_db_activity_bws
+
+      elsif expense_type == "Country"
+        _expense_type(expense_type).click
+        wait_for_db_activity_bws
+        _exp_Country_lading_port.send_keys @expense_values['Lading_port']
+        wait_for_db_activity_bws
+        _exp_country_discharge_port.send_keys @expense_values['Discharge_port']
+      end
+    end
+
+
+    def add_component_verify_expense(component_id)
+      #Component ID#
+      wait_for_db_activity_bws
+      _add_icon_comp.click
+      wait_for_db_activity_bws
+      _comp_id.send_keys component_id
+      wait_for_db_activity_bws
+      _comp_id.send_keys :enter
+      wait_for_db_activity_bws
+      _comp_id.send_keys :enter
+      wait_for_db_activity_bws
+
+      sleep 1
+      @estimated_expense_value = _estimated_exp_value.text + ".00"
+
+      wait_for_db_activity_bws
+      _exp_ok.click
+      wait_for_db_activity_bws
+      wait_for_db_activity_bws
+
+      sleep 1
+      @calculated_value = _calculated_exp_type.value
+
+      #Scroll To Bottom
+      bws_shared.scroll_bws "bottom"
+
+      # Business Acceptance 03 - The expenses are displayed to 2 d.p
+      raise "The Decimal Value Count Are Not As Expected" if _calculated_exp_type.value.split(".").last.length != 2
+
+      #Verification - 1 =  Estimated Value VS Value Displayed in the Field
+      if (@estimated_expense_value != @calculated_value)
+        raise "The Calculated Expense Value Is Not Valid. Expected #{@estimated_expense_value}  Actual #{@calculated_value}"
+      end
+
+      #Verification - 2 =  Estimated Value VS Value Displayed in the Field
+      raise "The Enter Expense Field Is Editable" if _calculated_exp_type.enabled? == true
+    end
+
+    #-- Expense
+
+    ## Under Developed Functionalities and Reusables ##
     ## skus - Functionality Underdevelopment ##
     element(:_skus) { a(text: 'SKUs') }
     element(:_skus_add_option) { td(id: /skusView:pcSkus:ctb2::popArea/) }
@@ -1318,7 +1427,31 @@ module Pages
     end
 
     ## Please do not move this (-> "delete_created") method to anywhere otherwise it will have an issue to delete created item ##
+    def item_id
+      @item_id_auto_generated = auto_generated_item_id.text
+    end
+
     def delete_created
+      wait_for_db_activity_bws
+      bws_shared.select_task "Buyer Worksheet Group"
+      wait_for_db_activity_bws
+      retrive_added_item_index @item_id_auto_generated
+      wait_for_db_activity_bws
+      test_id_check_box(@index_no).click
+      wait_for_db_activity_bws
+      delete_icon.click
+      wait_for_db_activity_bws
+      # raise "The Delete Confirmation Message is Not as Expected" if confrimation_popup.text != "Confirmation\n  Are you sure you wish to delete the selected Styles from the Buyer Worksheet"
+      shared.bws_ok
+      wait_for_db_activity_bws
+      shared.bws_ok
+      wait_for_db_activity_bws
+      shared.bws_ok
+      wait_for_db_activity_bws
+    end
+
+    def delete_bws_item(item_id)
+      @item_id_auto_generated = item_id
       wait_for_db_activity_bws
       bws_shared.select_task "Buyer Worksheet Group"
       wait_for_db_activity_bws

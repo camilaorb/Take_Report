@@ -180,27 +180,22 @@ Feature: BWS Create Item
     Then the field alongside the Base Cost will display the Base Cost converted to the System Currency which is ZAR
     And the converted System Currency field is not editable
 
-
-  @BWS-CREATEITEM-22
-  Scenario: Item Tab - Expenses
+  @BWS-CREATEITEM-22 @bws_tests @expense
+  Scenario: Item Tab - Expenses(1/2)
     Given an Assistant Buyer on Item tab
     When the user enters the Cost to Expenses to access "Enter Expenses"
     And adds the Expense Type and the Component for each Expense Type for the Style
     Then the Expense Type and Component details calculates the expenses which is published in the Expenses field
-    #  - The 'Enter Expenses' becomes selectable once the Cost of the Item is entered
-    #  - The expense Type comprises of Type(Zone Level/Country), Zone, Lading Port & Discharge Port
-    #  - The Component panel comprises of Comp ID, CVB code, Component Rate, Currency & Estimated Expense Value
-    #  - The expenses are displayed to 2 d.p
 
-  #->working
-  @BWS-CREATEITEM-23 @WIP @bws-tests
+
+  @BWS-CREATEITEM-23 @WIP @bws_tests
   Scenario: Item Tab - HTS
     Given an Assistant Buyer on Item tab
     When an Assistant Buyer opts to add HTS Cod
     Then the user is only able to add a code from a list of HTS codes
 
     #->working
-  @BWS-CREATEITEM-24 @WIP @bws-tests
+  @BWS-CREATEITEM-24 @WIP @bws_tests
   Scenario: Item Tab - Unit ELC
     Given an Assistant Buyer on Item tab
     When an Assistant Buyer opts to add HTS Cod
@@ -210,7 +205,7 @@ Feature: BWS Create Item
 
 
   #->working
-  @BWS-CREATEITEM-25 @WIP @bws-tests
+  @BWS-CREATEITEM-25 @WIP @bws_tests
   Scenario: Item Tab - Initial Selling Price
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Initial Selling Price -ISP- with currency defaulted to ZAR
@@ -272,9 +267,6 @@ Feature: BWS Create Item
     # - If for example 2 Sizes and 2 Colour are selected then 4 lines are created in the SKU tab
     #  - Diff Range are set-up in RMS
     #  - The list of size and colour contained within a Range are setup in RMS
-
-
-
   @BWS-CREATEITEM-40 @bws_tests
   Scenario: Item & Ordering Worklist - Packing Method
     Given a user opts to add packing method
@@ -287,10 +279,16 @@ Feature: BWS Create Item
     When the assistant buyer enters a number
     Then the number must be 8 digits in length with 4 decimal places
 
-
   @BWS-CREATEITEM-63 @bws_tests
   Scenario: Item & Ordering Worklist - Case Pack Qty
     Given an assistant buyer lands on the Case Pack Qty field
     When the assistant buyer enters a number
     Then the Case Pack Qty number must be 8 digits in length with 4 decimal places
+
+  @BWS-CREATEITEM-64 @bws_tests @expense
+  Scenario: Item Tab - Expenses(2/2)
+    Given an Assistant Buyer on Item tab
+    When the user enters the Cost to Expenses to access "Enter Expenses"
+    And adds the Expense Type and the Component for each Expense Type for the Style
+    Then the Expense Type and Component details calculates the expenses which is published in the Expenses field with Estimated Expense Value'>0
 

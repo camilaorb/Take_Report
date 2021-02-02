@@ -49,8 +49,7 @@ module Pages
       # bws_item.order_information
     end
 
-    def field_item_tab
-      bws_item_menu.add_item_select_options("add_new_item")
+    def fill_item_tab
       bws_item.adds_item_bws(YML_DATA['BWS']['add_item']['Sub_Department'],
                              YML_DATA['BWS']['add_item']['Category'],
                              YML_DATA['BWS']['add_item']['Sub_Category'],
@@ -73,7 +72,6 @@ module Pages
     def goto_sku_tab
       bws_item_menu.add_item_select_options("add_new_item")
       field_item_tab
-
     end
 
     def goto_order_information_tab
