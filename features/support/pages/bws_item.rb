@@ -110,6 +110,7 @@ module Pages
     # element(:_order_information) { element(text: '') }
     #
     element(:_item_tab) { |item_tab_option| element(text: item_tab_option) }
+    element(:item_tab) { a(id: /rOptDets:0:sdi1::disAcr/) }
 
     ## UDAs ##
     # Add UDAs #
@@ -1428,6 +1429,7 @@ module Pages
 
     ## Please do not move this (-> "delete_created") method to anywhere otherwise it will have an issue to delete created item ##
     def item_id
+      item_tab.click
       @item_id_auto_generated = auto_generated_item_id.text
     end
 

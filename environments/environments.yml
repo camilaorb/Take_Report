@@ -22,6 +22,7 @@ OPO_Sandbox:
   db_port: 1521
   db_servicename: pdbmom
   db_username: rms
+  db_bws_username: oao
   db_password: Welcome123
   env_timeout: 30
   test_data_file: data.yml

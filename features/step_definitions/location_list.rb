@@ -31,7 +31,7 @@ Given("a buyer completes the Location Lists page") do
   visit(TE.environment['rms_url'])
   login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
   location_list.access_create_location_list
-  @location_list_id = new_location_list_id
+  @location_list_id = location_list.new_location_list_id
   location_list.add_location_list_head('Test Location list', 'Test comments', YML_DATA['division_chain'])
 end
 
