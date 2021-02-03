@@ -494,7 +494,7 @@ module Pages
       bws_shared.bws_ok
     end
 
-    ## Categoty - Sub Category Verifications -- ##
+    ## Chaacter Limits Verifications -- ##
     def character_limit_insert(element, no, sub_Department, category, sub_category)
       @elements_with_data = {
           sub_department => sub_Department,
@@ -519,14 +519,16 @@ module Pages
       TE.browser.h2(text: /Item Information/).click
     end
 
+    element(:text_field) { |field_name| label(text: field_name) }
+
     def character_limit_cont(element, no)
       wait_for_db_activity_bws
-      if _marketing_description.enabled?
+      if text_field(element).parent.enabled?
         no_character = item_element(element).value.size
-        raise "The Character Limit Exceed. Expected Characters:'#{no}' Actual Characters:'#{no_character}'" unless no_character == no.to_i
+        raise "The #{element} Field Character Limit Exceed. Expected Characters:'#{no}' Actual Characters:'#{no_character}'" unless no_character == no.to_i
       end
-
     end
+
 
     ##[CB]-working
     def bws_item_check_fields(val1, val2) end
@@ -1160,7 +1162,7 @@ module Pages
       raise "The Expected Value Doesn't allowed in the Field" if _ips_limit_of_value_error_popup.present? == true
     end
 
-
+    element(:_calculated_pmo) { label(text: 'PMO').parent.following_sibling }
     element(:_initial_selling_retail) { input(id: /rOptDets:styleView:pricePointId1Id::content/).to_subtype }
     #pricePointId1Id
     # To Calculate PMO : Cost and Initial Selling Retail Required
@@ -1168,7 +1170,7 @@ module Pages
     # "Add - Item" method Didn't use for this scenario Because that wasn't incluse "initial selling Retail"
     def verify_pmo(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
                    differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
-                   cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail)
+                   cost_Zone_Group_ID, cost, supplier_Pack_Size, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail, vat)
 
       #  bws_shared.add_item_select_options "add_new_item"
       bws_shared.scroll_bws "bottom"
@@ -1225,14 +1227,22 @@ module Pages
       _apply.click
       wait_for_db_activity_bws
 
-      ## "Further Implementation Required After PMO - Calculation understand" ##
-      # Business Acceptance #
-
-      #  THEN the PMO is calculated, correct value is displayed and is non-editable
-      #
       # Business Acceptance
       # - PMO = ((Selling Price/(1+VAT) – Total Cost ZAR)/ Selling Price(1+VAT) ) * 100
       # - Verify that the correct PMO % value is displayed
+
+      ##PMO Calculation ##
+
+      val_01 = initial_selling_retail.to_i / ((1 + vat.to_i) - cost.to_i)
+      val_02 = initial_selling_retail.to_i * (1 + vat.to_i)
+
+      @PMO = (val_01 / val_02) * 100
+
+      sleep 1
+      @expected_pmo = @PMO.to_s + "%"
+      @calculated_pmo = _calculated_pmo.text
+      raise "The Calculated PMO value is incorrect as expected. Expected PMO = #{@expected_pmo}  Actual PMO = #{@calculated_pmo}" if @expected_pmo != @calculated_pmo
+
     end
 
     #-> Working
@@ -1352,16 +1362,129 @@ module Pages
 
     #-- Expense
 
-    ## Under Developed Functionalities and Reusables ##
-    ## skus - Functionality Underdevelopment ##
+
+    ## Diffs  - Color & Size ##
+
+    # IMP Note -  "To verify Diffs in terms of Solid and Fashion Item listed, It is necessary to create a successful item"
+    # "and once it's done then the Diff will display accordingly and so that a complete seperate item creation method required".
+    element(:_default_diff) { select(id: /styleView:socDiff1Kind::content/) }
+    element(:_default_type) { input(id: /styleView:diff2TypeId::content/) }
+    element(:_default_type_opt) { |option| option(text: option) }
+
+    def validate_diffs_color(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                             differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
+                             cost_Zone_Group_ID, cost, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail,diff_type)
+
+      #  bws_shared.add_item_select_options "add_new_item"
+      bws_shared.scroll_bws "bottom"
+
+      ## Fill The Details until Diffs Selection ##
+      @elements_with_data_01 = {sub_department => sub_Department,
+                                _category => category,
+                                _sub_category => sub_category,
+                                _main_desc => main_Desc,
+                                _detailed_desc => "test"}
+
+      @elements_with_data_01.each { |k, v|
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).double_click
+        wait_for_db_activity_bws
+      }
+
+      ## Diffs Verifications ##
+      #Business Acceptance
+
+      #BA-01 -The Diff is always set to "ID" for the COLOUR Diff
+      raise "The Default Diff is not set to ID. " if _default_diff.text != "Id"
+
+      #BA-02 -Diff Type is always defaulted to SIZE #
+      raise "The Diff Type is not set to Size. " if _default_type.value != "SIZE"
+
+        #BA-03 -If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
+      if diff_type == "Solid"
+        _default_type.click
+        wait_for_db_activity_bws
+        _default_type_opt("Id")
+        wait_for_db_activity_bws
+
+        #BA-04 -If 1 Colour and Mutiple Sizes are selected then the Item is referred as "Fashion Item"
+      elsif diff_type == "Fashion"
+        _default_type.click
+        wait_for_db_activity_bws
+        _default_type_opt("Group")
+        wait_for_db_activity_bws
+      end
+
+
+      @elements_with_data_02 = {_diff1 => differentiator_1,
+                                _diff_group_2_description => differentiator_2,
+                                _special_instructions => "Test Order",
+                                _supplier_site => supplier_Site,
+                                _country_of_sourcing => country_of_Sourcing,
+                                _country_of_manufacture => country_of_Manufacture,
+                                _port_of_lading => port_Of_Lading,
+                                _cost_zone_groupID => cost_Zone_Group_ID,
+                                _cost => cost,
+                                _case_pack_qty => case_pack_qty,
+                                _initial_selling_retail => initial_selling_retail}
+
+      @elements_with_data_02.each { |k, v|
+
+        k.clear
+        wait_for_db_activity_bws
+        sleep 1
+        k.send_keys v
+        wait_for_db_activity_bws
+        #shared.enter_times_bws k, 2
+        # Defect while enter 2 or more time in the field and so that
+        # to continue test until defect resolve , we will click at another place
+        TE.browser.h2(text: /Item Information/).double_click
+        wait_for_db_activity_bws
+      }
+
+      _packing_method.click
+      wait_for_db_activity_bws
+      _packing_method_opt(packing_method).click
+      wait_for_db_activity_bws
+
+      # Auto Generated ID #Independency Purpose
+      @item_id_auto_generated = auto_generated_item_id.text
+
+      #Due to defect some field needs to refill
+      bws_shared.re_fill_the_empty_field @elements_with_data_01
+      bws_shared.re_fill_the_empty_field @elements_with_data_02
+
+      _apply.click
+      wait_for_db_activity_bws
+    end
+
+    ## Diffs  ------------  ##
     element(:_skus) { a(text: 'SKUs') }
-    element(:_skus_add_option) { td(id: /skusView:pcSkus:ctb2::popArea/) }
+    element(:_skus_add) { td(id: /skusView:pcSkus:ctb2::popArea/) }
+    element(:_skus_add_option){|option|element(text: option)}
+
     element(:_skus_range_ok) { div(id: /skusView:d19_ok/) }
     element(:_sku_size) { input(id: /sbcSkudiff2::content/) }
 
-    #By Group ,From List
-    # Below method select from the "group"
-    # to select "From the List" the functionality needs to developed completely
+    def skus_verifications(add_sku_option)
+      wait_for_db_activity_bws
+      _skus.present?
+      wait_for_db_activity_bws
+      _skus_add.click
+      wait_for_db_activity_bws
+      _skus_add_option(add_sku_option).click
+      wait_for_db_activity_bws
+
+      # Re- start work from here #
+
+    end
 
     def add_skus(sku_option, sku_range)
       _skus.click
@@ -1376,6 +1499,15 @@ module Pages
       wait_for_db_activity_bws
       _apply.click
     end
+
+    ## Under Developed Functionalities and Reusables ##
+    ## skus - Functionality Underdevelopment ##
+
+
+    #By Group ,From List
+    # Below method select from the "group"
+    # to select "From the List" the functionality needs to developed completely
+
 
 
     #-> working
