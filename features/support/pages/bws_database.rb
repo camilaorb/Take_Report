@@ -14,6 +14,7 @@ module Pages
 
     ############################ Methods ###########################
 
+
     def connect_to_bws_db(db_hostname, db_port, db_servicename, db_username, db_password)
       @connection = DBI.connect(('DBI:OCI8:' + TE.environment[db_hostname] + ':' + TE.environment[db_port].to_s + '/' + TE.environment[db_servicename]), TE.environment[db_username], TE.environment[db_password])
     end
@@ -108,7 +109,7 @@ module Pages
     end
 
     ## base cost and suppliers ##
-    def verify_base_cost_default_to_supplier_currency(supplier,currency)
+    def verify_base_cost_default_to_supplier_currency(supplier, currency)
       supplier_table = @connection.select_one("select SUPPLIER, CURRENCY_CODE, SUPPLIER_PARENT from SUPS where SUPPLIER = '#{supplier}'")
       raise "The #{supplier} Supplier does not exist in the database" if supplier_table[2].nil? == true
       raise "The #{supplier} Supplier does not match with currency" if supplier_table[1].eql? currency == true
@@ -117,6 +118,17 @@ module Pages
     def verify_port_of_lading_table port
       ##Further implementation Remains
       # Waiting for the Data base table name / Data base table implementstion it self
+    end
+
+    def extract_vat_of_sub_dept(dept)
+      vat_table = @connection.select_one("select VAT_RATE from vat_region a, vat_deps b, vat_code_rates c
+where a.vat_region = b.vat_region
+and b.vat_code = c.vat_code
+and dept = 1209
+and vat_region_name  = 'South Africa'
+and ROWNUM = 1")
+
+      @vat = vat_table[0].to_i
     end
 
   end

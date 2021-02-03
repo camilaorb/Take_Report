@@ -47,7 +47,7 @@ When(/^an assistant buyer enters the Sub-Department$/) do
 end
 
 Then(/^the values listed for the Category are specific for the selected sub-department$/) do
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   bws_item_menu.add_item_select_options("add_new_item")
 
@@ -73,7 +73,7 @@ When(/^an assistant buyer enters a the Category$/) do
 end
 
 Then(/^the values listed for the sub-category are specific to the selected sub-department and category$/) do
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #data-base verification
   bws_database.verify_sub_category(YML_DATA['input_Category'].split.first.to_i, @sub_categories)
@@ -89,18 +89,22 @@ end
 
 #Check Characters limit
 When(/^the assistant buyer enters the Description for the Item$/) do
-  @item_tab_element = YML_DATA['item_element_markting_desc']
-  bws_item.character_limit_insert(YML_DATA['item_element_item_desc'], '31')
+  @item_tab_element = YML_DATA['item_element_main_desc']
+  bws_item.character_limit_insert(YML_DATA['item_element_main_desc'], '31',
+                                  YML_DATA['input_Sub_Department'], YML_DATA['input_Category'], YML_DATA['input_Sub_Category'])
+
 end
 
 When(/^the assistant buyer enters the Marketing Description for the Item$/) do
   @item_tab_element = YML_DATA['item_element_markting_desc']
-  bws_item.character_limit_insert(YML_DATA['item_element_markting_desc'], '121')
+  bws_item.character_limit_insert(YML_DATA['item_element_markting_desc'], '121',
+                                  YML_DATA['input_Sub_Department'], YML_DATA['input_Category'], YML_DATA['input_Sub_Category'])
 end
 
 When(/^the assistant buyer enters the Detailed Description for the Item$/) do
   @item_tab_element = YML_DATA['item_element_detail_desc']
-  bws_item.character_limit_insert(YML_DATA['item_element_detail_desc'], '251')
+  bws_item.character_limit_insert(YML_DATA['item_element_detail_desc'], '251',
+                                  YML_DATA['input_Sub_Department'], YML_DATA['input_Category'], YML_DATA['input_Sub_Category'])
 end
 
 When(/an assistant buyer enters the Supplier Style No$/) do
@@ -133,6 +137,28 @@ When(/^the assistant buyer enters the Colour ID$/) do
 end
 
 Then(/^the colour Diff is created$/) do
+  bws_item.validate_diffs_color(YML_DATA['Diffs_Sub_Department'],
+                                YML_DATA['Diffs_Category'],
+                                YML_DATA['Diffs_Sub_Category'],
+                                YML_DATA['Diffs_Main_Desc'],
+                                YML_DATA['Diffs_Marketing_Desc'],
+                                YML_DATA['Diffs_Differentiator_1'],
+                                YML_DATA['Diffs_Differentiator_2'],
+                                YML_DATA['Diffs_Supplier_Site'],
+                                YML_DATA['Diffs_Country_of_Sourcing'],
+                                YML_DATA['Diffs_Country_of_Manufacture'],
+                                YML_DATA['Diffs_Port_Of_Lading'],
+                                YML_DATA['Diffs_Cost_Zone_Group_ID'],
+                                YML_DATA['Diffs_Cost'],
+                                YML_DATA['Diffs_Inner_Pack_Size'],
+                                YML_DATA['Diffs_Case_Pack_Qty'],
+                                YML_DATA['Diffs_Packing_Method'],
+                                YML_DATA['Diffs_initial_selling_retail'],
+                                YML_DATA['Diffs_Selection_Solid'])
+
+
+  bws_item.to_be_complete_steps
+
   bws_item.delete_created
   login_page.log_out_from_bws
 end
@@ -144,6 +170,28 @@ When(/^the assistant buyer enters the Size ID$/) do
 end
 
 Then(/^the Size Diffs are created$/) do
+  bws_item.validate_diffs_color(YML_DATA['Diffs_Sub_Department'],
+                                YML_DATA['Diffs_Category'],
+                                YML_DATA['Diffs_Sub_Category'],
+                                YML_DATA['Diffs_Main_Desc'],
+                                YML_DATA['Diffs_Marketing_Desc'],
+                                YML_DATA['Diffs_Differentiator_1'],
+                                YML_DATA['Diffs_Differentiator_2'],
+                                YML_DATA['Diffs_Supplier_Site'],
+                                YML_DATA['Diffs_Country_of_Sourcing'],
+                                YML_DATA['Diffs_Country_of_Manufacture'],
+                                YML_DATA['Diffs_Port_Of_Lading'],
+                                YML_DATA['Diffs_Cost_Zone_Group_ID'],
+                                YML_DATA['Diffs_Cost'],
+                                YML_DATA['Diffs_Inner_Pack_Size'],
+                                YML_DATA['Diffs_Case_Pack_Qty'],
+                                YML_DATA['Diffs_Packing_Method'],
+                                YML_DATA['Diffs_initial_selling_retail'],
+                                YML_DATA['Diffs_Selection_Fashion'])
+
+
+  bws_item.to_be_complete_steps
+
   bws_item.delete_created
   login_page.log_out_from_bws
 end
@@ -237,7 +285,7 @@ end
 Then(/^the field must display the supplier site ID and name$/) do
 
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_supplier_site(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -268,7 +316,7 @@ end
 
 Then(/^the field must display the ID-Country and Description$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_source_country(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -301,7 +349,7 @@ end
 
 Then(/^the field must display the ID-Country Description$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_country_of_manufacture(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -335,7 +383,7 @@ end
 
 Then(/^the assistant buyer is able view the ID and Port Description in the field$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_port_of_landing(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -370,7 +418,7 @@ end
 
 Then(/^the Cost Zone Groups are displayed$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_cost_zone_group_id(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -405,7 +453,7 @@ end
 
 Then(/^the Base Cost value will default to Supplier Currency$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_base_cost(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -454,7 +502,7 @@ end
 
 Then(/^the field alongside the Base Cost will display the Base Cost converted to the System Currency which is ZAR$/) do
   #database
-  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
 
   #bws verification
   bws_item.verify_converted_system_currency(YML_DATA['BWS']['add_item']['Sub_Department'],
@@ -555,6 +603,11 @@ When(/^the assistant buyer enter the Cost and Initial Retail Value$/) do
 end
 
 Then(/^the PMO is calculated, correct value is displayed and is non-editable$/) do
+  #database
+  bws_database.connect_to_bws_db('db_hostname', 'db_port', 'db_servicename', 'db_bws_username', 'db_password')
+  #Vat To Perform PMO Calculation
+  @vat = bws_database.extract_vat_of_sub_dept(YML_DATA['PMO_Sub_Department'].split("-").first)
+
   bws_item.verify_pmo(YML_DATA['PMO_Sub_Department'],
                       YML_DATA['PMO_Category'],
                       YML_DATA['PMO_Sub_Category'],
@@ -572,7 +625,8 @@ Then(/^the PMO is calculated, correct value is displayed and is non-editable$/) 
                       YML_DATA['PMO_Inner_Pack_Size'],
                       YML_DATA['PMO_Case_Pack_Qty'],
                       YML_DATA['PMO_Packing_Method'],
-                      YML_DATA['PMO_initial_selling_retail'])
+                      YML_DATA['PMO_initial_selling_retail'], @vat)
+
 
   #ADF Verification
   bws_item.check_adf_error
@@ -771,7 +825,7 @@ end
 
 Given(/^an assistant buyer lands on the Case Pack Qty field$/) do
   visit(TE.environment['bws_url'])
-  login_page.login_to_bws(TE.environment['bws_buyer'], TE.environment['bws_buyer_pw'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_buyer_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
 end
@@ -805,7 +859,7 @@ end
 Then(/^the Expense Type and Component details calculates the expenses which is published in the Expenses field with Estimated Expense Value'>0$/) do
   bws_super_item.fill_item_tab
   bws_item.go_to_expense
-  bws_item.check_expense_component_fields(YML_DATA['Expens_Fields'],YML_DATA['Component_Fields'])
+  bws_item.check_expense_component_fields(YML_DATA['Expens_Fields'], YML_DATA['Component_Fields'])
   bws_item.add_expenses(YML_DATA['Exp_Zone'])
   bws_item.add_expenses(YML_DATA['Exp_Country'])
   bws_item.add_component_verify_expense(YML_DATA['CompID_01'])
@@ -814,3 +868,26 @@ Then(/^the Expense Type and Component details calculates the expenses which is p
   bws_item.delete_bws_item(@item_id_auto_generated)
   login_page.log_out_from_bws
 end
+
+
+
+Given(/^an assistant buyer accesses the SKU tab$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+  bws_super_item.fill_item_tab
+end
+
+When(/^the user opts to add a SKU to the Item \(style\)$/) do
+  bws_item.go_to(YML_DATA['sku'])
+end
+
+And(/^selects 'By Group' option$/) do
+
+end
+
+Then(/^a pop\-up window opens prompting user to select the Diff Range labelled as 'Range'$/) do
+  bws_item.skus_verifications(YML_DATA['skus_add_option_by_group'])
+end
+

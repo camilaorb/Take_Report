@@ -32,6 +32,7 @@ Feature: BWS Create Item
     #Optional field
     #Alphanumeric
     #Maps to SUPP_LABEL of ITEM_SUPPLIER table in RMS schema
+   # Table  = select SUPP_LABEL from ITEM_SUPPLIER - But Needs to verify to look its exist after item created successfully
 
   @BWS-CREATEITEM-05 @bws_tests
   Scenario: Item Tab - Item Description
@@ -60,33 +61,23 @@ Feature: BWS Create Item
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Detailed Description for the Item
     Then the field is limited to '250' Characters
-    #holds Item Detailed Description
-    # -Mandatory
-    # -Alphanumeric
+    #Business Acceptance :  Schema Verification Remains Until The ITEM Create SuccessFully
     # -Maps to ITEM_DESC_SECONDARY of ITEM_MASTER table in RMS schema
 
 
-  @BWS-CREATEITEM-08
+  @BWS-CREATEITEM-08 @bws_tests
   Scenario: Item Tab - Differentiator - Colour
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Colour ID
     Then the colour Diff is created
-    #The Diff is always set to "ID" for the COLOUR Diff, not group
-    #User can only pick 1 colour for the Style
-    #Diff Type is always defaulted to SIZE
-    #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
-    #If 1 Colour and Mutiple Sizes are selected then the Item is referred as "Fashion Item"
 
-  @BWS-CREATEITEM-09
+
+  @BWS-CREATEITEM-09 @bws_tests
   Scenario: Item Tab - Differentiator - Size
     Given an Assistant Buyer on Item tab
     When the assistant buyer enters the Size ID
     Then the Size Diffs are created
-    #The Diff is always set to "ID" for the SIZE Diff, not group
-    #Diff Type is always defaulted to GROUP
-    #Once a Size and Colour are selected the Item created is at aggregate level
-    #If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
-    #If 1 Colour and Multiple Sizes are selected then the Item is referred as "Fashion Item"
+
 
   @BWS-CREATEITEM-10 @bws_tests #@wip #[CB]
   Scenario: Item Tab - Supplier Colour
@@ -180,7 +171,7 @@ Feature: BWS Create Item
     Then the field alongside the Base Cost will display the Base Cost converted to the System Currency which is ZAR
     And the converted System Currency field is not editable
 
-  @BWS-CREATEITEM-22 @bws_tests @expense
+  @BWS-CREATEITEM-22 @bws_tests
   Scenario: Item Tab - Expenses(1/2)
     Given an Assistant Buyer on Item tab
     When the user enters the Cost to Expenses to access "Enter Expenses"
@@ -221,7 +212,7 @@ Feature: BWS Create Item
 #- In Price by Zone tab - Foreign Zones will be automatically fulfilled using the Initial Selling Price value and the Price Points structure
 
 
-  @BWS-CREATEITEM-26 @bws_tests @furthe_implementation ##Further Implementation Required after PMO calculation ##
+  @BWS-CREATEITEM-26 @bws_tests
   Scenario: Item Tab - PMO
     Given the assistant buyer accesses the PMO field
     When the assistant buyer enter the Cost and Initial Retail Value
@@ -248,9 +239,8 @@ Feature: BWS Create Item
     When an assistant buyer selects one or more UDAs
     Then an assistant buyer is able to remove the UDA
 
-
   #SKU Tab
-  @BWS-CREATEITEM-30
+  @BWS-CREATEITEM-30 @WIP
   Scenario: SKU tab - Add SKU(1/2)
     Given an assistant buyer accesses the SKU tab
     When the user opts to add a SKU to the Item (style)
@@ -258,7 +248,7 @@ Feature: BWS Create Item
     Then a pop-up window opens prompting user to select the Diff Range labelled as 'Range'
     #  - The values for the Range are defined in the Buy Details > Item tab
 
-  @BWS-CREATEITEM-31
+  @BWS-CREATEITEM-31 @WIP
   Scenario: SKU tab - Add SKU(2/2)
     Given the user opts to add a SKU to the Item (style)
     When the user has selected a  Diff Range labelled 'Range' and Apply on the pop-up
@@ -285,7 +275,7 @@ Feature: BWS Create Item
     When the assistant buyer enters a number
     Then the Case Pack Qty number must be 8 digits in length with 4 decimal places
 
-  @BWS-CREATEITEM-64 @bws_tests @expense
+  @BWS-CREATEITEM-64 @bws_tests
   Scenario: Item Tab - Expenses(2/2)
     Given an Assistant Buyer on Item tab
     When the user enters the Cost to Expenses to access "Enter Expenses"

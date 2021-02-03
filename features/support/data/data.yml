@@ -574,7 +574,8 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
-#Add ITEM Options
+#Add ITEM Options#
+## Go To ##
 uda: 'UDAs'
 sku: 'SKUs'
 location_ranging: 'Location Ranging'
@@ -583,7 +584,7 @@ order_information: 'Order Information'
 
 #Elements Name
 item_element_supp_stile_no: 'Supplier Style No.'
-item_element_item_desc: 'Main Desc'
+item_element_main_desc: 'Main Desc'
 item_element_markting_desc: 'Marketing Desc'
 item_element_detail_desc: 'Detailed Desc'
 item_element_supp_colour: 'Supplier Colour'
@@ -687,3 +688,30 @@ CompID_01: 'ORDCST'
 
 Expens_Fields: ['Expense Type','Zone','Lading Port','Discharge Port']
 Component_Fields: ['Comp ID','Cvb Code','Component Rate','Comp Currency','Estimated Expense Value']
+
+## Diffs ##
+## As Per Diffs Calculation -Solid Item Set Of Data ##
+Diffs_Selection_Solid: 'Solid'
+Diffs_Selection_Fashion: 'Fashion'
+
+Diffs_Sub_Department: '1209 - Crockery'
+Diffs_Category: '8256 - Outdoor Dining'
+Diffs_Sub_Category: '1 - Outdoor Dining Drinkware'
+Diffs_Main_Desc: 'Test Team'
+Diffs_Marketing_Desc: 'Test Team'
+Diffs_Differentiator_1: 'Red'
+Diffs_Differentiator_2: '927 - Sport Sizes'
+Diffs_Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
+Diffs_Country_of_Sourcing: 'CN - China'
+Diffs_Country_of_Manufacture: 'CN - China'
+Diffs_Port_Of_Lading: '1001 - Shanghai, China'
+Diffs_Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+Diffs_Cost: '100.00'
+Diffs_Inner_Pack_Size: '1'
+Diffs_Case_Pack_Qty: '1'
+Diffs_Packing_Method: 'Flat'
+Diffs_initial_selling_retail: '6.99'
+
+## Skus ##
+skus_add_option_by_group: 'By Group'
+skus_add_option_from_list: 'From List'
