@@ -18,6 +18,7 @@ module Pages
     element(:logout_message) { div(:text, /You are about to logout/) }
     element(:yes_button) { a(:text, 'Yes') }
     element(:user_menu) { |text| div(:title, text) }
+    element(:user_menu_button) { |text| a(:text, text) }
     element(:error_message_popup) { div(:id, 'd1_msgDlg::_ccntr') }
     element(:sign_in) { span(:text, 'Login') }
     element(:close_popup) { a(:id, /d1::close/) }
@@ -89,8 +90,13 @@ module Pages
       end
     end
 
-    def log_out_from_bws
-      _admin.click
+    def log_out_from_bws(usr)
+      if _admin.present?
+        _admin.click
+      else
+        user = usr.downcase
+        user_menu_button(user).click
+      end
       _logout.click
     end
 

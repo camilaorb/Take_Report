@@ -14,11 +14,8 @@ Feature: PO Create
 
   @BWS-POCREATE-03
   Scenario: Order Information tab - Delivery drop table - Split Delivery button
-    Given  a user amends the Order information
+    Given  a user on the Order Information tab
     And select a specified delivery
-    When the user selects the 'Split Delivery' button
+    When the user opts to 'Split Delivery'
     Then  a new Delivery Drop record is created with the exact same attributes has the selected delivery drop
-    And the Delivery Drop is set to 0 (Zero)
-    # - User must adjust quantities between Delivery Drops
-    # - Verify that the Order Ref Id in the Order Information section of the screen i(reference to the split deliveries)
-    # is correctly populated when the spilt Deliveries is confirmed
+    And the Delivery Drop is set to 0 'Zero'
