@@ -138,7 +138,7 @@ v_code_55: "RSAZE"    #RSA Zero Rated
 ### Diff Group ###
 
 diffgroup_name: 'New Diff Group'
-
+dg_change_name: 'Changed Group'
 dg_item: '663' #Diff Group with item
 
 ### Diff Group Type ###
@@ -147,7 +147,9 @@ type_1: 'SIZE'
 
 ### Diff Group Detail ###
 
-dgd_sequence: '1'
+dgd_sequence_1: '1'
+dgd_sequence_2: '2'
+dgd_sequence_3: '3'
 
 dgd_detail_1: 'S'
 dgd_detail_2: 'M'
@@ -155,6 +157,8 @@ dgd_detail_3: 'L'
 
 
 ### Diff Range ###
+
+diff_range_desc: 'New Range'
 
 range_type1: 'Ratio'
 range_type2: 'Percentage'
@@ -171,6 +175,17 @@ colour_3: 'AMBER'
 size_1: 'KNG'
 size_2: 'QN'
 size_3: 'SGL'
+
+ratio: '100'
+
+### Diff Ratio ###
+
+diff_ratio_desc: 'New Diff Ratio'
+diff_ratio_change_desc: 'Change Diff Ratio'
+
+review_1: '1'
+review_2: '2'
+review_3: '3'
 
 ########################### SUPPLIER  ############################################
 
@@ -336,7 +351,7 @@ UpdateStore:
 LocationTrait: '41'
 
 # The Store ID to perform All relevent actions #
-Store_ID: '70620'
+Store_ID: '6666'
 
 
 ################################ Ware House ########################################
@@ -589,8 +604,7 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
-#Add ITEM Options#
-## Go To ##
+#Add ITEM Options
 uda: 'UDAs'
 sku: 'SKUs'
 location_ranging: 'Location Ranging'
@@ -599,7 +613,7 @@ order_information: 'Order Information'
 
 #Elements Name
 item_element_supp_stile_no: 'Supplier Style No.'
-item_element_main_desc: 'Main Desc'
+item_element_item_desc: 'Main Desc'
 item_element_markting_desc: 'Marketing Desc'
 item_element_detail_desc: 'Detailed Desc'
 item_element_supp_colour: 'Supplier Colour'
@@ -730,3 +744,52 @@ Diffs_initial_selling_retail: '6.99'
 ## Skus ##
 skus_add_option_by_group: 'By Group'
 skus_add_option_from_list: 'From List'
+no_of_sku_size_01: '1'
+no_of_sku_size_02: '2'
+
+
+## Skus - Data ##
+SKU:
+ Sub_Department: '1209 - Crockery'
+ Category: '8256 - Outdoor Dining'
+ Sub_Category: '1 - Outdoor Dining Drinkware'
+ Main_Desc: 'Test Team'
+ Marketing_Desc: 'Test Team'
+ Differentiator_1: 'Red'
+ Differentiator_2: '927 - Sport Sizes'
+ Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
+ Country_of_Sourcing: 'CN - China'
+ Country_of_Manufacture: 'CN - China'
+ Port_Of_Lading: '1001 - Shanghai, China'
+ Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+ Cost: '100.00'
+ Inner_Pack_Size: '1'
+ Case_Pack_Qty: '1'
+ Packing_Method: 'Flat'
+ initial_selling_retail: '6.99'
+
+ ## Diffs With Option ##
+## Skus - Data ##
+Diffs:
+  #Differentiator_1 will be vary uplon the diff_type
+  #Diff-1 = "126 - Sport - All Colours" if diff_type  = "Fashion"
+  #Diff-1 = "Red" if diff_type  = "Solid"
+  Sub_Department: '1209 - Crockery'
+  Category: '8256 - Outdoor Dining'
+  Sub_Category: '1 - Outdoor Dining Drinkware'
+  Main_Desc: 'Test Team'
+  Marketing_Desc: 'Test Team'
+  Differentiator_1: 'Red' #'126 - Sport - All Colours' #
+  Differentiator_2: '927 - Sport Sizes'
+  Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
+  Country_of_Sourcing: 'CN - China'
+  Country_of_Manufacture: 'CN - China'
+  Port_Of_Lading: '1001 - Shanghai, China'
+  Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+  Cost: '100.00'
+  Inner_Pack_Size: '1'
+  Case_Pack_Qty: '1'
+  Packing_Method: 'Flat'
+  initial_selling_retail: '6.99'
+  #Solid - 1 type of data , Fashion - Multiple Type of data
+  Diff_type: 'Solid' #'Fashion' #

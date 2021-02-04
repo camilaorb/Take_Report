@@ -7,7 +7,7 @@ end
 
 When("the buyer enters the description, comments and region for the list") do
   @location_list_id = location_list.new_location_list_id
-  location_list.add_location_list_head('Test Location list', YML_DATA['division_chain'])
+  location_list.add_location_list_head('Test Location list', 'Test comments', YML_DATA['division_chain'])
 end
 
 Then("the buyer can either opt to save the interim details or select more actions and add locations") do
@@ -16,13 +16,13 @@ Then("the buyer can either opt to save the interim details or select more action
   shared.save_and_close
   shared.save_and_close
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_location_head_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['division_chain'], YML_DATA['dinamic'])
+  database.verify_location_head_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['dynamic'])
   database.verify_location_details_table(@location_list_id, YML_DATA['Store_ID'], YML_DATA['db_location_type_1'])
   database.disconnect_db
-  location_list.access_menage_location_list
+  location_list.re_access_menage_location_list
   location_list.search_location_list(@location_list_id)
   shared.access_edit_page
-  shared.delete_item
+  location_list.delete_location_list
   shared.done
   login_page.logout_to_rms
 end
@@ -40,18 +40,18 @@ When("the Buyer accesses Locations page") do
 end
 
 Then("the buyer can add the details of the Location") do
-  shared.more_actions_select(YML_DATA['location_option'])
+  # shared.more_actions_select(YML_DATA['location_option'])
   location_list.add_location_detail(YML_DATA['location_type_1'], YML_DATA['Store_ID'])
   shared.save_and_close
   shared.save_and_close
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.verify_location_head_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['division_chain'], YML_DATA['dinamic'])
+  database.verify_location_head_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['dynamic'])
   database.verify_location_details_table(@location_list_id, YML_DATA['Store_ID'], YML_DATA['db_location_type_1'])
   database.disconnect_db
-  location_list.access_menage_location_list
+  location_list.re_access_menage_location_list
   location_list.search_location_list(@location_list_id)
   shared.access_edit_page
-  shared.delete_item
+  location_list.delete_location_list
   shared.done
   login_page.logout_to_rms
 end
@@ -63,7 +63,7 @@ Given("a buyer have added a location to the list") do
 end
 
 When("the buyer opts to delete the Location from the List") do
-  location_list.access_create_location_list
+  location_list.re_access_create_location_list
   shared.more_actions_select(YML_DATA['location_option'])
   select_location_detail(YML_DATA['Store_ID'])
   shared.delete_item
@@ -73,7 +73,7 @@ When("the buyer opts to delete the Location from the List") do
 end
 
 Then("the buyer can remove the location") do
-  location_list.access_menage_location_list
+  location_list.re_access_menage_location_list
   location_list.search_location_list(@location_list_id)
   shared.access_edit_page
   shared.more_actions_select(YML_DATA['location_option'])
@@ -81,7 +81,7 @@ Then("the buyer can remove the location") do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
   database.verify_delete_location_details_table(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['division_chain'], YML_DATA['dynamic'])
   database.disconnect_db
-  shared.delete_item
+  location_list.delete_location_list
   shared.done
   login_page.logout_to_rms
 end

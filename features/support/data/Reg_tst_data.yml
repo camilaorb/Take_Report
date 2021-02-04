@@ -123,7 +123,7 @@ v_code_4: "Z"	#Zero Vat
 ### Diff Group ###
 
 diffgroup_name: 'New Diff Group'
-
+dg_change_name: 'Changed Group'
 dg_item: '663' #Diff Group with item
 
 ### Diff Group Type ###
@@ -132,7 +132,9 @@ type_1: 'SIZE'
 
 ### Diff Group Detail ###
 
-dgd_sequence: '1'
+dgd_sequence_1: '1'
+dgd_sequence_2: '2'
+dgd_sequence_3: '3'
 
 dgd_detail_1: 'S'
 dgd_detail_2: 'M'
@@ -140,6 +142,8 @@ dgd_detail_3: 'L'
 
 
 ### Diff Range ###
+
+diff_range_desc: 'New Range'
 
 range_type1: 'Ratio'
 range_type2: 'Percentage'
@@ -156,6 +160,17 @@ colour_3: 'AMBER'
 size_1: 'KNG'
 size_2: 'QN'
 size_3: 'SGL'
+
+ratio: '100'
+
+### Diff Ratio ###
+
+diff_ratio_desc: 'New Diff Ratio'
+diff_ratio_change_desc: 'Change Diff Ratio'
+
+review_1: '1'
+review_2: '2'
+review_3: '3'
 
 ########################### SUPPLIER  ############################################
 
@@ -321,7 +336,7 @@ UpdateStore:
 LocationTrait: '41'
 
 # The Store ID to perform All relevent actions #
-Store_ID: '70620'
+Store_ID: '6666'
 
 
 ################################ Ware House ########################################
@@ -574,8 +589,7 @@ input_Supplier_Pack_Size: '1'
 input_Inner_Pack_Size: '20'
 input_Packing_Method: 'Flat'
 
-#Add ITEM Options#
-## Go To ##
+#Add ITEM Options
 uda: 'UDAs'
 sku: 'SKUs'
 location_ranging: 'Location Ranging'
@@ -584,7 +598,7 @@ order_information: 'Order Information'
 
 #Elements Name
 item_element_supp_stile_no: 'Supplier Style No.'
-item_element_main_desc: 'Main Desc'
+item_element_item_desc: 'Main Desc'
 item_element_markting_desc: 'Marketing Desc'
 item_element_detail_desc: 'Detailed Desc'
 item_element_supp_colour: 'Supplier Colour'
