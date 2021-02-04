@@ -68,8 +68,53 @@ module Pages
                              YML_DATA['BWS']['add_item']['Inner_Pack_Size'],
                              YML_DATA['BWS']['add_item']['Case_Pack_Qty'],
                              YML_DATA['BWS']['add_item']['Packing_Method'])
+    end
+
+
+    def fill_item_tab_specific_data(data)
+      @data = data
+      bws_item.adds_item_bws(@data["Sub_Department"],
+                             @data['Category'],
+                             @data['Sub_Category'],
+                             @data['Main_Desc'],
+                             @data['Marketing_Desc'],
+                             @data['Differentiator_1'],
+                             @data['Differentiator_2'],
+                             @data['Supplier_Site'],
+                             @data['Country_of_Sourcing'],
+                             @data['Country_of_Manufacture'],
+                             @data['Port_Of_Lading'],
+                             @data['Cost_Zone_Group_ID'],
+                             @data['Cost'],
+                             @data['Supplier_Pack_Size'],
+                             @data['Inner_Pack_Size'],
+                             @data['Case_Pack_Qty'],
+                             @data['Packing_Method'])
+    end
+
+    def add_diff_with_solid_or_fashion_option(data)
+      @data = data
+      bws_item.add_diff(@data["Sub_Department"],
+                        @data['Category'],
+                        @data['Sub_Category'],
+                        @data['Main_Desc'],
+                        @data['Marketing_Desc'],
+                        @data['Differentiator_1'],
+                        @data['Differentiator_2'],
+                        @data['Supplier_Site'],
+                        @data['Country_of_Sourcing'],
+                        @data['Country_of_Manufacture'],
+                        @data['Port_Of_Lading'],
+                        @data['Cost_Zone_Group_ID'],
+                        @data['Cost'],
+                        @data['Inner_Pack_Size'],
+                        @data['Case_Pack_Qty'],
+                        @data['Packing_Method'],
+                        @data['initial_selling_retail'],
+                        @data['Diff_type'])
 
     end
+
 
     def goto_sku_tab
       bws_item_menu.add_item_select_options("add_new_item")
@@ -91,8 +136,5 @@ module Pages
 
     end
 
-
-
   end
 end
-

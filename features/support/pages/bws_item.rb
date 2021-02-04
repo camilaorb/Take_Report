@@ -513,19 +513,37 @@ module Pages
         TE.browser.h2(text: /Item Information/).click
       }
 
-      wait_for_db_activity_bws
-      item_element(element).send_keys SecureRandom.alphanumeric(no.to_i)
-      wait_for_db_activity_bws
-      TE.browser.h2(text: /Item Information/).click
+      if element.eql? "Special Instructions"
+        wait_for_db_activity_bws
+        TE.browser.textarea(id: /styleView:it8::content/).to_subtype.send_keys SecureRandom.alphanumeric(no.to_i)
+        wait_for_db_activity_bws
+        TE.browser.h2(text: /Item Information/).click
+      else
+        wait_for_db_activity_bws
+        item_element(element).send_keys SecureRandom.alphanumeric(no.to_i)
+        wait_for_db_activity_bws
+        TE.browser.h2(text: /Item Information/).click
+      end
+
     end
 
     element(:text_field) { |field_name| label(text: field_name) }
 
     def character_limit_cont(element, no)
-      wait_for_db_activity_bws
-      if text_field(element).parent.enabled?
-        no_character = item_element(element).value.size
-        raise "The #{element} Field Character Limit Exceed. Expected Characters:'#{no}' Actual Characters:'#{no_character}'" unless no_character == no.to_i
+      if element.eql? "Special Instructions"
+        @no_character_01 = TE.browser.textarea(id: /styleView:it8::content/).text.length
+        @no_character_02 = @no_character_01
+        if TE.browser.textarea(id: /styleView:it8::content/).parent.enabled?
+          sleep 1
+          if @no_character_01.eql? no.to_i == false
+            raise "The expected characters is not match. expected #{no} actual #{@no_character_01}"
+          end
+        end
+      else
+        if text_field(element).parent.enabled?
+          no_character = item_element(element).value.size
+          raise "The #{element} Field Character Limit Exceed. Expected Characters:'#{no}' Actual Characters:'#{no_character}'" unless no_character == no.to_i
+        end
       end
     end
 
@@ -1371,9 +1389,9 @@ module Pages
     element(:_default_type) { input(id: /styleView:diff2TypeId::content/) }
     element(:_default_type_opt) { |option| option(text: option) }
 
-    def validate_diffs_color(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
-                             differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
-                             cost_Zone_Group_ID, cost, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail,diff_type)
+    def add_diff(sub_Department, category, sub_category, main_Desc, marketing_Desc, differentiator_1,
+                 differentiator_2, supplier_Site, country_of_Sourcing, country_of_Manufacture, port_Of_Lading,
+                 cost_Zone_Group_ID, cost, inner_Pack_Size, case_pack_qty, packing_method, initial_selling_retail, diff_type)
 
       #  bws_shared.add_item_select_options "add_new_item"
       bws_shared.scroll_bws "bottom"
@@ -1407,21 +1425,20 @@ module Pages
       #BA-02 -Diff Type is always defaulted to SIZE #
       raise "The Diff Type is not set to Size. " if _default_type.value != "SIZE"
 
-        #BA-03 -If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
+      #BA-03 -If 1 Colour and 1 Size is selected then the Diffs is referred to as "Solids Item"
       if diff_type == "Solid"
         _default_type.click
         wait_for_db_activity_bws
-        _default_type_opt("Id")
+        _default_type_opt("Id").click
         wait_for_db_activity_bws
 
         #BA-04 -If 1 Colour and Mutiple Sizes are selected then the Item is referred as "Fashion Item"
       elsif diff_type == "Fashion"
         _default_type.click
         wait_for_db_activity_bws
-        _default_type_opt("Group")
+        _default_type_opt("Group").click
         wait_for_db_activity_bws
       end
-
 
       @elements_with_data_02 = {_diff1 => differentiator_1,
                                 _diff_group_2_description => differentiator_2,
@@ -1436,7 +1453,6 @@ module Pages
                                 _initial_selling_retail => initial_selling_retail}
 
       @elements_with_data_02.each { |k, v|
-
         k.clear
         wait_for_db_activity_bws
         sleep 1
@@ -1468,21 +1484,57 @@ module Pages
     ## Diffs  ------------  ##
     element(:_skus) { a(text: 'SKUs') }
     element(:_skus_add) { td(id: /skusView:pcSkus:ctb2::popArea/) }
-    element(:_skus_add_option){|option|element(text: option)}
+    element(:_skus_add_option) { |option| element(text: option) }
 
     element(:_skus_range_ok) { div(id: /skusView:d19_ok/) }
     element(:_sku_size) { input(id: /sbcSkudiff2::content/) }
+    element(:_sku_range_lov_search_button) { a(id: /skusView:range1Id::lovIconId/) }
+    element(:_sku_range_lov_select) { |index| div(id: /skusView:range1Id_afrLovInternalTableId::db/).table.tbody.tr(index: index) }
+    element(:_sku_range_lov_ok) { div(id: /skusView:range1Id_afrLovDialogId_ok/) }
+    element(:_add_new_sku_lov_ok) { div(id: /rOptDets:skusView:d19_ok/) }
+    element(:_sku_size_lov_selection) { |index| div(id: /rOptDets:skusView:tNewSkusdiff2::db/).table.tbody.tr(index: index).span }
 
-    def skus_verifications(add_sku_option)
+    element(:_add_new_sku_window) { div(id: /skusView:pAddNewSKUByGroup::content/) }
+    element(:_list_of_skus) { div(id: /skusView:pcSkus:tSkus::db/).table.tbody.trs }
+
+    def skus_verifications(add_sku_option, no_of_sku_size)
       wait_for_db_activity_bws
-      _skus.present?
+      _skus.click
       wait_for_db_activity_bws
       _skus_add.click
       wait_for_db_activity_bws
       _skus_add_option(add_sku_option).click
       wait_for_db_activity_bws
+      raise "A window opens prompting user to select the Diff Range labelled as 'Range'- Not Displayed" if _add_new_sku_window.present? == false
+      _sku_range_lov_search_button.click
+      wait_for_db_activity_bws
+      # The diff range is derived from the diff group defined in item tab
+      # So the list of diff range is listed and pick one
+      # To select any number from row - it can given using 1,2,3,4 values.
+      _sku_range_lov_select(1).click
+      wait_for_db_activity_bws
+      _sku_range_lov_ok.click
+      wait_for_db_activity_bws
 
-      # Re- start work from here #
+      i = 1
+      itr = no_of_sku_size.to_i
+      itr.times do
+        #time_itr.times do
+        ## Select Size from list -  Selecting 2 option
+        # but it can select bu giving row numbers - 1,2,3,4,5.. etc
+        _sku_size_lov_selection(i).click
+        i += 1
+        wait_for_db_activity_bws
+      end
+
+      _add_new_sku_lov_ok.click
+      wait_for_db_activity_bws
+
+      raise "The Skus List is not as exptected" if _list_of_skus.count != no_of_sku_size.to_i
+
+      bws_shared.bws_apply
+      wait_for_db_activity_bws
+
 
     end
 
@@ -1507,7 +1559,6 @@ module Pages
     #By Group ,From List
     # Below method select from the "group"
     # to select "From the List" the functionality needs to developed completely
-
 
 
     #-> working

@@ -91,7 +91,7 @@ Feature: BWS Create Item
         #Optional
         #Alphanumeric
 
-  @BWS-CREATEITEM-11 @bws_tests #@wip #[CB]
+  @BWS-CREATEITEM-11 @bws_tests
   Scenario: Item Tab - Special Instructions
     Given an Assistant Buyer on Item tab
     When an assistant buyer enters the special instructions
@@ -239,8 +239,8 @@ Feature: BWS Create Item
     When an assistant buyer selects one or more UDAs
     Then an assistant buyer is able to remove the UDA
 
-  #SKU Tab
-  @BWS-CREATEITEM-30 @WIP
+
+  @BWS-CREATEITEM-30
   Scenario: SKU tab - Add SKU(1/2)
     Given an assistant buyer accesses the SKU tab
     When the user opts to add a SKU to the Item (style)
@@ -248,15 +248,13 @@ Feature: BWS Create Item
     Then a pop-up window opens prompting user to select the Diff Range labelled as 'Range'
     #  - The values for the Range are defined in the Buy Details > Item tab
 
-  @BWS-CREATEITEM-31 @WIP
+  @BWS-CREATEITEM-31
   Scenario: SKU tab - Add SKU(2/2)
-    Given the user opts to add a SKU to the Item (style)
+    Given the user opts to add the SKU to the Item (style)
     When the user has selected a  Diff Range labelled 'Range' and Apply on the pop-up
     And an assistant buyer selects size and colour from pop-up
     Then a record for the selected size and colour are created
-    # - If for example 2 Sizes and 2 Colour are selected then 4 lines are created in the SKU tab
-    #  - Diff Range are set-up in RMS
-    #  - The list of size and colour contained within a Range are setup in RMS
+
   @BWS-CREATEITEM-40 @bws_tests
   Scenario: Item & Ordering Worklist - Packing Method
     Given a user opts to add packing method

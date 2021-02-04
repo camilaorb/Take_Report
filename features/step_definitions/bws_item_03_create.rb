@@ -120,7 +120,8 @@ end
 
 When(/^an assistant buyer enters the special instructions$/) do
   @item_tab_element = YML_DATA['item_element_special_instc']
-  bws_item.character_limit_insert(YML_DATA['item_element_special_instc'], '2001')
+  bws_item.character_limit_insert(YML_DATA['item_element_special_instc'], '2001',
+                                  YML_DATA['input_Sub_Department'], YML_DATA['input_Category'], YML_DATA['input_Sub_Category'])
 end
 
 Then(/^the field is limited to '([^"]*)' Characters$/) do |_arg|
@@ -137,24 +138,24 @@ When(/^the assistant buyer enters the Colour ID$/) do
 end
 
 Then(/^the colour Diff is created$/) do
-  bws_item.validate_diffs_color(YML_DATA['Diffs_Sub_Department'],
-                                YML_DATA['Diffs_Category'],
-                                YML_DATA['Diffs_Sub_Category'],
-                                YML_DATA['Diffs_Main_Desc'],
-                                YML_DATA['Diffs_Marketing_Desc'],
-                                YML_DATA['Diffs_Differentiator_1'],
-                                YML_DATA['Diffs_Differentiator_2'],
-                                YML_DATA['Diffs_Supplier_Site'],
-                                YML_DATA['Diffs_Country_of_Sourcing'],
-                                YML_DATA['Diffs_Country_of_Manufacture'],
-                                YML_DATA['Diffs_Port_Of_Lading'],
-                                YML_DATA['Diffs_Cost_Zone_Group_ID'],
-                                YML_DATA['Diffs_Cost'],
-                                YML_DATA['Diffs_Inner_Pack_Size'],
-                                YML_DATA['Diffs_Case_Pack_Qty'],
-                                YML_DATA['Diffs_Packing_Method'],
-                                YML_DATA['Diffs_initial_selling_retail'],
-                                YML_DATA['Diffs_Selection_Solid'])
+  bws_item.add_diff(YML_DATA['Diffs_Sub_Department'],
+                    YML_DATA['Diffs_Category'],
+                    YML_DATA['Diffs_Sub_Category'],
+                    YML_DATA['Diffs_Main_Desc'],
+                    YML_DATA['Diffs_Marketing_Desc'],
+                    YML_DATA['Diffs_Differentiator_1'],
+                    YML_DATA['Diffs_Differentiator_2'],
+                    YML_DATA['Diffs_Supplier_Site'],
+                    YML_DATA['Diffs_Country_of_Sourcing'],
+                    YML_DATA['Diffs_Country_of_Manufacture'],
+                    YML_DATA['Diffs_Port_Of_Lading'],
+                    YML_DATA['Diffs_Cost_Zone_Group_ID'],
+                    YML_DATA['Diffs_Cost'],
+                    YML_DATA['Diffs_Inner_Pack_Size'],
+                    YML_DATA['Diffs_Case_Pack_Qty'],
+                    YML_DATA['Diffs_Packing_Method'],
+                    YML_DATA['Diffs_initial_selling_retail'],
+                    YML_DATA['Diffs_Selection_Solid'])
 
 
   bws_item.to_be_complete_steps
@@ -170,24 +171,24 @@ When(/^the assistant buyer enters the Size ID$/) do
 end
 
 Then(/^the Size Diffs are created$/) do
-  bws_item.validate_diffs_color(YML_DATA['Diffs_Sub_Department'],
-                                YML_DATA['Diffs_Category'],
-                                YML_DATA['Diffs_Sub_Category'],
-                                YML_DATA['Diffs_Main_Desc'],
-                                YML_DATA['Diffs_Marketing_Desc'],
-                                YML_DATA['Diffs_Differentiator_1'],
-                                YML_DATA['Diffs_Differentiator_2'],
-                                YML_DATA['Diffs_Supplier_Site'],
-                                YML_DATA['Diffs_Country_of_Sourcing'],
-                                YML_DATA['Diffs_Country_of_Manufacture'],
-                                YML_DATA['Diffs_Port_Of_Lading'],
-                                YML_DATA['Diffs_Cost_Zone_Group_ID'],
-                                YML_DATA['Diffs_Cost'],
-                                YML_DATA['Diffs_Inner_Pack_Size'],
-                                YML_DATA['Diffs_Case_Pack_Qty'],
-                                YML_DATA['Diffs_Packing_Method'],
-                                YML_DATA['Diffs_initial_selling_retail'],
-                                YML_DATA['Diffs_Selection_Fashion'])
+  bws_item.add_diff(YML_DATA['Diffs_Sub_Department'],
+                    YML_DATA['Diffs_Category'],
+                    YML_DATA['Diffs_Sub_Category'],
+                    YML_DATA['Diffs_Main_Desc'],
+                    YML_DATA['Diffs_Marketing_Desc'],
+                    YML_DATA['Diffs_Differentiator_1'],
+                    YML_DATA['Diffs_Differentiator_2'],
+                    YML_DATA['Diffs_Supplier_Site'],
+                    YML_DATA['Diffs_Country_of_Sourcing'],
+                    YML_DATA['Diffs_Country_of_Manufacture'],
+                    YML_DATA['Diffs_Port_Of_Lading'],
+                    YML_DATA['Diffs_Cost_Zone_Group_ID'],
+                    YML_DATA['Diffs_Cost'],
+                    YML_DATA['Diffs_Inner_Pack_Size'],
+                    YML_DATA['Diffs_Case_Pack_Qty'],
+                    YML_DATA['Diffs_Packing_Method'],
+                    YML_DATA['Diffs_initial_selling_retail'],
+                    YML_DATA['Diffs_Selection_Fashion'])
 
 
   bws_item.to_be_complete_steps
@@ -870,17 +871,18 @@ Then(/^the Expense Type and Component details calculates the expenses which is p
 end
 
 
-
 Given(/^an assistant buyer accesses the SKU tab$/) do
   visit(TE.environment['bws_url'])
   login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_buyer_pw'])
   bws_shared.select_task YML_DATA['BWS']['bws_group']
   bws_item_menu.add_item_select_options("add_new_item")
-  bws_super_item.fill_item_tab
+  ## Specific set of data
+  bws_super_item.fill_item_tab_specific_data(YML_DATA['SKU'])
+  @item_id_auto_generated = bws_item.item_id
 end
 
 When(/^the user opts to add a SKU to the Item \(style\)$/) do
-  bws_item.go_to(YML_DATA['sku'])
+
 end
 
 And(/^selects 'By Group' option$/) do
@@ -888,6 +890,36 @@ And(/^selects 'By Group' option$/) do
 end
 
 Then(/^a pop\-up window opens prompting user to select the Diff Range labelled as 'Range'$/) do
-  bws_item.skus_verifications(YML_DATA['skus_add_option_by_group'])
+  bws_item.skus_verifications(YML_DATA['skus_add_option_by_group'],YML_DATA['no_of_sku_size_01'])
+  bws_item.to_be_complete_steps
+
+  bws_item.delete_bws_item(@item_id_auto_generated)
+  login_page.log_out_from_bws
+end
+
+Given(/^the user opts to add the SKU to the Item \(style\)$/) do
+  visit(TE.environment['bws_url'])
+  login_page.login_to_bws(TE.environment['bws_admin_user'], TE.environment['bws_buyer_pw'])
+  bws_shared.select_task YML_DATA['BWS']['bws_group']
+  bws_item_menu.add_item_select_options("add_new_item")
+  ## Specific set of data
+  bws_super_item.add_diff_with_solid_or_fashion_option(YML_DATA['Diffs'])
+  @item_id_auto_generated = bws_item.item_id
+end
+
+When(/^the user has selected a  Diff Range labelled 'Range' and Apply on the pop\-up$/) do
+
+end
+
+And(/^an assistant buyer selects size and colour from pop\-up$/) do
+
+end
+
+Then(/^a record for the selected size and colour are created$/) do
+  bws_item.skus_verifications(YML_DATA['skus_add_option_by_group'],YML_DATA['no_of_sku_size_02'])
+  bws_item.to_be_complete_steps
+
+  bws_item.delete_bws_item(@item_id_auto_generated)
+  login_page.log_out_from_bws
 end
 

@@ -715,3 +715,52 @@ Diffs_initial_selling_retail: '6.99'
 ## Skus ##
 skus_add_option_by_group: 'By Group'
 skus_add_option_from_list: 'From List'
+no_of_sku_size_01: '1'
+no_of_sku_size_02: '2'
+
+
+## Skus - Data ##
+SKU:
+ Sub_Department: '1209 - Crockery'
+ Category: '8256 - Outdoor Dining'
+ Sub_Category: '1 - Outdoor Dining Drinkware'
+ Main_Desc: 'Test Team'
+ Marketing_Desc: 'Test Team'
+ Differentiator_1: 'Red'
+ Differentiator_2: '927 - Sport Sizes'
+ Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
+ Country_of_Sourcing: 'CN - China'
+ Country_of_Manufacture: 'CN - China'
+ Port_Of_Lading: '1001 - Shanghai, China'
+ Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+ Cost: '100.00'
+ Inner_Pack_Size: '1'
+ Case_Pack_Qty: '1'
+ Packing_Method: 'Flat'
+ initial_selling_retail: '6.99'
+
+ ## Diffs With Option ##
+## Skus - Data ##
+Diffs:
+  #Differentiator_1 will be vary uplon the diff_type
+  #Diff-1 = "126 - Sport - All Colours" if diff_type  = "Fashion"
+  #Diff-1 = "Red" if diff_type  = "Solid"
+  Sub_Department: '1209 - Crockery'
+  Category: '8256 - Outdoor Dining'
+  Sub_Category: '1 - Outdoor Dining Drinkware'
+  Main_Desc: 'Test Team'
+  Marketing_Desc: 'Test Team'
+  Differentiator_1: 'Red' #'126 - Sport - All Colours' #
+  Differentiator_2: '927 - Sport Sizes'
+  Supplier_Site: '100483 - MIL  SHAOXING HARBOUR TEXTILE and GARMENTS CO.,LTD.'
+  Country_of_Sourcing: 'CN - China'
+  Country_of_Manufacture: 'CN - China'
+  Port_Of_Lading: '1001 - Shanghai, China'
+  Cost_Zone_Group_ID: '1000 - MRP Cost Group'
+  Cost: '100.00'
+  Inner_Pack_Size: '1'
+  Case_Pack_Qty: '1'
+  Packing_Method: 'Flat'
+  initial_selling_retail: '6.99'
+  #Solid - 1 type of data , Fashion - Multiple Type of data
+  Diff_type: 'Solid' #'Fashion' #

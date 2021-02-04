@@ -135,7 +135,9 @@ module Pages
           shared.enter_times_bws k, 2
         end
         _packing_method.click
+        wait_for_db_activity_bws
         _packing_method_opt("Flat").click
+        wait_for_db_activity_bws
       }
     end
 
