@@ -83,14 +83,27 @@ module Pages
 
     def get_order_no(line)
       wait_for_db_activity_bws
-      raise "The order was not created" unless order_number(line).present?
+      raise "The Order No is editable" if order_number(line).present? != false
+      raise "The Order No is editable" if order_number(line).enabled? != true
       @order_no = order_number(line)
     end
 
-    def order_ref_id(line)
+    def verify_increase(arg_1, arg_2)
       wait_for_db_activity_bws
-      order_ref_id(line.to_i).wait_until_present
-      @order_ref_id = order_ref_id(line)
+      ag_1 =  arg_1.to_i
+      ag_2 =  arg_2.to_i
+      raise "The id was not increased" unless ag_2 == ag_1+1
+    end
+
+    def verify_delte_order_id(arg_1, arg_2, arg_3, arg_4, arg_5 )
+      wait_for_db_activity_bws
+      ag_1 =  arg_1.to_i
+      ag_3 =  arg_3.to_i
+      ag_4 =  arg_4.to_i
+      ag_5 =  arg_5.to_i
+      raise "The id is change" unless ag_1 == ag_4
+      raise "The was not deleted" unless arg_2.present?
+      raise "The id is change" unless ag_3 == ag_5
     end
 
     def cancel_order

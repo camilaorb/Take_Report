@@ -694,12 +694,15 @@ module Pages
     end
 
     def create_multiple_vat
+      country_list = %w['SA NAM SWA BOT LSL AUD GHA KEN MZM NIG PLN TZN UGA ZMK DRC OC']
       #country_list = %w[VR1]
-      type_list = %w[R C]
-      number = type_list.size
+      #type_list = %w[R C]
+      #number = type_list.size
+      number = country_list.size
       count = 0
       number.times do
-        create_vat(YML_DATA['VR1'], YML_DATA['v_code_1'], YML_DATA[type_list[count]])
+        create_vat(YML_DATA[country_list[count]], YML_DATA['v_code_1'], YML_DATA['R'])
+        #create_vat(YML_DATA['VR1'], YML_DATA['v_code_1'], YML_DATA[type_list[count]])
         count += 1
       end
     end

@@ -25,7 +25,7 @@ OPO_Sandbox:
   db_bws_username: oao
   db_password: Welcome123
   env_timeout: 30
-  test_data_file: data.yml
+  test_data_file: Sandbox_data.yml
   db_server: OPOMOMDB01
   unix_username: oretail
   unix_pwd: welcome
@@ -50,7 +50,7 @@ RegTST:
   db_bws_username: oao
   db_password: Welcome123
   env_timeout: 30
-  test_data_file: data.yml
+  test_data_file: Reg_tst_data.yml
   db_server: 192.168.112.32
   unix_username: oretail
   unix_pwd: qjedYxLCBY
