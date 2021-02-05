@@ -19,7 +19,7 @@ module Pages
       organizational_hierarchy.create_division(new_div, YML_DATA['Division']['division_create'],
                                                YML_DATA['Division']['division_manager'], YML_DATA['Division']['division_currency'])
       organizational_hierarchy.from_org_hierarchy
-      @new_div = new_id
+      @new_div = new_div
     end
 
     def access_existing_country

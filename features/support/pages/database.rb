@@ -786,6 +786,48 @@ module Pages
       end
     end
 
+    ## Cost Zone group ##
+    def last_cost_zone_group_id
+      last_cost_zone_group_id = @connection.select_one("Select * from (select ZONE_GROUP_ID from COST_ZONE_GROUP order by ZONE_GROUP_ID DESC) WHERE ROWNUM = 1")
+      if last_cost_zone_group_id.nil?
+        @new_cost_zone_group_id = 1
+      else
+        @new_cost_zone_group_id = (last_cost_zone_group_id[0] + 1).to_s
+      end
+    end
+
+    ## Get Existing Cost Zone Group ##
+    def existing_cost_zone_group_id
+      existing_cost_zone_group_id = @connection.select_one("Select * from (select ZONE_GROUP_ID from COST_ZONE_GROUP order by ZONE_GROUP_ID DESC) WHERE ROWNUM = 1")
+      if existing_cost_zone_group_id.nil?
+        @new_cost_zone_group_id = 1
+      else
+        @new_cost_zone_group_id = (existing_cost_zone_group_id[0])
+      end
+    end
+
+    ## Cost Zone ##
+    def last_cost_zone_id
+      last_cost_zone_id = @connection.select_one("Select * from (select ZONE_ID from COST_ZONE order by ZONE_ID DESC) WHERE ROWNUM = 1")
+      if last_cost_zone_id.nil?
+        @new_cost_zone_id = 1
+      else
+        @new_cost_zone_id = (last_cost_zone_id[0] + 1).to_s
+      end
+    end
+
+    ## Get Existing Cost Zone Group ##
+    def existing_cost_zone_id
+      existing_cost_zone_group_id = @connection.select_one("Select * from (select ZONE_ID from COST_ZONE order by ZONE_ID DESC) WHERE ROWNUM = 1")
+      if existing_cost_zone_group_id.nil?
+        @new_cost_zone_id = 1
+      else
+        @new_cost_zone_id = (existing_cost_zone_group_id[0])
+      end
+    end
+
+
+
     ##Last Country ID ##
     def last_country_id
       last_country_id = @connection.select_one("Select * from (select area from area where area <> 9999 order by area DESC) WHERE ROWNUM = 1")
@@ -1033,6 +1075,19 @@ module Pages
       loc_list_detail = @connection.select_one("select * from loc_list_detail where loc_list = '#{location_lis_id}'")
       raise "Location is not delete." unless loc_list_detail.nil?
     end
+
+    ################## Cost Zone Group ##################
+    def verify_cost_zone_group_create(cost_zone_id, cost_zone_group_description, cost_level)
+      cost_zone_group_table = @connection.select_one("select * from COST_ZONE_GROUP where ZONE_GROUP_ID = '#{cost_zone_id}'")
+      raise "New Cost Zone Group '#{cost_zone_group_description}' Detail was not created" if cost_zone_group_table.nil?
+    end
+
+    ################## Cost Zone ##################
+    def verify_cost_zone(cost_zone_id, cost_zone_description, cost_zone_currency)
+      cost_zone_table = @connection.select_one("select * from COST_ZONE_GROUP where ZONE_GROUP_ID = '#{cost_zone_id}'")
+      raise "New Cost Zone '#{cost_zone_description}' Detail was not created" if cost_zone_table.nil?
+    end
+
 
 
   end

@@ -24,7 +24,7 @@ module Pages
     element(:delete_button) { div(:id, /_ATp:delete/) }
     element(:query_button) { div(:id, /_ATp:_qbeTbr/) }
     element(:ok_button) { div(:text, 'OK') }
-    element(:save_and_close_button) { a(:text, /Save and Close/) }
+    element(:save_and_close_button) { span(:text, /Save and Close/) }
     element(:save_button) { a(:text, 'Save') }
     element(:delete_popup) { div(:text, /delete/) }
     element(:yes_button) { a(:text, 'Yes') }
@@ -86,6 +86,27 @@ module Pages
     element(:rebuild_location_list_checkbox) { checkbox(:id, /mr1:r1:0:sbc1::content/) }
     element(:execute_and_close_button) { div(:id, /:mr1:r1:0:cb3/) }
 
+    #Cost Zone Group Elements
+    element(:add_cost_zone_group_button) { div(:id, /MR:pc1:_ATp:create/) }
+    element(:cost_zone_group_id_field) { text_field(:id, /MR:zonegrpid::content/) }
+    element(:cost_zone_group_description_field) { text_field(:id, /MR:it3::content/) }
+    element(:cost_level_field) { text_field(:id, /MR:soc1::content/) }
+    element(:like_group_field) { text_field(:id, /MR:likegrpId::content/) }
+    element(:cost_level_dropdown) { select(:id, /MR:soc1::content/) }
+    element(:cost_level_dropdown_chose) { |text| select(:id, /MR:soc1::content/).option(:title, text) }
+    element(:ok_button) { div(:text, 'OK') }
+    element(:cost_zone_group_filter_field) { input id: /MR:pc1:_ATp:tbb:it1::content/ }
+
+
+    #Cost Zones Elements
+    element(:add_cost_zones_button) { div(:id, /MR:pc11:_ATp:create/) }
+    element(:cost_zone_id_field) { text_field(:id, /MR:it7::content/) }
+    element(:cost_zone_description_field) { text_field(:id, /MR:it8::content/) }
+    element(:cost_zone_currency_field) { text_field(:id, /MR:currencyCodeId::content/) }
+    element(:ok_button) { div(:text, 'OK') }
+
+
+
 
     ############################### Paths ###############################
 
@@ -103,12 +124,20 @@ module Pages
     end
 
     def reopen_cost_zones
-      TryWith.attempts(attempts: 5, sleep: 2) do
-        tasks_button.wait_until_present.click unless menage_location_list.present?
+      #TryWith.attempts(attempts: 5, sleep: 2) do
+        tasks_button.wait_until_present.click
         wait_for_db_activity
         cost_zone_link.click
         wait_for_db_activity
-      end
+      #end
+    end
+
+    # from org - hierarchy #
+    def from_org_hierarchy
+      tasks_button.wait_until_present.click
+      wait_for_db_activity
+      organizational_Hierarchy.click
+      wait_for_db_activity
     end
 
     ############################### Methods ###############################
@@ -179,17 +208,43 @@ module Pages
     end
 
 
+    def create_cost_zone_group(new_id, cost_zone_group_description, cost_level, like_group)
+      add_cost_zone_group_button.wait_until_present.click
+      wait_for_db_activity
+      cost_zone_group_id_field.set new_id
+      cost_zone_group_description_field.set cost_zone_group_description
+      #cost_level_field.set cost_level
+      select_list(cost_level_dropdown_chose(cost_level), cost_level_dropdown, cost_level)
+      wait_for_db_activity
+      like_group_field.set like_group
+      wait_for_db_activity
+      ok_button.click
+      wait_for_db_activity
+      save_and_close_button.click
+      wait_for_db_activity
+      #done_button.click
+      #wait_for_db_activity
+
+    end
 
 
+    def create_cost_zone(new_id, id, cost_zone_group_description, cost_zone_currency)
+      wait_for_db_activity
+      filter_activity(cost_zone_group_filter_field, id)
+      wait_for_db_activity
+      add_cost_zones_button.click
+      cost_zone_id_field.set new_id
+      cost_zone_description_field.set cost_zone_group_description
+      cost_zone_currency_field.set cost_zone_currency
+      wait_for_db_activity
+      ok_button.click
+      wait_for_db_activity
+      save_and_close_button.click
+      wait_for_db_activity
+      #done_button.click
+      #wait_for_db_activity
 
-
-
-
-
-
-
-
-
+    end
 
 
   end

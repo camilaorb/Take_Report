@@ -21,6 +21,7 @@ module Pages
     element(:confirm_delete_button) { span text: 'Yes' }
     element(:manager_name) { text_field label: 'Manager' }
     element(:currency_name) { text_field label: 'Currency' }
+    element(:loading_list) { div(:class, 'AFAutoSuggestBusyStyle') }
 
     ##Division##
     #create, update and delete
@@ -230,6 +231,9 @@ module Pages
       wait_for_db_activity
       edit.click
       wait_for_db_activity
+      organizational_Hierarchy.click
+      wait_for_db_activity
+      done_button.click
       filter_activity(filter_first_field, id)
       countryActions.click
       wait_for_db_activity
@@ -247,16 +251,19 @@ module Pages
       wait_for_db_activity
       currency_name.clear
       currency_name.send_keys currency
+      wait_until_enabled(loading_list)
+      currency_name.send_keys :enter
       wait_for_db_activity
-      country_division_field.clear
-      country_division_field.send_keys division
-      wait_for_db_activity
+      #country_division_field.clear
+      #country_division_field.send_keys division
+      #country_division_field.send_keys :enter
+      #wait_for_db_activity
       edit_country_ok.click #
       wait_for_db_activity
       #  - close the filter option after - #
-      TE.browser.img(id: /at1:_ATp:_qbeTbr::icon/).click
-      wait_for_db_activity
-      save_close
+      #TE.browser.img(id: /at1:_ATp:_qbeTbr::icon/).click
+      #wait_for_db_activity
+      save_and_close.click
     end
 
     ## Delete Country #

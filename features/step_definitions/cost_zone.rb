@@ -7,38 +7,47 @@ end
 
 When("the user adds new Cost Zone Group enter Zone Group, Description, Cost Level and Like Group") do
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  @cost_zone_id = database.new_cost_zone_id
+  @cost_zone_group_id = database.last_cost_zone_group_id
   database.disconnect_db
-  cost_zone.add_cost-zone_group(@cost_zone_id, 'Test Cost Zone', YML_DATA['cost_level2'])
+  # Create Cost Zone Group
+  cost_zone.create_cost_zone_group(@cost_zone_group_id, YML_DATA['CostZoneGroup']['cost_zone_group_description'], YML_DATA['CostZoneGroup']['cost_level'], YML_DATA['CostZoneGroup']['like_group'] )
 end
 
 Then("the Cost Zone Group is created") do
   cost_zone.reopen_cost_zones
-  cost_zone.search_cost_zone_group(@cost_zone_id)
+
+  #cost_zone.search_cost_zone_group(@cost_zone_id)
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  database.cost_zone_group(@location_list_id, 'Test Location list', 'Test comments', YML_DATA['division_chain'], YML_DATA['dinamic'])
+  database.verify_cost_zone_group_create(@cost_zone_group_id, YML_DATA['CostZoneGroup']['cost_zone_group_description'], YML_DATA['CostZoneGroup']['cost_level'])
   database.disconnect_db
-  cost_zone.delete_cost_zone_group
-  shared.save_and_close
   login_page.logout_to_rms
 end
 
 Given("a user created a Cost Zone Group") do
   visit(TE.environment['rms_url'])
   login_page.login_to_rms(TE.environment['rms_user'], TE.environment['rms_pw'])
-  location_list.access_cost_zones
+  cost_zone.access_cost_zones
+
   database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
-  @cost_zone_id = database.new_cost_zone_id
+  @cost_zone_group_id = database.existing_cost_zone_group_id
   database.disconnect_db
-  cost_zone.add_cost-zone_group(@cost_zone_id, 'Test Cost Zone', YML_DATA['cost_level2'])
+  #cost_zone.create_cost_zone_group(@cost_zone_id, YML_DATA['CostZoneGroup']['cost_zone_group_description'], YML_DATA['CostZoneGroup']['cost_level'], YML_DATA['CostZoneGroup']['like_group'] )
 end
 
 When("a user opts to add a Cost Zone to the Cost Zone Group") do
-
+  # Create a Cost Zone
+  @cost_zone_id = (@cost_zone_group_id + 1).to_s
+  cost_zone.create_cost_zone(@cost_zone_id, @cost_zone_group_id, YML_DATA['CostZone']['cost_zone_group_description'], YML_DATA['CostZone']['cost_zone_currency'])
 end
 
 Then("the Cost Zone is created") do
 
+  #cost_zone.search_cost_zone_group(@cost_zone_id)
+  database.connect_to_db('db_hostname', 'db_port', 'db_servicename', 'db_username', 'db_password')
+  database.verify_cost_zone(@cost_zone_id, YML_DATA['CostZone']['cost_zone_group_description'], YML_DATA['CostZone']['cost_zone_currency'])
+  database.disconnect_db
+
+  login_page.logout_to_rms
 end
 
 When("a user opts to remove a Cost Zone") do
