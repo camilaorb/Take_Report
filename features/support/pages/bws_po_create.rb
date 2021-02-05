@@ -27,6 +27,7 @@ module Pages
     element(:bws_ok) { span(text: 'OK') }
     element(:cancel_button) { div(:id, /rOptDets:0:ctb7/) }
     element(:yes_button) { span(text: 'Yes') }
+    element(:apply) { div(:id, /rOptDets:0:ctb5/) }
 
 
     # Regarding Add ITEM and it's Options #, pc1:ctb2::popArea
@@ -48,6 +49,12 @@ module Pages
     element(:order_info_tab) { div(id: /rOptDets:ordersView:pc4:t1::db/) }
     element(:delete_order_confirm_msgm) { div(:text, /Are you sure you wish to delete/) }
     element(:split_delivery_icon) { span(:text, 'Split Delivery') }
+    element(:alert_order_delivery_drop_msgm) { div(:text, /Are you sure you wish to delete/) }
+    element(:must_be_number_msgm) { div(:text, /The value must be a number/) }
+    element(:can_be_zero) { div(:text, /All Delivery Drops must have a non-zero quantity/) }
+    element(:field_error) { div(:class, 'p_AFError x1u') }
+
+
 
     #order_information_tab
     element(:checkbox_order_info) { |row| input(id: /rOptDets:ordersView:pc4:t1:#{row}:sbc1::content/) }
@@ -63,7 +70,7 @@ module Pages
     # element(:not_after_date) { |index| div(:id, /rOptDets:ordersView:pc4:tDeliveryDrop::db/).trs(:class, /xhe/)[index].text_field(:id, /rOptDets:ordersView:pc4:tDeliveryDrop:#{index}:idNotAfterDate::content/) }
     # element(:earliest_ship_date) { |index| div(:id, /rOptDets:ordersView:pc4:tDeliveryDrop::db/).trs(:class, /xhe/)[index].text_field(:id, /rOptDets:ordersView:pc4:tDeliveryDrop:#{index}:id1::content/) }
     # element(:latest_ship_date) { |index| div(:id, /rOptDets:ordersView:pc4:tDeliveryDrop::db/).trs(:class, /xhe/)[index].text_field(:id, /rOptDets:ordersView:pc4:tDeliveryDrop:#{index}:idLatestShipDate::content/) }
-    # element(:apply) { div(:id, /rOptDets:0:ctb5/) }
+
     # element(:average_location) { text_field(:id, /rOptDets:ordersView:itAvgAllocQty::content/) }
 
 
@@ -77,14 +84,15 @@ module Pages
 
     def get_order_ref_id(line)
       wait_for_db_activity_bws
-      raise "The order was not created" unless order_ref_id(line).present?
+      raise "The Order was not created" unless order_ref_id(line).present?
       @order_ref_id = order_ref_id(line)
     end
 
     def get_order_no(line)
       wait_for_db_activity_bws
-      raise "The Order No is editable" if order_number(line).present? != false
-      raise "The Order No is editable" if order_number(line).enabled? != true
+      raise "The Order was not created" unless order_ref_id(line).present?
+      #raise "The Order No is editable" if order_number(line).present? != false
+      #raise "The Order No is editable" if order_number(line).enabled? != true
       @order_no = order_number(line)
     end
 
@@ -95,7 +103,7 @@ module Pages
       raise "The id was not increased" unless ag_2 == ag_1+1
     end
 
-    def verify_delte_order_id(arg_1, arg_2, arg_3, arg_4, arg_5 )
+    def verify_delete_order_id(arg_1, arg_2, arg_3, arg_4, arg_5 )
       wait_for_db_activity_bws
       ag_1 =  arg_1.to_i
       ag_3 =  arg_3.to_i
@@ -137,12 +145,33 @@ module Pages
       split_delivery_icon.click
     end
 
-    def verify_split_order_inf_bws(line)
-      checkbox_order_info(line).scroll.to
-      checkbox_order_info(line).click
-      delivery_drop_qty = input_delivery_drop_qty(line).value
-      raise "The Delivery Drop Qty from the Split Delivery Order is not Zero" unless delivery_drop_qty == '0'
+
+
+
+    def must_be_number_msgm(line, order_qty)
+      input_delivery_drop_qty(line).scroll.to
+      input_delivery_drop_qty(line).set order_qty
+      send_keys :enter
+      wait_for_db_activity_bws
+      apply.scroll.to
+      apply.click
+      raise "The message is not found" unless must_be_number_msgm.present?
+      raise "The field is not highlighted" unless field_error.present?
     end
+
+    def can_be_zero_msgm(line)
+      input_delivery_drop_qty(line).scroll.to
+      input_delivery_drop_qty(line).set 0
+      send_keys :enter
+      wait_for_db_activity_bws
+      apply.scroll.to
+      apply.click
+      raise "The message is not found" unless can_be_zero.present?
+      raise "The field is not highlighted" unless field_error.present?
+    end
+
+
+
 
   end
 end

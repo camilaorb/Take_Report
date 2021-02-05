@@ -13,9 +13,9 @@ local:
 
 dashboard:
   enabled: true
-  dashboard_url: https://olr.testevolve.io
-  label: mr_price_local_test
-  auth_token: 609955781-olr-1:fded06b76e97fcadce76a33b95efaf0ab1d8c612128492ec531e81a316e73c67
+  dashboard_url: https://mrprice.testevolve.io
+  label: mr_price_regressions
+  auth_token: 1132509312-mrprice-1:a50191956dbd9cc86e15e959e019254157a0f509243dd6c8221081c878b271aa
   scheduled_updates: false
   scheduled_interval: 10
 

@@ -66,10 +66,10 @@ Feature: PO Create
     When a new Delivery Drop is deleted
     Then the Order Ref ID is not adjusted
 
-  @BWS-POCREATE-11
+  @BWS-POCREATE-11 #need to check if it's working
   Scenario: Delivery Drop panel - Swing Tag Req.
     Given an assistant buyer accesses the Delivery Drop table
-    When a new delivery drop is created
+    When a new Delivery Drop is added
     Then the Swing Tags associated to the Item will be defaulted to the Purchase Order
     # - Swing Tag defined in Item tab
     # - Swing Tags associated to the Purchase Order using CFAs at Purchase Order level

@@ -3,7 +3,7 @@
 dashboard:
   enabled: true
   dashboard_url: https://mrprice.testevolve.io
-  label: critical_tests
+  label: bwb_tests
   auth_token: 1132509312-mrprice-1:a50191956dbd9cc86e15e959e019254157a0f509243dd6c8221081c878b271aa
   scheduled_updates: false
   scheduled_interval: 10

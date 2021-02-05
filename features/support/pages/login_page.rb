@@ -90,7 +90,13 @@ module Pages
       end
     end
 
-    def log_out_from_bws(usr)
+    def log_out_from_bws
+      _admin.present?
+      _admin.click
+      _logout.click
+    end
+
+    def log_out_from_bws_users(usr)
       if _admin.present?
         _admin.click
       else

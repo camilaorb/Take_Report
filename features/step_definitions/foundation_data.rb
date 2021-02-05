@@ -39,7 +39,7 @@ Then(/^user upload the source ([^"]*)$/) do |file|
   foundation_data_loading.upload_a_file file
   foundation_data_loading.access_review_status
   foundation_data_loading.verify_upload(@process_description)
-    login_page.logout_to_rms
+  login_page.logout_to_rms
 end
 
 

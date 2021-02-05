@@ -30,6 +30,7 @@ Feature: Suppliers and Partners
     When the buyer opt for 'Add From Existing'
     Then the Address is add for the Supplier on RMS and RMS DB
 
+## Needs to be reviewed once the application is available
   @SUP-29
   Scenario: Delete Supplier Address - Secondary Address
     Given a buyer access a existing Address page for a supplier

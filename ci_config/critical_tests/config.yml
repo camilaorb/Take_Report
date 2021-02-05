@@ -1,7 +1,7 @@
 <<: *defaults_config
 
 global:
-    environment: OPO_Sandbox
+    environment: RegTST
 
     test_types: [browser]
 

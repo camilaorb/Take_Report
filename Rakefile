@@ -55,4 +55,12 @@ namespace :ci do
     puts "At least one test failed, please check your reports. #{e}"
   end
 
+  task :foundation_tests do
+    ENV['CONFIG_DIR'] = 'ci_config/foundation_tests'
+    Dir['features/RMS_V19/banner_and_channel.feature']
+    system "parallel_cucumber -n 1 features -o \"-t 'not (@bug or @wip or @singlethread)'\""
+  rescue StandardError => e
+    puts "At least one test failed, please check your reports. #{e}"
+  end
+
 end

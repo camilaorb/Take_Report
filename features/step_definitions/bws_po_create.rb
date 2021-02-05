@@ -19,7 +19,7 @@ Then(/^a new delivery drop record in the delivery drop table$/) do
   @item_id_auto_generated = bws_item.item_id
   bws_po_create.cancel_order
   bws_item.delete_created
-  login_page.log_out_from_bws(TE.environment['bws_buyer_user'])
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -34,7 +34,7 @@ Then(/^the record is removed from the Delivery Drop table$/) do
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(usr)
 end
 
 #-------------------------------------------------------------------#
@@ -59,7 +59,7 @@ And(/^the Delivery Drop is set to 0 'Zero'$/) do
   @item_id_auto_generated = bws_item.item_id
   bws_po_create.cancel_order
   bws_item.delete_created
-  login_page.log_out_from_bws(TE.environment['bws_buyer_user'])
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -81,7 +81,7 @@ Then(/^the partioned screen displays 3 sections 'Delivery Drop section', 'SKU Di
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -103,7 +103,7 @@ Then(/^the the Swing Tags associated to the Item will be defaulted to the Purcha
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -125,7 +125,7 @@ Then(/^the indicator contained in the Order Information details displays 'Green'
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -147,7 +147,7 @@ Then(/^the indicator contained in the Order Information details displays 'Red'$/
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -159,9 +159,7 @@ Given(/^an assistant buyer accesses the Delivery Drop table$/) do
   bws_super_item.goto_order_information_tab
 end
 
-
-
-
+#-------------------------------------------------------------------#
 
 When(/^the assistant buyer views the delivery drop details$/) do
   bws_po_create.add_order_information_bws
@@ -173,7 +171,7 @@ Then(/^the Order No which holds the Purchase Order ID is displayed and is non-ed
   @item_id_auto_generated = bws_item.item_id
   bws_item.cancel_order
   bws_item.delete_bws_item(@item_id_auto_generated)
-  login_page.log_out_from_bws
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -191,7 +189,7 @@ Then(/^the Order Ref ID increases sequentially$/) do
   @item_id_auto_generated = bws_item.item_id
   bws_po_create.cancel_order
   bws_item.delete_created
-  login_page.log_out_from_bws(TE.environment['bws_buyer_user'])
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
 
 #-------------------------------------------------------------------#
@@ -209,9 +207,42 @@ When(/^a new Delivery Drop is deleted$/) do
 end
 
 Then(/^the Order Ref ID is not adjusted$/) do
-  bws_po_create.verify_delte_order_id(@order_ref_id_1, @order_ref_id_2, @order_ref_id_3, @new_order_ref_id_1, @new_order_ref_id_3)
+  bws_po_create.verify_delete_order_id(@order_ref_id_1, @order_ref_id_2, @order_ref_id_3, @new_order_ref_id_1, @new_order_ref_id_3)
   @item_id_auto_generated = bws_item.item_id
   bws_po_create.cancel_order
   bws_item.delete_created
-  login_page.log_out_from_bws(TE.environment['bws_buyer_user'])
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
+end
+
+#-------------------------------------------------------------------#
+
+Then(/^the Swing Tags associated to the Item will be defaulted to the Purchase Order$/) do
+  #bws_po_create.verify_delte_order_id(@order_ref_id_1, @order_ref_id_2, @order_ref_id_3, @new_order_ref_id_1, @new_order_ref_id_3)
+  @item_id_auto_generated = bws_item.item_id
+  bws_po_create.cancel_order
+  bws_item.delete_created
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
+end
+
+#-------------------------------------------------------------------#
+
+When(/^the assistant buyer enters the Delivery Drop Quantity$/) do
+  bws_po_create.add_order_information_bws
+end
+
+Then(/^a message must be displayed if the user attempts to enter a negative value in the field$/) do
+  bws_po_create.msg_delivery_drop_qty(0, 'abc')
+end
+
+And(/^message is displayed if a non-numeric or combination of numeric and non-numeric values are entered$/) do
+  bws_po_create.can_be_zero_msgm(0)
+
+  #ADF Verification
+  bws_item.check_adf_error
+  bws_item.to_be_complete_steps
+
+  @item_id_auto_generated = bws_item.item_id
+  bws_po_create.cancel_order
+  bws_item.delete_created
+  login_page.log_out_from_bws_users(TE.environment['bws_buyer_user'])
 end
